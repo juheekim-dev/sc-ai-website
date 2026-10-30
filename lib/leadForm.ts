@@ -67,27 +67,26 @@ export function isUnivDomain(domain: string): boolean {
 }
 
 /**
- * 학교(교육기관) 메일인지 — 리드 폼 차단용. 대학(`isUnivDomain`)에 더해
- *   국내 초·중·고(`*.es.kr`·`*.ms.kr`·`*.hs.kr`·`*.sc.kr`·`*.kg.kr`)와
- *   해외 학술 2단계 도메인(`*.ac.jp`·`*.ac.uk`·`*.edu.au`·`*.edu.cn` 등)까지 본다.
+ * 대학 메일인지 — 리드 폼 차단용. 국내 대학(`isUnivDomain`)에 더해
+ *   해외 대학 2단계 도메인(`*.ac.jp`·`*.ac.uk`·`*.edu.au`·`*.edu.cn` 등)까지 본다.
  * 학생이 소개서를 받아가는 리드(2026-09-11 catholic.ac.kr · 2026-10-30 mju.ac.kr)가 영업 리스트에
- * 섞여서 막는다. 교육청 등 `*.go.kr`은 기관 채용이 있을 수 있어 막지 않는다.
+ * 섞여서 막는다. **대학만 막는다** — 초·중·고·유치원(`*.hs.kr` 등)과 교육청·정부기관(`*.go.kr`)은
+ * 교직원·기관 채용 수요가 있어 막지 않는다(2026-10-30 사용자 지시).
  */
-export function isAcademicEmail(v: string): boolean {
+export function isUnivEmail(v: string): boolean {
   const domain = emailDomain(v);
   if (!domain) return false;
   if (isUnivDomain(domain)) return true;
-  if (/\.(es|ms|hs|sc|kg)\.kr$/.test(domain)) return true;
   // `xxx.ac.jp`·`xxx.edu.au` — 반드시 앞에 학교명이 붙은 3단계 이상만(bare `edu.co` 같은 회사 도메인 보호)
   return /\.(ac|edu)\.[a-z]{2}$/.test(domain);
 }
 
 /** 형식이 올바르고 회사 도메인인 이메일만 통과 */
 export function isBusinessEmail(v: string): boolean {
-  return isValidEmail(v) && !isPersonalEmail(v) && !isAcademicEmail(v);
+  return isValidEmail(v) && !isPersonalEmail(v) && !isUnivEmail(v);
 }
 
-export type EmailErrorKind = "empty" | "format" | "personal" | "academic";
+export type EmailErrorKind = "empty" | "format" | "personal" | "univ";
 
 /** 이메일 오류 사유 — 폼에서 안내 문구를 나눠 보여주기 위해 사용 */
 export function emailError(v: string): EmailErrorKind | null {
@@ -95,7 +94,7 @@ export function emailError(v: string): EmailErrorKind | null {
   if (!s) return "empty";
   if (!isValidEmail(s)) return "format";
   if (isPersonalEmail(s)) return "personal";
-  if (isAcademicEmail(s)) return "academic";
+  if (isUnivEmail(s)) return "univ";
   return null;
 }
 
@@ -103,11 +102,11 @@ export const EMAIL_ERROR_MSG: Record<EmailErrorKind, string> = {
   empty: "회사 이메일을 입력해 주세요.",
   format: "올바른 이메일 형식으로 입력해 주세요.",
   personal: "naver, gmail 등 개인 메일은 사용할 수 없습니다. 회사 이메일을 입력해 주세요.",
-  academic: "학교 메일(@OO.ac.kr 등)은 사용할 수 없습니다. 재직 중인 회사 이메일을 입력해 주세요.",
+  univ: "대학 메일(@OO.ac.kr 등)은 사용할 수 없습니다. 재직 중인 회사 이메일을 입력해 주세요.",
 };
 
 /** 폼 입력란 아래 상시 안내 — 두 리드 폼이 같은 문구를 쓴다 */
-export const EMAIL_HINT = "naver, gmail 등 개인 메일과 학교 메일(ac.kr 등)은 사용할 수 없습니다.";
+export const EMAIL_HINT = "naver, gmail 등 개인 메일과 대학 메일(ac.kr 등)은 사용할 수 없습니다.";
 
 /** 연락처 — 숫자만 남긴다. +82는 0으로 환산. */
 export function normalizePhone(v: string): string {
