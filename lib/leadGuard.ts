@@ -12,7 +12,7 @@ import { promises as dns } from "node:dns";
 import DISPOSABLE from "./disposable-domains.json";
 import FREEMAIL from "./free-email-domains.json";
 import {
-  isValidEmail, isPersonalEmail, isAcademicEmail, isValidPhone, isValidHowFound,
+  isValidEmail, isPersonalEmail, isUnivEmail, isValidPhone, isValidHowFound,
   domainChain, EMAIL_ERROR_MSG, HOW_FOUND_ETC,
 } from "./leadForm";
 
@@ -95,8 +95,8 @@ export async function validateLead(v: LeadInput): Promise<string | null> {
   if (!v.name || !v.company || !v.size) return "필수 항목을 입력해 주세요.";
   if (!isValidEmail(v.email)) return EMAIL_ERROR_MSG.format;
   if (isPersonalEmail(v.email) || isFreeMailDomain(v.email)) return EMAIL_ERROR_MSG.personal;
-  // 학교 메일(ac.kr·edu 등) — 학생이 소개서만 받아가는 리드 차단(2026-10-30)
-  if (isAcademicEmail(v.email)) return EMAIL_ERROR_MSG.academic;
+  // 대학 메일(ac.kr·edu 등) — 학생이 소개서만 받아가는 리드 차단(2026-10-30). 초중고·go.kr은 통과.
+  if (isUnivEmail(v.email)) return EMAIL_ERROR_MSG.univ;
   if (isDisposableEmail(v.email)) return LEAD_GUARD_MSG.disposable;
   if (!isValidPhone(v.phone)) return LEAD_GUARD_MSG.phone;
   if (!isValidHowFound(v.howFound)) return "유입 경로를 선택해 주세요.";
