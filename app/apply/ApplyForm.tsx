@@ -5,7 +5,7 @@ import Link from "next/link";
 import { trackEvent } from "@/lib/track";
 import { getUtm, type Utm } from "@/lib/utm";
 import {
-  emailError, EMAIL_ERROR_MSG, isValidPhone,
+  emailError, EMAIL_ERROR_MSG, EMAIL_HINT, isValidPhone,
   HOW_FOUND_OPTIONS, HOW_FOUND_ETC, isValidHowFound,
 } from "@/lib/leadForm";
 
@@ -162,7 +162,7 @@ export default function ApplyForm() {
         <div className={`field${invalid.email ? " invalid" : ""}`}>
           <label htmlFor="f-email">회사 이메일 <span className="req">*</span></label>
           <input type="email" id="f-email" placeholder="회사 이메일을 입력해 주세요" value={fields.email} onChange={(e) => set("email", e.target.value)} onBlur={checkEmail} />
-          <div className="hint">naver, gmail 등 개인 메일은 사용할 수 없습니다.</div>
+          <div className="hint">{EMAIL_HINT}</div>
           <div className="err">{emailMsg}</div>
         </div>
 
