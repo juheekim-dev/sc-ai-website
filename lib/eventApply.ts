@@ -8,7 +8,7 @@
 //
 // 전화번호 검증(isValidPhone)과 정규화(normalizePhone)는 리드 폼과 같은 규칙을 쓴다 —
 // 쿠폰이 이 번호로 나가므로(기획안 slide 10) 더미 번호를 걸러야 한다.
-import { emailRe, isValidPhone, normalizePhone } from "./leadForm";
+import { emailRe, isUnivDomain, isValidPhone, normalizePhone } from "./leadForm";
 
 export { isValidPhone, normalizePhone };
 
@@ -269,9 +269,8 @@ export function eventEmailError(v: string): "empty" | "format" | "univ" | "temp"
   if (!emailRe.test(s)) return "format";
   const domain = s.toLowerCase().split("@")[1] || "";
   if (TEMP_MAIL_HINTS.some((d) => domain === d || domain.endsWith(`.${d}`))) return "temp";
-  const isUnivDomain =
-    domain === "ac.kr" || domain.endsWith(".ac.kr") || domain.endsWith(".edu") || domain === "ewhain.net";
-  if (!isUnivDomain) return "univ";
+  // 대학 도메인 판정은 lib/leadForm.isUnivDomain 한 곳 — 리드 폼은 같은 규칙을 차단에 쓴다
+  if (!isUnivDomain(domain)) return "univ";
   return null;
 }
 
