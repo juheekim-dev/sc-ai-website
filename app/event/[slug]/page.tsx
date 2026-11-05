@@ -263,7 +263,7 @@ function MockChallengeBody({ e, dday }: { e: EventItem; dday: string }) {
             </tr>
             <tr>
               <td>Finalist 2인 (직군별 1인)</td>
-              <td>상금 각 50만원 · 슈퍼코더 공식 수료증 · 오프라인 AI 역량 검사 참여</td>
+              <td>상금 각 50만원(세전) · 슈퍼코더 공식 수료증 · 오프라인 AI 역량 검사 참여</td>
               <td>11월 14일 · 현장</td>
             </tr>
           </tbody>
