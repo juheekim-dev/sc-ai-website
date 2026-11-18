@@ -209,9 +209,9 @@ header.nav-invert .nav-center a:hover{color:#fff}
   header:has(.nav-menu-btn.open) .nav-menu-btn{background:transparent;border:0}
 }
 
-/* ===== Footer (partial: <site-footer>) — GNB와 동일: 흰 배경 + 컬러 로고 ===== */
+/* ===== Footer (partial: <site-footer>) — 연한 블루 배경(--soft)이 본문과의 경계 역할(위 선 없음) ===== */
 /* 순서: 로고 → 보안 인증 → 메뉴 카테고리 → 기업정보(맨 하단) */
-footer{background:#fff;color:var(--slate);padding:64px 0 40px;font-size:14px;border-top:1px solid var(--line);text-align:left}
+footer{background:var(--soft);color:var(--slate);padding:64px 0 40px;font-size:14px;text-align:left}
 /* 1) 로고 */
 .foot-logo-link{display:inline-flex;cursor:pointer}
 .foot-logo-img{height:28px;width:auto;display:block;opacity:.85;transition:opacity .2s}
@@ -231,7 +231,7 @@ footer{background:#fff;color:var(--slate);padding:64px 0 40px;font-size:14px;bor
 .foot-col a{color:var(--slate);font-size:14px;white-space:nowrap}
 .foot-col a:hover{color:var(--blue-d)}
 /* 4) 기업정보 — 맨 하단(구분선 위) */
-.foot-divider{border:none;border-top:1px solid var(--line);margin:32px 0 0}
+.foot-divider{border:none;border-top:1px solid #DFE7F5;margin:32px 0 0} /* --soft 배경 위에서 보이도록 --line보다 한 톤 진하게 */
 .foot-biz{display:flex;flex-wrap:wrap;gap:4px 14px;margin:24px 0 0;color:var(--slate-2);font-size:12.5px;line-height:1.7}
 .foot-biz span{white-space:nowrap}
 .foot-copy{color:var(--slate-2);font-size:12.5px;margin:10px 0 0}
