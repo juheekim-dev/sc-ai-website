@@ -4,7 +4,7 @@ import BrochureForm from "./BrochureForm";
 import BrochurePreview from "./BrochurePreview";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
-export const revalidate = 120;
+export const revalidate = 3600; // ISR 1시간 — FAQ·SEO 등 어드민 저장은 /api/revalidate 가 즉시 반영. 2분이던 주기가 ISR Writes 무료 한도를 넘긴 원인 중 하나(2026-11-18)
 
 // ⚠️ title 에는 사이트명을 넣지 않는다 — layout.tsx 의 template("%s · AI면접")이 자동으로 붙인다.
 //    넣으면 "… · AI 면접 · AI면접" 처럼 두 번 붙는다(2026-08-27 수정).

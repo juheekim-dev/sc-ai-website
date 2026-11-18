@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./blog.css";
-import { supabase, publishAtVisibleOr, type Post } from "@/lib/supabase";
+import { supabase, publishAtVisibleOr, POST_LIST_COLUMNS, type PostListItem } from "@/lib/supabase";
 import BlogClient from "./BlogClient";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
-export const revalidate = 600; // ISR 10분 캐시 — 어드민 저장 시 /api/revalidate 가 즉시 갱신. force-dynamic 은 봇 요청마다 서버 렌더가 돌아 Vercel 무료 CPU 한도를 넘겼다(2026-10-19)
+export const revalidate = 3600; // ISR 1시간 — 어드민 저장 시 /api/revalidate 가 즉시 갱신. 주기가 짧으면 봇 요청마다 재생성돼 Vercel ISR Writes 무료 한도(월 20만)를 넘긴다(2026-11-18). force-dynamic 금지(CPU 한도, 2026-10-19)
 
 const FALLBACK_METADATA: Metadata = {
   title: "블로그 · AI 면접 채용 인사이트",
@@ -25,17 +25,17 @@ export function generateMetadata() {
 }
 
 export default async function BlogPage() {
-  let posts: Post[] = [];
+  let posts: PostListItem[] = [];
   let error = false;
   try {
     const res = await supabase
       .from("posts")
-      .select("*")
+      .select(POST_LIST_COLUMNS)
       .eq("published", true)
       .or(publishAtVisibleOr())
       .order("created_at", { ascending: false });
     if (res.error) throw res.error;
-    posts = (res.data as Post[]) || [];
+    posts = (res.data as PostListItem[]) || [];
   } catch (err) {
     console.error("posts load failed:", err);
     error = true;

@@ -1,11 +1,11 @@
 import { supabase, publishAtVisibleOr } from "@/lib/supabase";
 import { renderBody } from "@/lib/postRender";
 
-// 블로그 RSS 2.0 피드 — published 글 최신 50개. 네이버 서치어드바이저 RSS 제출·구독기 발견용.
+// 블로그 RSS 2.0 피드 — published 글 최신 20개(50개일 때 495KB라 갱신마다 ISR 쓰기가 컸다, 2026-11-18). 네이버 서치어드바이저 RSS 제출·구독기 발견용.
 // 네이버 권장: 대표 이미지 + 본문 전체(content:encoded) 포함. /blog/rss.xml 로 제공.
 const SITE_URL = "https://www.supercoder.co";
 
-export const revalidate = 600; // ISR 10분 캐시 — 어드민 저장 시 /api/revalidate 가 즉시 갱신. force-dynamic 은 봇 요청마다 서버 렌더가 돌아 Vercel 무료 CPU 한도를 넘겼다(2026-10-19)
+export const revalidate = 3600; // ISR 1시간 — 어드민 저장 시 /api/revalidate 가 즉시 갱신. 주기가 짧으면 봇 요청마다 재생성돼 Vercel ISR Writes 무료 한도(월 20만)를 넘긴다(2026-11-18). force-dynamic 금지(CPU 한도, 2026-10-19)
 
 type Row = {
   id: string;
@@ -43,7 +43,7 @@ export async function GET() {
       .eq("published", true)
       .or(publishAtVisibleOr())
       .order("created_at", { ascending: false })
-      .limit(50);
+      .limit(20);
     if (!res.error && res.data) posts = res.data as Row[];
   } catch {
     // DB 접근 불가 시 빈 채널 반환

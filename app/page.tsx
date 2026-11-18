@@ -16,7 +16,7 @@ export function generateMetadata() {
 const plain = (s: string) => String(s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
 // FAQ가 어드민(DB)에서 바뀌면 일정 주기로 자동 반영(ISR). 그 외엔 정적으로 빠르게 서빙.
-export const revalidate = 120;
+export const revalidate = 3600; // ISR 1시간 — FAQ·SEO 등 어드민 저장은 /api/revalidate 가 즉시 반영. 2분이던 주기가 ISR Writes 무료 한도를 넘긴 원인 중 하나(2026-11-18)
 
 // 로고별 시각 크기 보정 — 기준은 NEXON. 보정값 산출 근거는 app/landing.css의 .logo-* 주석 참고
 const LOGOS: { src: string; alt: string; className?: string }[] = [
