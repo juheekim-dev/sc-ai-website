@@ -12,7 +12,7 @@
 // 미설정·실패 시 조용히 available:false — 리포트 발송 자체는 막지 않는다.
 const TOKEN = process.env.VERCEL_ANALYTICS_TOKEN;
 const PROJECT_ID = process.env.VERCEL_PROJECT_ID || "prj_iA3dSllyREa7UHyhyBDkrEn9pcNi";
-const TEAM_ID = process.env.VERCEL_TEAM_ID || "team_n6q1PTxUVr5pzkD5NkYtQ0tu";
+const TEAM_ID = process.env.VERCEL_TEAM_ID || "team_QR5j6Q06AGJLCdOnZBuWcKbl";
 
 // 사내 관리자 화면은 제외 — 서버측 page_views·GA4 분자와 기준을 맞춘다.
 const FILTER = "requestPath ne '/admin'";
