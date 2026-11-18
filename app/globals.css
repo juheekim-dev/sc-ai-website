@@ -223,7 +223,13 @@ footer{background:#fff;color:var(--slate);padding:64px 0 40px;font-size:14px;bor
 .foot-legal{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:7px 16px;margin:3px 0 0}
 .foot-legal a{color:var(--slate-2);font-size:13px;white-space:nowrap}
 .foot-legal a:hover{color:var(--blue-d)}
-/* 3) 기업정보 — 맨 하단(구분선 위) */
+/* 3) 보안 인증 마크 — 마크(회색조) + 2줄 설명. 넓으면 2그룹 가로, 좁으면 세로로 쌓임 */
+.foot-cert{display:flex;flex-wrap:wrap;gap:14px 40px;margin:28px 0 0;padding:0;list-style:none}
+.foot-cert-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.foot-cert-marks{display:flex;gap:6px;flex-shrink:0}
+.foot-cert-marks img{height:36px;width:auto;display:block;opacity:.85}
+.foot-cert-text{color:var(--slate-2);font-size:12px;line-height:1.55}
+/* 4) 기업정보 — 맨 하단(구분선 위) */
 .foot-divider{border:none;border-top:1px solid var(--line);margin:32px 0 0}
 .foot-biz{display:flex;flex-wrap:wrap;gap:4px 14px;margin:24px 0 0;color:var(--slate-2);font-size:12.5px;line-height:1.7}
 .foot-biz span{white-space:nowrap}
