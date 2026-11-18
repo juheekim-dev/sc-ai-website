@@ -210,25 +210,26 @@ header.nav-invert .nav-center a:hover{color:#fff}
 }
 
 /* ===== Footer (partial: <site-footer>) — GNB와 동일: 흰 배경 + 컬러 로고 ===== */
-/* 좌측 정렬 3단: 로고 → 상품정보 → 기업정보(맨 하단) */
+/* 순서: 로고 → 보안 인증 → 메뉴 카테고리 → 기업정보(맨 하단) */
 footer{background:#fff;color:var(--slate);padding:64px 0 40px;font-size:14px;border-top:1px solid var(--line);text-align:left}
 /* 1) 로고 */
 .foot-logo-link{display:inline-flex;cursor:pointer}
 .foot-logo-img{height:28px;width:auto;display:block;opacity:.85;transition:opacity .2s}
 .foot-logo-link:hover .foot-logo-img{opacity:1}
-/* 2) 상품정보 — 서비스 링크 + 약관 링크. 점 없이 간격만, 좌측에 모이게(좁은 gap) */
-.foot-nav{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px 18px;margin:26px 0 0}
-.foot-nav a{color:var(--slate);font-size:14.5px;font-weight:600;white-space:nowrap}
-.foot-nav a:hover{color:var(--blue-d)}
-.foot-legal{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:7px 16px;margin:3px 0 0}
-.foot-legal a{color:var(--slate-2);font-size:13px;white-space:nowrap}
-.foot-legal a:hover{color:var(--blue-d)}
-/* 3) 보안 인증 마크 — 마크(회색조) + 2줄 설명. 넓으면 2그룹 가로, 좁으면 세로로 쌓임 */
-.foot-cert{display:flex;flex-wrap:wrap;gap:14px 40px;margin:28px 0 0;padding:0;list-style:none}
-.foot-cert-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.foot-cert-marks{display:flex;gap:6px;flex-shrink:0}
+/* 상단 2단 — 왼쪽 브랜드(로고·인증) / 오른쪽 메뉴 카테고리. 좁으면 세로로 쌓임 */
+.foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:40px 64px}
+/* 2) 보안 인증 마크 — 회색조 마크 4개 한 줄 + 2줄 설명. 좁은 화면은 마크를 줄여 한 줄 유지 */
+.foot-cert{margin:28px 0 0}
+.foot-cert-marks{display:flex;gap:8px;margin:0;padding:0;list-style:none}
 .foot-cert-marks img{height:36px;width:auto;display:block;opacity:.85}
-.foot-cert-text{color:var(--slate-2);font-size:12px;line-height:1.55}
+@media(max-width:420px){.foot-cert-marks{gap:6px}.foot-cert-marks img{height:32px}}
+.foot-cert-text{color:var(--slate-2);font-size:12px;line-height:1.55;margin:10px 0 0}
+/* 3) 메뉴 카테고리 — 열 제목(옅게) + 세로 링크 */
+.foot-cols{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:flex-start;height:auto;gap:28px 56px} /* 전역 nav(GNB) 높이·정렬 해제 */
+.foot-col{display:flex;flex-direction:column;gap:10px;min-width:96px}
+.foot-col-title{color:var(--slate-2);font-size:12.5px;font-weight:600;margin:0 0 2px}
+.foot-col a{color:var(--slate);font-size:14px;white-space:nowrap}
+.foot-col a:hover{color:var(--blue-d)}
 /* 4) 기업정보 — 맨 하단(구분선 위) */
 .foot-divider{border:none;border-top:1px solid var(--line);margin:32px 0 0}
 .foot-biz{display:flex;flex-wrap:wrap;gap:4px 14px;margin:24px 0 0;color:var(--slate-2);font-size:12.5px;line-height:1.7}
