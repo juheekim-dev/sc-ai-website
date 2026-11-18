@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 
 // 어드민 저장 직후 공개 페이지의 ISR 캐시를 즉시 버리는 경로 (2026-10-19).
@@ -48,6 +48,7 @@ export async function POST(req: Request) {
   if (body.all || paths.length === 0) {
     // 루트 레이아웃 기준 전체 무효화 — 다음 방문 때만 해당 페이지가 다시 렌더된다.
     revalidatePath("/", "layout");
+    revalidateTag("site-tags"); // GA·GTM 설정(lib/siteTags.ts) — 1일 캐시라 태그로 직접 버린다
     return NextResponse.json({ ok: true, all: true });
   }
 

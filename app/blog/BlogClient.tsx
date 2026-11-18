@@ -3,11 +3,10 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { type Post } from "@/lib/supabase";
+import { type PostListItem } from "@/lib/supabase";
 
-const stripHtml = (s?: string | null) => String(s || "").replace(/<[^>]+>/g, " ");
 
-export default function BlogClient({ posts, error }: { posts: Post[]; error: boolean }) {
+export default function BlogClient({ posts, error }: { posts: PostListItem[]; error: boolean }) {
   const [activeCat, setActiveCat] = useState("전체");
   const [query, setQuery] = useState("");
 
@@ -25,7 +24,8 @@ export default function BlogClient({ posts, error }: { posts: Post[]; error: boo
     let list = activeCat === "전체" ? posts : posts.filter((p) => (p.category || "기타") === activeCat);
     if (q) {
       list = list.filter((p) => {
-        const hay = [p.title, p.excerpt, p.category, (p.tags || []).join(" "), stripHtml(p.content)]
+        // 본문은 목록에 싣지 않는다(POST_LIST_COLUMNS 참고) — 제목·요약·카테고리·태그로 찾는다.
+        const hay = [p.title, p.excerpt, p.category, (p.tags || []).join(" ")]
           .filter(Boolean)
           .join(" ")
           .toLowerCase();

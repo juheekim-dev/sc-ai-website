@@ -20,7 +20,7 @@ import { buildPageMetadata } from "@/lib/pageSeo";
       가상기업의 공고가 Google for Jobs에 실제 채용으로 등록되면 정책 위반이고,
       구직자가 실재하지 않는 자리에 지원하게 된다. Event 스키마는 행사 안내 페이지가 갖는다. */
 
-export const revalidate = 120;
+export const revalidate = 3600; // ISR 1시간 — 어드민 저장은 /api/revalidate 가 즉시 반영. 모집 상태(예정→중→마감)는 날짜 단위라 1시간이면 충분하고 마감은 /api/event-apply 가 서버에서 다시 막는다. 2분이던 주기가 ISR Writes 무료 한도를 넘긴 원인 중 하나(2026-11-18)
 
 export function generateStaticParams() {
   return EVENTS.filter((e) => e.slug === JOB_DETAIL_EVENT).flatMap((e) =>

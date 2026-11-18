@@ -73,6 +73,11 @@ export type Post = {
   publish_at?: string | null; // 예약 발행 시각(UTC). NULL이면 즉시 발행
 };
 
+// 블로그 목록(/blog)용 — 본문(content)은 넣지 않는다. 목록 HTML·RSC에 전체 본문이 실려
+// 한 번 갱신할 때마다 1.2MB가 써지면서 Vercel ISR Writes 무료 한도(월 20만)를 다 썼다(2026-11-18).
+export const POST_LIST_COLUMNS = "id,slug,title,category,excerpt,cover_url,cover_alt,tags";
+export type PostListItem = Pick<Post, "id" | "slug" | "title" | "category" | "excerpt" | "cover_url" | "cover_alt" | "tags">;
+
 // 제품 업데이트(릴리즈 노트/체인지로그) 타입 — 어드민 등록 + /update 페이지 렌더(비공개·링크 전용)
 export type Update = {
   id: string;

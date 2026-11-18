@@ -4,7 +4,7 @@ import { getLegalDoc, getLegalVersions } from "@/lib/legal";
 import LegalViewClient from "@/components/LegalViewClient";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
-export const revalidate = 600; // ISR 10분 캐시 — 어드민 저장 시 /api/revalidate 가 즉시 갱신. force-dynamic 은 봇 요청마다 서버 렌더가 돌아 Vercel 무료 CPU 한도를 넘겼다(2026-10-19)
+export const revalidate = 86400; // ISR 1일 — 내용은 어드민 저장 시 /api/revalidate 로만 바뀐다. 주기가 짧으면 봇 요청마다 재생성돼 Vercel ISR Writes 무료 한도(월 20만)를 넘긴다(2026-11-18). force-dynamic 금지(CPU 한도, 2026-10-19)
 
 const FALLBACK_METADATA: Metadata = {
   title: "개인정보처리방침",

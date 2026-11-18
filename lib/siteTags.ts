@@ -12,9 +12,11 @@ export { CONSENT_DEFAULT_JS } from "./consent";
 //   4초 안에 이탈한 방문자가 "서버측에는 있고 GA4에는 없는" 상태로 남았다 → 포착률 28%.
 //   <head>에 직접 렌더하면 HTML 파싱 시점(수백 ms)에 실행돼 이 격차가 사라진다.
 //
-// 어드민에서 값을 바꾸면 재배포 없이 반영되던 성질은 그대로 유지한다 — unstable_cache의
-// revalidate(5분)로 갱신되며, 그 사이 페이지는 계속 정적으로 서빙된다.
-const REVALIDATE_SEC = 300;
+// 어드민에서 값을 바꾸면 재배포 없이 반영되던 성질은 그대로 유지한다 — 어드민 저장 시
+// /api/revalidate 가 "site-tags" 태그를 무효화한다. 주기(revalidate)는 안전망일 뿐이다.
+// ⚠️ 이 값은 루트 layout에서 읽혀 **모든 페이지의 ISR 주기 상한**이 된다. 예전 5분(300)이
+// 블로그·약관의 10분 설정까지 5분으로 끌어내려 ISR Writes 무료 한도를 넘겼다(2026-11-18).
+const REVALIDATE_SEC = 86400;
 
 // GA4 측정 ID 형식(G-XXXXXXXXXX) · GTM 컨테이너 ID 형식(GTM-XXXXXXX).
 const GA_ID_RE = /^G-[A-Z0-9]{4,}$/i;

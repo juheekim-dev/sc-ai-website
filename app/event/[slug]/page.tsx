@@ -26,7 +26,7 @@ import { buildPageMetadata } from "@/lib/pageSeo";
    블로그 상세(app/blog/[id]/page.tsx)가 posts.tags 로 쓰는 방식과 같다. */
 const TAGS = ["AI면접", "모의채용", "취업준비", "마케팅직무", "개발직무", "대외활동"];
 
-export const revalidate = 120;
+export const revalidate = 3600; // ISR 1시간 — 어드민 저장은 /api/revalidate 가 즉시 반영. 모집 상태(예정→중→마감)는 날짜 단위라 1시간이면 충분하고 마감은 /api/event-apply 가 서버에서 다시 막는다. 2분이던 주기가 ISR Writes 무료 한도를 넘긴 원인 중 하나(2026-11-18)
 
 export function generateStaticParams() {
   return EVENTS.map((e) => ({ slug: e.slug }));
