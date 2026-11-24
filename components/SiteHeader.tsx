@@ -28,7 +28,7 @@ const LOGIN_URL = "https://ai.supercoder.co/recruiter";
  * 펼침 메뉴는 아이콘 없이 글(제품명 + 한 줄 설명)로만 보여준다(2026-11-24).
  */
 const PRODUCTS = [
-  { href: "/ai-interview", title: "슈퍼코더 AI 면접", desc: "AI가 질문하고, 검증 리포트까지 정리합니다", isNew: false },
+  { href: "/ai-interview", title: "AI 면접", desc: "AI가 질문하고, 검증 리포트까지 정리합니다", isNew: false },
   { href: "/ai-assessment", title: "AI 역량검사", desc: "AI와 함께 일하는 실력을 실제 과제로 확인합니다", isNew: true },
 ];
 
