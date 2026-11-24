@@ -519,3 +519,42 @@
     .proof2{padding-top:48px}
     .final{width:min(1200px,100% - 32px);padding:52px 22px}
   }
+
+  /* ===== 2026-11 개편: 홈·/ai-interview·/ai-assessment 공용 섹션 ===== */
+  /* 공용 섹션 틀 — 배경만 바꿔(흰색·연한 블루) 번갈아 쓴다. 머리(.head)는 가운데 정렬 */
+  .band{background:#fff}
+  .band.soft{background:var(--soft)}
+  .band .head{text-align:center;max-width:760px;margin:0 auto}
+  .band .soft-cta{margin-top:0}
+
+  /* 카드 2개짜리 줄(홈 제품 2종·AI 면접 유형) — 기존 .value-grid를 2열로 */
+  .value-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:1040px;margin-left:auto;margin-right:auto}
+
+  /* 홈 04 해결 · 제품 카드 — .valcard를 왼쪽 정렬로(도식 썸네일 + 제목 + 한 줄 + 기능 3개 + 링크) */
+  .valcard.prod{text-align:left;align-items:stretch;padding:28px 28px 30px}
+  .valcard.prod .prod-shot{display:block;width:100%;height:auto;margin-bottom:22px}
+  .valcard.prod h3{display:flex;align-items:center;gap:8px;font-size:22px;margin-bottom:8px}
+  .valcard.prod > p{margin-bottom:0}
+  /* 카드 안 체크 목록은 제목·설명과 같은 왼쪽 선 — 모바일 .hr-points 가운데 정렬(리포트용)을 받지 않게 */
+  .valcard.prod .hr-points{margin:18px 0 0;max-width:none}
+  .prod-new{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--blue-d);background:var(--soft-2);padding:3px 9px;border-radius:999px}
+  .prod-link{margin-top:auto;padding-top:22px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--blue-d)}
+  .prod-link:hover{color:var(--ink)}
+
+  /* 부정행위 감지 — 항목 7개를 2열 체크 목록으로, 홈에서는 AI 면접으로 가는 링크 */
+  .hr-points.two{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}
+  .hr-info .hr-points + p{margin-top:18px}
+  .hr-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:15px;font-weight:700;color:var(--blue-d)}
+  .hr-link:hover{color:var(--ink)}
+
+  /* 보안 — ISO 인증 마크(푸터와 같은 파일)를 크게 한 줄로 */
+  .sec-marks{list-style:none;margin:36px 0 0;padding:0;display:flex;justify-content:center;flex-wrap:wrap;gap:14px 22px}
+  .sec-marks img{display:block;height:48px;width:auto}
+
+  @media(max-width:880px){.hr-points.two{grid-template-columns:1fr}}
+  @media(max-width:760px){
+    .value-grid.two{grid-template-columns:1fr;max-width:520px}
+    .valcard.prod{padding:22px 20px 24px}
+    .valcard.prod h3{font-size:19px}
+    .sec-marks img{height:40px}
+  }

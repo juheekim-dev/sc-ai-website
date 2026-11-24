@@ -2,18 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-// 보안 인증(2026-11, GCC 발급). 인증 추가·갱신 시 public/certs/iso-<번호>.svg 와 여기만 고친다.
-const CERT_CODES = ["27001", "27701", "27017", "27018"];
+import { CERT_CODES } from "@/lib/certs"; // 보안 인증 목록 — 보안 섹션과 공용
+import { PRODUCTS } from "@/lib/products"; // 제품 이름 — GNB·홈 카드와 공용
 
 // 메뉴 카테고리 — 열 단위로 렌더. 외부 링크는 external.
 const FOOT_COLS = [
   {
     title: "제품",
-    links: [
-      { href: "/ai-interview", label: "AI 면접" },
-      { href: "/ai-assessment", label: "AI 역량검사" },
-    ],
+    links: PRODUCTS.map((p) => ({ href: p.href, label: p.title })),
   },
   {
     title: "서비스",

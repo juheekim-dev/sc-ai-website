@@ -4,9 +4,28 @@ import "./landing.css";
 import PageHero, { HeroWord } from "@/components/PageHero";
 import ClientLogos from "@/components/ClientLogos";
 import FinalCta from "@/components/FinalCta";
+import ReportRows from "@/components/ReportRows";
+import IntegritySection from "@/components/IntegritySection";
+import SecuritySection from "@/components/SecuritySection";
+import FaqList from "@/components/FaqList";
+import SoftCta from "@/components/SoftCta";
 import { getFaqs } from "@/lib/faq";
-import { renderBody } from "@/lib/postRender";
+import { PRODUCTS } from "@/lib/products";
 import { buildPageMetadata } from "@/lib/pageSeo";
+
+// 04 해결 — 제품 카드. 이름·주소·한 줄 설명은 lib/products.ts(GNB·푸터와 공용), 카드 위 도식과 기능 3개만 여기서 정한다.
+const PRODUCT_CARDS: Record<string, { img: string; alt: string; points: string[] }> = {
+  "/ai-interview": {
+    img: "/diagram-question.webp",
+    alt: "AI 면접 도식: 지원자 영상과 AI 질문·꼬리질문",
+    points: ["평가 기준·질문 자동 생성", "답에 따라 꼬리질문", "등급·역량·강약점 리포트"],
+  },
+  "/ai-assessment": {
+    img: "/diagram-task.webp",
+    alt: "AI 역량검사 도식: 과제 코드와 AI 어시스턴트 대화",
+    points: ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
+  },
+};
 
 // 홈 canonical (중복 색인 방지) — 공통 메타는 layout.tsx. 어드민 SEO 초안(적용 시) 덮어씀.
 const FALLBACK_METADATA: Metadata = { alternates: { canonical: "/" } };
@@ -61,7 +80,7 @@ export default async function HomePage() {
         }
         lead={
           <>
-            <span style={{ color: "#fff" }}>AI 면접·리포트</span>로 1차 검토를 줄이고,<br />
+            <span style={{ color: "#fff" }}>AI 면접·AI 역량검사</span>로 1차 검토를 줄이고,<br />
             <span style={{ color: "#fff" }}>핵심 후보 판단</span>에 집중하세요.
           </>
         }
@@ -70,7 +89,7 @@ export default async function HomePage() {
       {/* SECTION 02 · CLIENTS (도입사 로고 마퀴) */}
       <ClientLogos />
 
-      {/* SECTION 04 · FLOOD */}
+      {/* SECTION 03 · 문제 (FLOOD) */}
       <section className="flood" id="flood">
         <div className="wrap">
           <div className="head">
@@ -98,32 +117,28 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 03 · VALUE */}
-      <section className="value" id="value">
+      {/* SECTION 04 · 해결 — 제품 2종 (2026-11 개편: 가치 카드 3개를 두 제품 카드로 교체) */}
+      <section className="value" id="products">
         <div className="wrap">
           <div className="head">
-            <h2>그래서, 사람을 만나기 전에<br /><span className="blue">AI 면접이 먼저 검증</span>합니다</h2>
-            <p className="lead">더 빠르게, 더 효율적으로, 더 일관되게.</p>
+            <h2>그래서, 사람을 만나기 전에<br /><span className="blue">AI가 먼저 검증</span>합니다</h2>
+            <p className="lead">직무와 지원자 규모에 맞춰 따로, 또는 함께 쓸 수 있습니다.</p>
           </div>
-          <div className="value-grid">
-            <div className="valcard">
-              <div className="ic"><i className="fa-solid fa-stopwatch"></i></div>
-              <h3>빠른 속도</h3>
-              <p>수천 명의 지원자를 AI가 동시에 검토해<br />1차 검토 시간을 크게 줄입니다.</p>
-              <span className="metric">1차 검토 시간 ↓</span>
-            </div>
-            <div className="valcard">
-              <div className="ic"><i className="fa-solid fa-coins"></i></div>
-              <h3>비용 절감</h3>
-              <p>초기 검증을 자동화해<br />채용 미스매치 비용을 줄입니다.</p>
-              <span className="metric">채용 미스매치 ↓</span>
-            </div>
-            <div className="valcard">
-              <div className="ic"><i className="fa-solid fa-crosshairs"></i></div>
-              <h3>역량 검증</h3>
-              <p>이력서에 적힌 내용과 실제 응답을 대조해,<br />핵심 역량을 데이터로 확인합니다.</p>
-              <span className="metric">핵심 역량 판단 기준 제공</span>
-            </div>
+          <div className="value-grid two">
+            {PRODUCTS.map((p) => {
+              const card = PRODUCT_CARDS[p.href];
+              return (
+                <div className="valcard prod" key={p.href}>
+                  <img className="prod-shot" src={card.img} alt={card.alt} width={1080} height={570} loading="lazy" />
+                  <h3>{p.title}{p.isNew && <span className="prod-new">NEW</span>}</h3>
+                  <p>{p.desc}</p>
+                  <ul className="hr-points">
+                    {card.points.map((t) => <li key={t}>{t}</li>)}
+                  </ul>
+                  <Link href={p.href} className="prod-link">자세히 보기 <i className="fa-solid fa-arrow-right"></i></Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -165,7 +180,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 06 · HOW IT WORKS */}
+      {/* SECTION 06 · 작동 방식 — 리포트 4종(공용) + 도입 3단계 */}
       <section className="how" id="how">
         <div className="wrap">
           <div className="head">
@@ -173,40 +188,7 @@ export default async function HomePage() {
             <p className="lead">요약, 등급, 역량, 면접 포인트까지 한눈에 확인하세요.</p>
           </div>
 
-          <div className="how-rows">
-            <div className="how-row">
-              <div className="hr-info">
-                <span className="hr-eyebrow">리포트 01</span>
-                <h3>인터뷰 요약</h3>
-                <p>긴 영상을 다시 볼 필요 없이, 대화의 핵심만 자동 <strong>요약</strong>합니다.</p>
-              </div>
-              <div className="hr-media"><img className="hr-img" src="/diagram-interview.webp" alt="인터뷰 요약 도식" width={1080} height={570} loading="lazy" /></div>
-            </div>
-            <div className="how-row">
-              <div className="hr-info">
-                <span className="hr-eyebrow">리포트 02</span>
-                <h3>종합평가</h3>
-                <p>복잡한 점수 대신 <strong>등급</strong>으로, 후보자 판단 기준을 빠르게 확인합니다.</p>
-              </div>
-              <div className="hr-media"><img className="hr-img" src="/diagram-grade.webp" alt="종합 등급 도식" width={1080} height={570} loading="lazy" /></div>
-            </div>
-            <div className="how-row">
-              <div className="hr-info">
-                <span className="hr-eyebrow">리포트 03</span>
-                <h3>역량평가</h3>
-                <p><strong>핵심 역량</strong>의 강점과 약점을 차트로 한눈에 비교합니다.</p>
-              </div>
-              <div className="hr-media"><img className="hr-img" src="/diagram-competency.webp" alt="역량 평가 도식" width={1080} height={570} loading="lazy" /></div>
-            </div>
-            <div className="how-row">
-              <div className="hr-info">
-                <span className="hr-eyebrow">리포트 04</span>
-                <h3>강점·약점 분석</h3>
-                <p><strong>강점과 약점</strong>을 구분해, 대면 면접에서 확인할 포인트까지 짚어줍니다.</p>
-              </div>
-              <div className="hr-media"><img className="hr-img" src="/diagram-strength.webp" alt="강점·약점 분석 도식" width={1080} height={570} loading="lazy" /></div>
-            </div>
-          </div>
+          <ReportRows />
 
           <div className="head" style={{ paddingTop: "clamp(112px,15vw,190px)" }}>
             <h2>채용공고만 등록하면, 검증 리포트까지<br /><span className="blue">AI가 진행</span>합니다</h2>
@@ -223,8 +205,8 @@ export default async function HomePage() {
             <div className="pstep">
               <div className="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z" /><path d="m14 7 3 3" /><path d="M5 6v4" /><path d="M19 14v4" /><path d="M10 2v2" /><path d="M7 8H3" /><path d="M21 16h-4" /><path d="M11 3H9" /></svg></div>
               <span className="pstep-tag">STEP 02</span>
-              <h3>AI 면접 자동 생성·진행</h3>
-              <p>AI가 평가 기준·질문을 만들고,<br />지원자가 온라인으로 응시합니다.</p>
+              <h3>AI가 질문·과제 생성</h3>
+              <p>AI가 평가 기준·질문·과제를 만들고,<br />채용팀이 확인하면 지원자가 응시합니다.</p>
             </div>
             <div className="pstep">
               <div className="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M16 13H8" /><path d="M16 17H8" /><path d="M10 9H8" /></svg></div>
@@ -236,7 +218,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 07 · PROOF */}
+      {/* SECTION 07 · 부정행위 감지 (공용, AI 면접 페이지로 연결) */}
+      <IntegritySection withLink />
+
+      {/* SECTION 08 · 보안 (공용) */}
+      <SecuritySection />
+
+      {/* SECTION 09 · 성과 (PROOF) */}
       <section className="proof2" id="proof">
         <div className="wrap">
           <div className="head">
@@ -251,14 +239,11 @@ export default async function HomePage() {
 
           {/* 저관여 오퍼 — 상담(고관여) 전에 소개서로 먼저 검토할 길을 본문 안에 둔다.
               기존에는 /brochure 링크가 GNB·푸터에만 있어 스크롤 흐름에서 노출되지 않았다. */}
-          <div className="soft-cta">
-            <h3>실제 검증 리포트가 어떻게 나오는지 먼저 확인해보세요</h3>
-            <Link href="/brochure" className="btn btn-blue soft-cta-btn">서비스소개서 받기 <i className="fa-solid fa-arrow-right"></i></Link>
-          </div>
+          <SoftCta title="실제 검증 리포트가 어떻게 나오는지 먼저 확인해보세요" href="/brochure" label="서비스소개서 받기" />
         </div>
       </section>
 
-      {/* SECTION 08 · VOICES */}
+      {/* SECTION 10 · 후기 (VOICES) */}
       <section className="voices" id="voices">
         <div className="wrap">
           <div className="head">
@@ -291,25 +276,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 08.5 · FAQ */}
+      {/* SECTION 11 · FAQ (어드민 FAQ, DB) */}
       <section className="faq" id="faq">
         <div className="wrap">
           <div className="head">
             <h2>자주 묻는 질문</h2>
           </div>
-          <div className="faq-list">
-            {faqs.map((f, i) => (
-              <details className="faq-item" key={i} {...(i === 0 ? { open: true } : {})}>
-                <summary>{f.question} <i className="fa-solid fa-plus fq-ic"></i></summary>
-                {/* 답변에 박힌 강제 줄바꿈(<br>)은 제거 — 화면폭에 맞춰 자연스럽게 흐르도록(문단 <p>은 유지) */}
-                <div className="fa-ans" dangerouslySetInnerHTML={{ __html: renderBody(f.answer).replace(/<br\s*\/?>\s*/gi, " ") }} />
-              </details>
-            ))}
-          </div>
+          <FaqList items={faqs} />
         </div>
       </section>
 
-      {/* SECTION 09 · FINAL CTA */}
+      {/* SECTION 12 · 마지막 CTA */}
       <FinalCta before={<>다음 채용은,<br /></>} word="AI 면접" after="으로 더 빠르게 시작하세요." />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
