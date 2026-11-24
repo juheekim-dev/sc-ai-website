@@ -35,7 +35,7 @@ export default function IntegritySection({ withLink = false }: { withLink?: bool
               )}
             </div>
             <div className="hr-media">
-              <img className="hr-img" src="/diagram-integrity.webp" alt="부정행위 감지 도식: 영상의 감지 지점과 감지 내역" width={1080} height={570} loading="lazy" />
+              <img className="hr-img" src="/diagram-integrity.webp" alt="부정행위 감지 도식: 지원자 영상의 시선 이탈 감지 표시와 감지 내역 목록" width={1080} height={570} loading="lazy" />
             </div>
           </div>
         </div>
