@@ -126,8 +126,8 @@ header:hover{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-
 /* 다크 섹션 위에서 호버 시 콘텐츠를 어둡게(컬러 로고·어두운 메뉴/로그인) */
 header.nav-invert:hover .logo .nav-logo--base{display:block}
 header.nav-invert:hover .logo .nav-logo--invert{display:none}
-header.nav-invert:hover .nav-center a{color:var(--ink)}
-header.nav-invert:hover .nav-center a:hover{color:var(--blue-d)}
+header.nav-invert:hover .nav-center>a,header.nav-invert:hover .nav-dd-btn{color:var(--ink)}
+header.nav-invert:hover .nav-center>a:hover,header.nav-invert:hover .nav-dd-btn:hover,header.nav-invert:hover .nav-dd.open .nav-dd-btn{color:var(--blue-d)}
 header.nav-invert:hover .nav-menu-btn{background:transparent;border:0}
 header.nav-invert:hover .nav-burger span{background:var(--ink)}
 /* .nav-hidden: 히어로 최상단에서 GNB를 위로 숨김(슬라이드 업+페이드). 스크롤하면 해제되어 흰 GNB 등장. */
@@ -160,13 +160,32 @@ header.nav-invert .nav-login:hover{background:transparent;color:#fff}
 header.nav-invert:hover .nav-login{background:transparent;color:var(--ink)}
 header.nav-invert:hover .nav-login:hover{color:var(--blue-d)}
 @media(max-width:760px){.nav-login{display:none}}
-/* 중앙 페이지 메뉴(블로그·서비스소개서) — 헤더 정중앙 고정 */
+/* 페이지 메뉴(제품▾·블로그·서비스소개서·이벤트). '>a' 직계만 — 펼침 메뉴 안의 링크는 아래 .nav-dd-* 가 맡는다 */
 .nav-center{display:flex;align-items:center;gap:24px;margin-right:28px}
-.nav-center a{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;cursor:pointer;transition:color .2s}
-.nav-center a:hover{color:var(--blue-d)}
-/* 다크 섹션 위에선 흰색 */
-header.nav-invert .nav-center a{color:rgba(255,255,255,.92)}
-header.nav-invert .nav-center a:hover{color:#fff}
+.nav-center>a,.nav-dd-btn{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;cursor:pointer;transition:color .2s}
+.nav-center>a:hover,.nav-dd-btn:hover,.nav-dd.open .nav-dd-btn{color:var(--blue-d)}
+/* 다크 섹션 위에선 흰색 (펼침 메뉴가 열려 있어도 버튼 글자는 흰색 — 헤더 호버 때만 위 규칙대로 어둡게) */
+header.nav-invert .nav-center>a,header.nav-invert .nav-dd-btn{color:rgba(255,255,255,.92)}
+header.nav-invert .nav-center>a:hover,header.nav-invert .nav-dd-btn:hover,header.nav-invert .nav-dd.open .nav-dd-btn{color:#fff}
+/* 제품 펼침 메뉴(SiteHeader '제품▾') — 사이트 유일의 드롭다운. 기존 토큰(--line·--r·--shadow·--soft)만 쓴다.
+   래퍼(.nav-dd)가 헤더 높이(64px)를 꽉 채워, 버튼→패널로 마우스를 옮기는 사이에 닫히지 않게 한다. */
+.nav-dd{position:relative;display:flex;align-items:center;height:64px}
+.nav-dd-btn{display:inline-flex;align-items:center;gap:6px;padding:4px 0;background:none;border:0;font-family:inherit}
+.nav-dd-btn i{font-size:11px;transition:transform .2s}
+.nav-dd.open .nav-dd-btn i{transform:rotate(180deg)}
+.nav-dd-btn:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:6px}
+.nav-dd-panel{position:absolute;top:100%;left:-16px;width:380px;padding:8px;display:grid;gap:2px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+.nav-dd.open .nav-dd-panel{opacity:1;visibility:visible;transform:none}
+.nav-dd-item{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:12px;transition:background .15s}
+.nav-dd-item:hover{background:var(--soft)}
+.nav-dd-item:focus-visible{background:var(--soft);outline:2px solid var(--blue);outline-offset:-2px}
+.nav-dd-ic{flex:0 0 40px;height:40px;border-radius:10px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:17px}
+.nav-dd-ic.dark{background:var(--ink)}
+.nav-dd-txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.nav-dd-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--ink)}
+.nav-dd-new{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--blue-d);background:var(--soft-2);padding:2px 8px;border-radius:999px}
+.nav-dd-desc{font-size:13.5px;font-weight:500;color:var(--slate);line-height:1.5}
+@media(prefers-reduced-motion:reduce){.nav-dd-panel,.nav-dd-btn i{transition:none}}
 /* 햄버거 메뉴 버튼 — 도입 문의 버튼과 같은 높이·라운드로 한 쌍처럼 보이게 */
 .nav-menu-wrap{position:relative;display:flex}
 .nav-menu-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:40px;border-radius:11px;background:transparent;border:0;cursor:pointer;transition:.2s}
@@ -182,6 +201,9 @@ header.nav-invert .nav-center a:hover{color:#fff}
 .nav-menu-links{display:flex;flex-direction:column}
 .nav-menu-links a{padding:21px 2px;font-size:18px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line);text-decoration:none;transition:color .15s}
 .nav-menu-links a:active{color:var(--blue)}
+/* 모바일 메뉴 '제품' 묶음 — 제목(링크 아님) 아래 두 제품을 들여 쓴다 */
+.nav-menu-group{padding:20px 2px 6px;font-size:13px;font-weight:700;color:var(--slate-2);letter-spacing:.02em}
+.nav-menu-links a.nav-menu-sub{padding:16px 2px 16px 14px;font-size:17px}
 .nav-menu-actions{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:22px}
 .nav-menu-cta,.nav-menu-login{display:block;width:100%;text-align:center;padding:16px;border-radius:12px;font-size:16px;text-decoration:none}
 .nav-menu-cta{background:var(--blue);color:#fff;font-weight:700;box-shadow:0 8px 20px -10px rgba(46,108,240,.6)}

@@ -258,6 +258,8 @@ export type PageSeo = {
 // /brochure 는 모달에서 라우트로 바뀔 때 빠져 있었다(2026-08-27 추가).
 export const SEO_PAGES: { path: string; label: string }[] = [
   { path: "/", label: "홈 (랜딩)" },
+  { path: "/ai-interview", label: "제품 · AI 면접" },
+  { path: "/ai-assessment", label: "제품 · AI 역량검사" },
   { path: "/apply", label: "도입문의" },
   { path: "/brochure", label: "서비스소개서" },
   { path: "/blog", label: "블로그 목록" },

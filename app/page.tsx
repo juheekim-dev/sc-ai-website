@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./landing.css";
-import HeroParticles from "@/components/HeroParticles";
+import PageHero, { HeroWord } from "@/components/PageHero";
+import ClientLogos from "@/components/ClientLogos";
+import FinalCta from "@/components/FinalCta";
 import { getFaqs } from "@/lib/faq";
 import { renderBody } from "@/lib/postRender";
 import { buildPageMetadata } from "@/lib/pageSeo";
@@ -17,15 +19,6 @@ const plain = (s: string) => String(s || "").replace(/<[^>]+>/g, " ").replace(/\
 
 // FAQ가 어드민(DB)에서 바뀌면 일정 주기로 자동 반영(ISR). 그 외엔 정적으로 빠르게 서빙.
 export const revalidate = 3600; // ISR 1시간 — FAQ·SEO 등 어드민 저장은 /api/revalidate 가 즉시 반영. 2분이던 주기가 ISR Writes 무료 한도를 넘긴 원인 중 하나(2026-11-18)
-
-// 로고별 시각 크기 보정 — 기준은 NEXON. 보정값 산출 근거는 app/landing.css의 .logo-* 주석 참고
-const LOGOS: { src: string; alt: string; className?: string }[] = [
-  { src: "/logos/nexon.svg", alt: "NEXON" },
-  { src: "/logos/hyundai-autoever.svg", alt: "Hyundai AutoEver", className: "logo-autoever" },
-  { src: "/logos/woongjin.webp", alt: "Woongjin", className: "logo-woongjin" },
-  { src: "/logos/skonec.webp", alt: "SKONEC entertainment", className: "logo-skonec" },
-  { src: "/logos/markany.webp", alt: "MarkAny", className: "logo-markany" },
-];
 
 export default async function HomePage() {
   const faqs = await getFaqs();
@@ -58,53 +51,24 @@ export default async function HomePage() {
   };
   return (
     <>
-      {/* 히어로 + 도입사 로고를 하나의 배경(그라데이션·지구본·그레인)으로 연결하는 래퍼 */}
-      <div className="hero-bg" data-nav="dark">
-        <HeroParticles canvasId="hero-particles" targetId="real-word" />
-        {/* SECTION 01 · DECLARATION (히어로) */}
-        <section className="decl" id="hero">
-
-          <div className="wrap">
-            <div>
-              <h1>
-                <span className="sky">지원자 검증은 </span><span className="hl" id="real-word">AI</span><span className="sky">가,</span><br />
-                <span className="sky">채용 결정은 </span><span className="hl">사람</span><span className="sky">이 더 빠르게</span>
-              </h1>
-              <p>
-                <span style={{ color: "#fff" }}>AI 면접·리포트</span>로 1차 검토를 줄이고,<br />
-                <span style={{ color: "#fff" }}>핵심 후보 판단</span>에 집중하세요.
-              </p>
-              <div className="decl-cta">
-                <Link href="/apply" className="btn btn-blue">무료 상담 신청 <i className="fa-solid fa-arrow-right"></i></Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+      {/* SECTION 01 · DECLARATION (히어로) — 다크 배경 래퍼(.hero-bg)까지 PageHero가 그린다 */}
+      <PageHero
+        title={
+          <>
+            <span className="sky">지원자 검증은 </span><HeroWord>AI</HeroWord><span className="sky">가,</span><br />
+            <span className="sky">채용 결정은 </span><span className="hl">사람</span><span className="sky">이 더 빠르게</span>
+          </>
+        }
+        lead={
+          <>
+            <span style={{ color: "#fff" }}>AI 면접·리포트</span>로 1차 검토를 줄이고,<br />
+            <span style={{ color: "#fff" }}>핵심 후보 판단</span>에 집중하세요.
+          </>
+        }
+      />
 
       {/* SECTION 02 · CLIENTS (도입사 로고 마퀴) */}
-      <div className="herostrip" id="clients">
-        {/* 라벨만 .wrap으로 감싼다 — 마퀴는 화면 끝까지 흘러야 하므로 밖에 둔다 */}
-        <div className="wrap">
-          <p className="hs-label">이미 500개 이상의 기업이 Supercoder와 함께하고 있습니다</p>
-        </div>
-        <div className="marquee">
-          <div className="marquee-track">
-            {Array.from({ length: 6 }).map((_, block) =>
-              // 반복 블록 로고에도 alt를 채운다(SEO 진단 alt 누락 대응) — 중복 낭독은 aria-hidden으로 차단
-              LOGOS.map((l, i) => (
-                <img
-                  key={`${block}-${i}`}
-                  src={l.src}
-                  alt={l.alt}
-                  className={l.className}
-                  aria-hidden={block === 0 ? undefined : true}
-                />
-              ))
-            )}
-          </div>
-        </div>
-      </div>
+      <ClientLogos />
 
       {/* SECTION 04 · FLOOD */}
       <section className="flood" id="flood">
@@ -346,14 +310,7 @@ export default async function HomePage() {
       </section>
 
       {/* SECTION 09 · FINAL CTA */}
-      <section className="final" id="final" data-nav="dark">
-        <HeroParticles canvasId="final-particles" targetId="real-cta" />
-        <div className="wrap">
-          <h2>다음 채용은,<br /><span className="real-cta" id="real-cta">AI 면접</span>으로 더 빠르게 시작하세요.</h2>
-          <p>간단한 문의를 남겨주시면, 담당자가 도입 방안을 안내해드립니다.</p>
-          <Link href="/apply" className="btn btn-blue">무료 상담 신청 <i className="fa-solid fa-arrow-right"></i></Link>
-        </div>
-      </section>
+      <FinalCta before={<>다음 채용은,<br /></>} word="AI 면접" after="으로 더 빠르게 시작하세요." />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </>

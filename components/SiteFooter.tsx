@@ -9,6 +9,13 @@ const CERT_CODES = ["27001", "27701", "27017", "27018"];
 // 메뉴 카테고리 — 열 단위로 렌더. 외부 링크는 external.
 const FOOT_COLS = [
   {
+    title: "제품",
+    links: [
+      { href: "/ai-interview", label: "AI 면접" },
+      { href: "/ai-assessment", label: "AI 역량검사" },
+    ],
+  },
+  {
     title: "서비스",
     links: [
       { href: "/apply", label: "도입 문의" },

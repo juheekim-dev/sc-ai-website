@@ -24,14 +24,27 @@ const EVENT_HREF = EVENTS.length === 1 ? `/event/${EVENTS[0].slug}` : "/event";
 const LOGIN_URL = "https://ai.supercoder.co/recruiter";
 
 /**
- * 공유 GNB(헤더) — 페이지 네비 중심(이벤트·블로그·서비스소개서·로그인) + 도입문의 CTA.
- * 섹션 앵커(왜 AI 면접인가/작동 방식/…)는 제거(스크롤 점프 방식 폐기).
+ * '제품' 메뉴 항목 — 데스크톱 펼침 메뉴(제품▾)와 모바일 메뉴의 '제품' 묶음이 함께 쓴다.
+ * 아이콘은 app/fontawesome.css 에 있는 것만 쓸 수 있다(서브셋 폰트).
+ */
+const PRODUCTS = [
+  { href: "/ai-interview", title: "슈퍼코더 AI 면접", desc: "AI가 질문하고, 검증 리포트까지 정리합니다", icon: "fa-comments", dark: false, isNew: false },
+  { href: "/ai-assessment", title: "AI 역량검사", desc: "AI와 함께 일하는 실력을 실제 과제로 확인합니다", icon: "fa-file-lines", dark: true, isNew: true },
+];
+
+/**
+ * 공유 GNB(헤더) — 제품▾(AI 면접·AI 역량검사) + 페이지 메뉴(블로그·서비스소개서·이벤트) + 로그인·도입문의 CTA.
+ * 섹션 앵커(왜 AI 면접인가/작동 방식/…)는 제거(스크롤 점프 방식 폐기) — 부정행위 감지·보안도 메뉴가 아니라 본문에서 보여준다.
  * 데스크톱은 인라인 링크, 모바일은 햄버거 메뉴. 섹션 인지형 색상(nav-invert 등) 유지.
  * '서비스소개서'는 /brochure 페이지로 이동(추적용 — 모달에서 페이지로 전환됨).
  */
 export default function SiteHeader() {
   const headerRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  // 데스크톱 '제품▾' 펼침 메뉴 — 마우스를 올리면 열리고, 키보드(Enter·Space)로도 열고 닫는다
+  const [productsOpen, setProductsOpen] = useState(false);
+  const productsRef = useRef<HTMLDivElement>(null);
+  const productsBtnRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const lastYRef = useRef(0);
   const menuOpenRef = useRef(false);
@@ -110,6 +123,25 @@ export default function SiteHeader() {
     };
   }, [menuOpen]);
 
+  // '제품▾' 펼침 메뉴 바깥 클릭 / ESC 로 닫기 — ESC는 버튼으로 포커스를 돌려준다
+  useEffect(() => {
+    if (!productsOpen) return;
+    function onClick(e: MouseEvent) {
+      if (!productsRef.current?.contains(e.target as Node)) setProductsOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      setProductsOpen(false);
+      productsBtnRef.current?.focus();
+    }
+    document.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [productsOpen]);
+
   // 모바일 메뉴 열림 동안 body 스크롤 잠금 + 챗봇 숨김(겹침 방지)
   useEffect(() => {
     document.body.classList.toggle("nav-menu-open", menuOpen);
@@ -139,9 +171,46 @@ export default function SiteHeader() {
         {/* 우측: 페이지 메뉴 + 로그인 + 도입 문의 + (모바일)햄버거 */}
         <div className="navlinks">
           <div className="nav-center">
-            <Link href={EVENT_HREF} onClick={onEventClick}>이벤트</Link>
+            {/* 제품▾ — 마우스 클릭은 열기만(호버로 이미 열려 있으므로 닫히지 않게), 키보드(detail 0)는 열고 닫기 */}
+            <div
+              ref={productsRef}
+              className={`nav-dd${productsOpen ? " open" : ""}`}
+              onMouseEnter={() => setProductsOpen(true)}
+              onMouseLeave={() => setProductsOpen(false)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setProductsOpen(false);
+              }}
+            >
+              <button
+                ref={productsBtnRef}
+                type="button"
+                className="nav-dd-btn"
+                aria-expanded={productsOpen}
+                aria-controls="navProducts"
+                onClick={(e) => setProductsOpen((v) => (e.detail === 0 ? !v : true))}
+              >
+                제품 <i className="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div className="nav-dd-panel" id="navProducts">
+                {PRODUCTS.map((p) => (
+                  <Link key={p.href} href={p.href} className="nav-dd-item" onClick={() => setProductsOpen(false)}>
+                    <span className={`nav-dd-ic${p.dark ? " dark" : ""}`} aria-hidden="true">
+                      <i className={`fa-solid ${p.icon}`}></i>
+                    </span>
+                    <span className="nav-dd-txt">
+                      <span className="nav-dd-title">
+                        {p.title}
+                        {p.isNew && <span className="nav-dd-new">NEW</span>}
+                      </span>
+                      <span className="nav-dd-desc">{p.desc}</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
             <Link href="/blog">블로그</Link>
             <Link href="/brochure">서비스소개서</Link>
+            <Link href={EVENT_HREF} onClick={onEventClick}>이벤트</Link>
           </div>
           <a
             href={LOGIN_URL}
@@ -167,9 +236,14 @@ export default function SiteHeader() {
             </button>
             <div className={`nav-menu${menuOpen ? " open" : ""}`} id="navMenu" aria-hidden={!menuOpen}>
               <div className="nav-menu-links">
-                <Link href={EVENT_HREF} onClick={() => { close(); onEventClick(); }}>이벤트</Link>
+                {/* 제품 묶음 — 항목이 둘뿐이라 접지 않고 펼쳐 둔다 */}
+                <p className="nav-menu-group">제품</p>
+                {PRODUCTS.map((p) => (
+                  <Link key={p.href} href={p.href} className="nav-menu-sub" onClick={close}>{p.title}</Link>
+                ))}
                 <Link href="/blog" onClick={close}>블로그</Link>
                 <Link href="/brochure" onClick={close}>서비스소개서</Link>
+                <Link href={EVENT_HREF} onClick={() => { close(); onEventClick(); }}>이벤트</Link>
                 <Link href="/apply" className="nav-menu-item-cta" onClick={close}>도입 문의</Link>
                 <a
                   href={LOGIN_URL}
