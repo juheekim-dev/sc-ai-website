@@ -25,11 +25,11 @@ const LOGIN_URL = "https://ai.supercoder.co/recruiter";
 
 /**
  * '제품' 메뉴 항목 — 데스크톱 펼침 메뉴(제품▾)와 모바일 메뉴의 '제품' 묶음이 함께 쓴다.
- * 아이콘은 app/fontawesome.css 에 있는 것만 쓸 수 있다(서브셋 폰트).
+ * 펼침 메뉴는 아이콘 없이 글(제품명 + 한 줄 설명)로만 보여준다(2026-11-24).
  */
 const PRODUCTS = [
-  { href: "/ai-interview", title: "슈퍼코더 AI 면접", desc: "AI가 질문하고, 검증 리포트까지 정리합니다", icon: "fa-comments", dark: false, isNew: false },
-  { href: "/ai-assessment", title: "AI 역량검사", desc: "AI와 함께 일하는 실력을 실제 과제로 확인합니다", icon: "fa-file-lines", dark: true, isNew: true },
+  { href: "/ai-interview", title: "슈퍼코더 AI 면접", desc: "AI가 질문하고, 검증 리포트까지 정리합니다", isNew: false },
+  { href: "/ai-assessment", title: "AI 역량검사", desc: "AI와 함께 일하는 실력을 실제 과제로 확인합니다", isNew: true },
 ];
 
 /**
@@ -194,16 +194,11 @@ export default function SiteHeader() {
               <div className="nav-dd-panel" id="navProducts">
                 {PRODUCTS.map((p) => (
                   <Link key={p.href} href={p.href} className="nav-dd-item" onClick={() => setProductsOpen(false)}>
-                    <span className={`nav-dd-ic${p.dark ? " dark" : ""}`} aria-hidden="true">
-                      <i className={`fa-solid ${p.icon}`}></i>
+                    <span className="nav-dd-title">
+                      {p.title}
+                      {p.isNew && <span className="nav-dd-new">NEW</span>}
                     </span>
-                    <span className="nav-dd-txt">
-                      <span className="nav-dd-title">
-                        {p.title}
-                        {p.isNew && <span className="nav-dd-new">NEW</span>}
-                      </span>
-                      <span className="nav-dd-desc">{p.desc}</span>
-                    </span>
+                    <span className="nav-dd-desc">{p.desc}</span>
                   </Link>
                 ))}
               </div>
