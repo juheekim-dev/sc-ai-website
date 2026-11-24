@@ -39,7 +39,7 @@ export default function AiAssessmentPage() {
         lead="지원자는 AI 어시스턴트와 함께 업무 과제를 풉니다. 결과물과 함께, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
       />
 
-      {/* 02~12 · 본문 섹션 — 11/26 구현 */}
+      {/* 02~12 · 본문 섹션 — 11/26 구현. 도식 ③~⑥은 public/diagram-task·process·debrief·scorecard.webp */}
 
       {/* 13 · 마지막 CTA */}
       <FinalCta before={<>AI 시대의 실력,<br /></>} word="과제" after="로 확인하세요." />

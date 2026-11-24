@@ -43,7 +43,7 @@ export default function AiInterviewPage() {
       {/* 02 · 고객사 로고 */}
       <ClientLogos />
 
-      {/* 03~11 · 본문 섹션 — 11/25 구현 */}
+      {/* 03~11 · 본문 섹션 — 11/25 구현. 도식 ①②는 public/diagram-question·integrity.webp */}
 
       {/* 12 · 마지막 CTA */}
       <FinalCta before={<>다음 채용은,<br /></>} word="AI 면접" after="으로 더 빠르게 시작하세요." />
