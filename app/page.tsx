@@ -22,7 +22,7 @@ const PRODUCT_CARDS: Record<string, { img: string; alt: string; points: string[]
   },
   "/ai-assessment": {
     img: "/diagram-task.webp",
-    alt: "AI 역량검사 도식: 개발 화면의 과제 코드·테스트 통과와 AI 어시스턴트 대화",
+    alt: "AI 역량검사 도식: 개발 화면의 과제 코드와 AI 어시스턴트 대화",
     points: ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
   },
 };
