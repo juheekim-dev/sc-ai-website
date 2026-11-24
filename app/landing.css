@@ -530,9 +530,10 @@
   /* 카드 2개짜리 줄(홈 제품 2종·AI 면접 유형) — 기존 .value-grid를 2열로 */
   .value-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:1040px;margin-left:auto;margin-right:auto}
 
-  /* 홈 04 해결 · 제품 카드 — .valcard를 왼쪽 정렬로(도식 썸네일 + 제목 + 한 줄 + 기능 3개 + 링크) */
+  /* 홈 04 해결 · 제품 카드 — .valcard를 왼쪽 정렬로(도식 썸네일 + 제목 + 한 줄 + 기능 3개 + 링크).
+     도식 썸네일은 카드 위쪽에 여백 없이 꽉 차게(카드 padding만큼 바깥으로) — 도식 PNG의 둥근 투명 모서리는 같은 연한 블루 바탕으로 메운다 */
   .valcard.prod{text-align:left;align-items:stretch;padding:28px 28px 30px}
-  .valcard.prod .prod-shot{display:block;width:100%;height:auto;margin-bottom:22px}
+  .valcard.prod .prod-shot{display:block;width:calc(100% + 56px);max-width:none;height:auto;margin:-28px -28px 22px;border-radius:calc(var(--r) - 1px) calc(var(--r) - 1px) 0 0;background:var(--soft)}
   .valcard.prod h3{display:flex;align-items:center;gap:8px;font-size:22px;margin-bottom:8px}
   .valcard.prod > p{margin-bottom:0}
   /* 카드 안 체크 목록은 제목·설명과 같은 왼쪽 선 — 모바일 .hr-points 가운데 정렬(리포트용)을 받지 않게 */
@@ -555,6 +556,7 @@
   @media(max-width:760px){
     .value-grid.two{grid-template-columns:1fr;max-width:520px}
     .valcard.prod{padding:22px 20px 24px}
+    .valcard.prod .prod-shot{width:calc(100% + 40px);margin:-22px -20px 20px}
     .valcard.prod h3{font-size:19px}
     .sec-marks img{height:40px}
   }
