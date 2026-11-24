@@ -5,7 +5,8 @@ import { CERT_CODES } from "@/lib/certs";
 const CARDS = [
   { icon: "fa-shield-halved", title: "데이터 보호", body: "보존 기간이 지나면 지원자 데이터를 자동으로 삭제합니다." },
   { icon: "fa-lock", title: "계정 보안", body: "Google·Microsoft 로그인과 2단계 인증, IP 허용 목록을 지원합니다." },
-  { icon: "fa-user-check", title: "접근 관리", body: "활동 기록을 남기고, 권한을 나눠 관리합니다." },
+  // '접근 관리'는 뜻이 잘 와닿지 않아 근거(활동 로그)에 그대로 맞는 '활동 기록'으로(2026-11-24 사용자 선택, 시안 B안)
+  { icon: "fa-clock-rotate-left", title: "활동 기록", body: "누가 언제 어떤 작업을 했는지 기록이 남습니다." },
 ];
 
 export default function SecuritySection() {
