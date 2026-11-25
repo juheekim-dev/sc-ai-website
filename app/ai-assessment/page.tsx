@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 히어로·카드·단계·CTA를 그대로 쓴다
-import PageHero, { HeroWord } from "@/components/PageHero";
+import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 카드·단계·CTA를 그대로 쓴다
+import ProductHero from "@/components/ProductHero";
+import StepFlow from "@/components/StepFlow";
+import TeamSection from "@/components/TeamSection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
 import NextProductCard from "@/components/NextProductCard";
@@ -47,6 +49,28 @@ const ENV = [
   { icon: "fa-arrow-up-right-from-square", title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다." },
 ];
 
+// lucide 선 아이콘 경로
+const ICON = {
+  file: <><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></>,
+  sparkles: <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />,
+  send: <><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></>,
+  fileCheck: <><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="m9 15 2 2 4-4" /></>,
+  play: <><circle cx="12" cy="12" r="10" /><path d="m10 8 6 4-6 4z" /></>,
+  laptop: <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16" />,
+};
+
+const START = [
+  { title: "채용공고 입력", body: <>채용공고를 넣거나<br />문제 은행 템플릿을 고릅니다.</>, icon: ICON.file },
+  { title: "AI가 과제 생성", body: <>AI가 과제와 채점 기준을 만들고<br />스스로 검증합니다.</>, icon: ICON.sparkles },
+  { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, icon: ICON.send },
+];
+
+const CANDIDATE = [
+  { title: "안내 확인과 동의", body: <>무엇이 기록되는지 읽고 동의한 뒤<br />카메라와 브라우저를 확인합니다.</>, icon: ICON.fileCheck },
+  { title: "가상 체험", body: <>과제 화면과 인터뷰 방식을 미리 익힙니다.<br />이때 입력한 내용은 평가하지 않습니다.</>, icon: ICON.play },
+  { title: "과제와 AI 인터뷰", body: <>AI 어시스턴트와 과제를 풀고<br />제출하면 AI 인터뷰로 설명합니다.</>, icon: ICON.laptop },
+];
+
 // 제품 페이지 FAQ는 코드에 고정한다(어드민 FAQ는 홈 전용).
 const FAQS = [
   {
@@ -74,27 +98,25 @@ const JSON_LD = {
   mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: plain(f.answer) } })),
 };
 
-const stepIcon = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
-
-// 섹션 구성(홈페이지 개편 기획 4장): 01 히어로 · 02 왜 과정을 보나 · 03 과제 유형 · 04 과제 화면 · 05 과정 평가
-// · 06 AI 인터뷰 · 07 평가와 리포트 · 08 과제 만들기 · 09 응시 환경 · 10 보안 · 11 FAQ · 12 AI 면접 안내 · 13 마지막 CTA
-// 배경은 흰색↔연한 블루가 번갈아 오게: 02 흰 · 03 연한 · 04~08 흰(.how) · 09 연한 · 10 흰 · 11 연한 · 12 흰
+// 섹션 흐름(2026-11-25 재구성 — AI 면접 페이지와 같은 순서):
+// 01 히어로(밝은 바탕 + 제품 이미지) · 02 왜 과정을 보나 · 03 도입 3단계(과제 만들기) · 04 과제 유형 · 05 과제 화면·과정 평가·AI 인터뷰·평가와 리포트
+// · 06 응시 환경 · 07 지원자 응시 과정 · 08 채용팀 기능 · 09 보안 · 10 FAQ · 11 AI 면접 안내 · 12 마지막 CTA
+// 배경은 흰색↔연한 블루가 번갈아: 02 연한 · 03 흰 · 04 연한 · 05 흰(.how) · 06 연한 · 07 흰 · 08 연한 · 09 흰 · 10 연한 · 11 흰
 export default function AiAssessmentPage() {
   return (
     <>
       {/* 01 · 히어로 */}
-      <PageHero
-        title={
-          <>
-            <span className="sky">AI와 함께 일하는 실력을,</span><br />
-            <HeroWord>실제 과제</HeroWord><span className="sky">로 확인합니다</span>
-          </>
-        }
+      <ProductHero
+        name="AI 역량검사"
+        isNew
+        title={<>AI와 함께 일하는 실력을,<br /><span className="blue">실제 과제</span>로 확인합니다</>}
         lead="지원자는 AI 어시스턴트와 함께 업무 과제를 풉니다. 결과물과 함께, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
+        img="/hero-assessment.webp"
+        alt="AI 역량검사 제품 화면: 과제 코드와 AI 어시스턴트 대화, 그 위에 AI 추천과 항목별 점수·근거가 있는 AI 역량검사 리포트"
       />
 
       {/* 02 · 왜 과정을 보나 */}
-      <section className="band" id="why">
+      <section className="band soft" id="why">
         <div className="wrap">
           <div className="head">
             <h2>결과물만 봐서는<br /><span className="blue">누가 했는지</span> 모릅니다</h2>
@@ -112,7 +134,18 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 03 · 과제 유형 */}
+      {/* 03 · 도입 3단계(과제 만들기) */}
+      <section className="band" id="start">
+        <div className="wrap">
+          <div className="head">
+            <h2>채용공고를 넣으면<br /><span className="blue">과제가 만들어집니다</span></h2>
+            <p className="lead">문제 은행 템플릿으로 시작할 수도 있습니다.</p>
+          </div>
+          <StepFlow steps={START} />
+        </div>
+      </section>
+
+      {/* 04 · 과제 유형 */}
       <section className="band soft" id="kinds">
         <div className="wrap">
           <div className="head">
@@ -131,7 +164,7 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 04 과제 화면 · 05 과정 평가 · 06 AI 인터뷰 · 07 평가와 리포트 + 08 과제 만들기 */}
+      {/* 05 · 과제 화면 · 과정 평가 · AI 인터뷰 · 평가와 리포트 */}
       <section className="how" id="how">
         <div className="wrap">
           <div className="head">
@@ -189,35 +222,10 @@ export default function AiAssessmentPage() {
               </div>
             </div>
           </div>
-
-          <div className="head" style={{ paddingTop: "clamp(96px,12vw,160px)" }}>
-            <h2>채용공고를 넣으면<br /><span className="blue">과제가 만들어집니다</span></h2>
-            <p className="lead">문제 은행 템플릿으로 시작할 수도 있습니다.</p>
-          </div>
-          <div className="flow2">
-            <div className="pstep">
-              <div className="pic"><svg viewBox="0 0 24 24" {...stepIcon}><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg></div>
-              <span className="pstep-tag">STEP 01</span>
-              <h3>채용공고 입력</h3>
-              <p>채용공고를 넣거나<br />문제 은행 템플릿을 고릅니다.</p>
-            </div>
-            <div className="pstep">
-              <div className="pic"><svg viewBox="0 0 24 24" {...stepIcon}><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /></svg></div>
-              <span className="pstep-tag">STEP 02</span>
-              <h3>AI가 과제 생성</h3>
-              <p>AI가 과제와 채점 기준을 만들고<br />스스로 검증합니다.</p>
-            </div>
-            <div className="pstep">
-              <div className="pic"><svg viewBox="0 0 24 24" {...stepIcon}><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></svg></div>
-              <span className="pstep-tag">STEP 03</span>
-              <h3>확인 후 게시</h3>
-              <p>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</p>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* 09 · 응시 환경 — AI 역량검사는 기본으로 켜져 있다(AI 면접의 부정행위 감지 섹션과 달리 프로젝트별 선택이 아님) */}
+      {/* 06 · 응시 환경 — AI 역량검사는 기본으로 켜져 있다(AI 면접의 부정행위 감지 섹션과 달리 프로젝트별 선택이 아님) */}
       <section className="band soft" id="environment">
         <div className="wrap">
           <div className="head">
@@ -236,10 +244,24 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 10 · 보안(공용) */}
+      {/* 07 · 지원자 응시 과정 */}
+      <section className="band" id="candidate">
+        <div className="wrap">
+          <div className="head">
+            <h2>지원자는 <span className="blue">브라우저에서</span><br />바로 응시합니다</h2>
+            <p className="lead">앱 설치 없이, 화면 공유가 되는 최신 Chrome이나 Edge로 노트북이나 데스크톱에서 봅니다.</p>
+          </div>
+          <StepFlow steps={CANDIDATE} />
+        </div>
+      </section>
+
+      {/* 08 · 채용팀 기능(공용) */}
+      <TeamSection />
+
+      {/* 09 · 보안(공용) */}
       <SecuritySection />
 
-      {/* 11 · FAQ */}
+      {/* 10 · FAQ */}
       <section className="faq" id="faq">
         <div className="wrap">
           <div className="head">
@@ -249,14 +271,14 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 12 · AI 면접 안내 — 상대 제품 썸네일 카드(NextProductCard). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
+      {/* 11 · AI 면접 안내 — 상대 제품 썸네일 카드(NextProductCard). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
       <section className="band" id="next">
         <div className="wrap">
           <NextProductCard href="/ai-interview" title="지원자가 많은 1차 검증은 AI 면접으로" body="AI가 묻고 답에 따라 꼬리질문을 이어 가며, 검증 리포트 한 장으로 정리합니다." />
         </div>
       </section>
 
-      {/* 13 · 마지막 CTA */}
+      {/* 12 · 마지막 CTA */}
       <FinalCta before={<>AI 시대의 실력,<br /></>} word="과제" after="로 확인하세요." />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />

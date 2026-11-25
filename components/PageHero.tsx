@@ -8,7 +8,7 @@ export function HeroWord({ children }: { children: ReactNode }) {
 }
 
 /**
- * 다크 히어로 — 홈·/ai-interview·/ai-assessment 공용(SSOT). 스타일은 app/landing.css(.hero-bg·.decl).
+ * 다크 히어로 — 홈 전용(제품 상세 페이지는 밝은 ProductHero, 2026-11-25). 스타일은 app/landing.css(.hero-bg·.decl).
  * 다크 배경 래퍼(.hero-bg: 그라데이션·그레인·입자 캔버스)까지 포함한다.
  * data-nav="dark" → 이 위에서는 GNB가 반전된다(SiteHeader.syncHeader).
  */

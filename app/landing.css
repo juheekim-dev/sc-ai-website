@@ -57,6 +57,22 @@
   @media(max-width:560px){.decl h1{font-size:31px;line-height:1.38}}
   @media(max-width:400px){.decl h1{font-size:28px}}
 
+  /* 제품 상세 페이지 히어로(ProductHero, 2026-11-25) — 홈의 어두운 히어로와 다르게 밝은 바탕 + 오른쪽 제품 이미지.
+     헤더(65px) 밑까지 바탕이 이어지도록 끌어올리고 그만큼 위 여백을 더한다. 이미지는 투명 바탕 webp(제품 화면 + 리포트 카드). */
+  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(36px,6vw,84px)) 0 clamp(48px,6vw,88px);
+    background:radial-gradient(55% 75% at 88% 48%,rgba(58,111,255,.13) 0%,rgba(58,111,255,0) 70%),linear-gradient(180deg,#F5F8FF 0%,#FFFFFF 100%)}
+  .phero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(24px,4vw,60px);align-items:center;max-width:1240px}
+  .phero-name{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--blue-d);background:var(--soft-2);padding:7px 15px;border-radius:999px;margin-bottom:20px}
+  .phero h1{font-size:clamp(32px,4.1vw,54px);font-weight:700;line-height:1.28;letter-spacing:-.025em;color:var(--ink);text-wrap:balance}
+  .phero h1 .blue{color:var(--blue)}
+  .phero p{font-size:clamp(16px,1.35vw,18.5px);color:var(--slate);margin-top:22px;line-height:1.68;max-width:520px}
+  .phero-cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:34px}
+  .phero-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--blue-d)}
+  .phero-link:hover{color:var(--ink)}
+  .phero-media img{display:block;width:100%;height:auto}
+  @media(max-width:880px){.phero-grid{grid-template-columns:minmax(0,1fr)}.phero-text{text-align:center}.phero p{margin-left:auto;margin-right:auto}.phero-cta{justify-content:center}.phero-media{max-width:620px;margin:0 auto}}
+  @media(max-width:560px){.phero h1{font-size:30px;line-height:1.36}.phero-cta .btn{width:100%;justify-content:center}}
+
   /* HERO STRIP — 도입사 로고 (한 줄 무한 루핑 마퀴) */
   /* 로고 루프 — 흰 배경으로 위/아래 섹션과 구분 (multiply가 흰 배경에서 가장 깔끔) */
   /* 위아래 여백은 사이트 섹션 리듬(--sec-y)을 따른다 — 로고 스트립이라 섹션의 75%로 */
