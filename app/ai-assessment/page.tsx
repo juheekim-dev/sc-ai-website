@@ -157,7 +157,7 @@ export default function AiAssessmentPage() {
                 </ul>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-process.webp" alt="과정 평가 도식: AI에게 지시, AI가 코드 변경, 직접 수정, 테스트 실행 네 단계와 작업 리플레이" width={1080} height={570} loading="lazy" />
+                <img className="hr-img" src="/diagram-process.webp" alt="과정 평가 도식: 작업 기록 화면에 AI에게 지시, AI가 코드 변경, 직접 수정, 테스트 실행 네 단계를 원으로 잇고 아래에 작업 리플레이" width={1080} height={570} loading="lazy" />
               </div>
             </div>
             <div className="how-row">
@@ -167,7 +167,7 @@ export default function AiAssessmentPage() {
                 <p>과제를 제출하면 AI 인터뷰가 이어집니다. AI가 결과에 대해 묻고, 지원자의 답으로 이해도를 평가합니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-debrief.webp" alt="AI 인터뷰 도식: 제출한 코드와, AI 질문과 지원자 음성 답변이 오가는 대화" width={1080} height={570} loading="lazy" />
+                <img className="hr-img" src="/diagram-debrief.webp" alt="AI 인터뷰 도식: 제출한 코드와, AI 질문과 지원자 답변이 말풍선으로 오가는 대화" width={1080} height={570} loading="lazy" />
               </div>
             </div>
             <div className="how-row">
