@@ -581,7 +581,7 @@
   .pair-prob{border-radius:var(--r);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:22px 24px 24px}
   .pair-prob .n{display:block;font-size:13px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.5);margin-bottom:10px}
   .pair-prob p{display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:rgba(255,255,255,.92)}
-  .pair-prob p::before{content:"";width:6px;height:6px;margin-top:.66em;border-radius:50%;background:currentColor;flex:none}
+  .pair-prob p::before{content:"";box-sizing:border-box;width:20px;height:20px;margin-top:.12em;border-radius:50%;border:2px solid rgba(255,255,255,.42);flex:none} /* 빈 체크 — 흰 체크 박스가 덮으면 블루 체크로(11/25 "블릿 말고 체크 박스 구조") */
   /* 흰 체크 박스는 문제 카드 위에 겹쳐 두고(같은 크기, 글은 가운데) 처음엔 숨긴다 — "처음에는 01~03만"(11/25) */
   .pair-sol{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;padding:18px 22px;border-radius:var(--r);background:#fff;color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;opacity:0;transform:translateY(56px);pointer-events:none}
   .pair-sol-in{display:inline-flex;gap:10px;align-items:flex-start}
