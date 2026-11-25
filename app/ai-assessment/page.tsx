@@ -272,7 +272,17 @@ export default function AiAssessmentPage() {
       </section>
 
       {/* 10 · 마지막 CTA */}
-      <FinalCta before={<>AI 시대의 실력,<br /></>} word="과제" after="로 확인하세요." />
+      <FinalCta
+        before={<>AI 시대의 실력,<br /></>}
+        word="과제"
+        after="로 확인하세요."
+        // 차별점 띠(11/25, 히어로 아래에서 옮김). 근거: _docs/홈페이지 개편/AI면접_AI역량검사_차이_소개자료.md — 다른 회사 이름·'유일한' 같은 비교는 쓰지 않는다
+        points={[
+          { title: "채용공고로 만드는 맞춤 과제", body: "공고를 넣으면 AI가 직무에 맞는 과제와 채점 기준을 만듭니다." },
+          { title: "결과물과 과정을 함께 평가", body: "AI에 맡긴 지시, 검증, 직접 수정까지 기록하고 평가합니다." },
+          { title: "제출 뒤 AI 인터뷰로 검증", body: "자기 결과를 말로 설명하게 해, 이해했는지 확인합니다." },
+        ]}
+      />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </>

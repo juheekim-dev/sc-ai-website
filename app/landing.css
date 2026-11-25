@@ -405,6 +405,15 @@
   /* CTA 강조어 — 히어로 헤드카피와 동일: 화이트 엑스트라볼드(그라데이션 제거) */
   .final h2 .real-cta{font-weight:700;white-space:nowrap;color:#fff;-webkit-text-fill-color:#fff}
   .final p{color:#AEB9D4;font-size:18px;font-weight:500;margin:18px auto 30px;max-width:520px}
+  /* 마지막 CTA 아래 차별점 띠(2026-11-25, FinalCta의 points — AI 역량검사): 어두운 배경 위 반투명 띠, 세 칸을 선으로 나눔 */
+  .final-points{list-style:none;margin:44px auto 0;padding:0;max-width:940px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));text-align:left;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:var(--r)}
+  .final-points li{display:grid;gap:6px;align-content:start;padding:20px 24px;border-left:1px solid rgba(255,255,255,.12)}
+  .final-points li:first-child{border-left:0}
+  .final-points b{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:700;letter-spacing:-.01em;color:#fff}
+  .final-points b i{width:20px;height:20px;border-radius:50%;background:var(--blue);position:relative;flex:none}
+  .final-points b i::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .final-points span{font-size:14px;line-height:1.55;color:#AEB9D4}
+  @media(max-width:760px){.final-points{grid-template-columns:minmax(0,1fr);margin-top:32px}.final-points li{border-left:0;border-top:1px solid rgba(255,255,255,.12);padding:16px 18px}.final-points li:first-child{border-top:0}}
   .cta-form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:720px;margin:0 auto}
   .cta-form input{flex:1;min-width:150px;padding:14px 16px;border-radius:11px;border:none;font-size:15px;font-family:inherit;background:rgba(255,255,255,.95)}
   .cta-form input::placeholder{color:#8A93A8}
