@@ -160,7 +160,7 @@ export default function AiAssessmentPage() {
                 <p>문제 설명이나 AI 답변을 그대로 붙여 넣은 지시는 기록되고, 본인이 쓴 지시로 평가하지 않습니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-process.webp" alt="과정 평가 도식: AI에게 지시, AI가 코드 변경, 직접 수정, 테스트 실행으로 이어지는 과정 기록과 리플레이" width={1080} height={570} loading="lazy" />
+                <img className="hr-img" src="/diagram-process.webp" alt="과정 평가 도식: AI에게 지시, AI가 코드 변경, 직접 수정, 테스트 실행 네 단계와 작업 리플레이" width={1080} height={570} loading="lazy" />
               </div>
             </div>
             <div className="how-row">
