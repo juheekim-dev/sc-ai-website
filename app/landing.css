@@ -570,20 +570,26 @@
   .pair-prob p::before{content:"";width:6px;height:6px;margin-top:.66em;border-radius:50%;background:currentColor;flex:none}
   .pair-arrow{justify-self:center;width:2px;height:24px;background:linear-gradient(var(--blue-2),var(--blue));position:relative}
   .pair-arrow::after{content:"";position:absolute;left:50%;bottom:-1px;width:9px;height:9px;border:solid var(--blue);border-width:0 2px 2px 0;transform:translateX(-50%) rotate(45deg)}
-  .pair-sol{display:flex;gap:10px;margin:0;border-radius:var(--r);background:#fff;color:var(--ink);padding:18px 22px;font-size:16px;font-weight:600;line-height:1.5}
+  .pair-sol{display:flex;gap:10px;margin:0;color:var(--ink);padding:18px 22px;font-size:16px;font-weight:600;line-height:1.5}
+  .pair-sol::before{content:"";position:absolute;left:0;right:0;top:0;height:100%;z-index:-1;border-radius:var(--r);background:#fff}
   .pair-ck{width:20px;height:20px;margin-top:.1em;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .pair-ck::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
   @media(max-width:760px){.pair-grid{grid-template-columns:1fr;grid-template-rows:none;row-gap:26px;margin-top:36px}.pair{grid-row:auto;grid-template-rows:none}.pair-prob p{font-size:16px}.pair-sol{font-size:15px}}
-  /* 모션(11/25): 흰 해결 카드가 바로 위 문제 카드 자리로 올라가 덮었다가 돌아온다 — 01→02→03 반 박자씩, 덮는 동안 문제 카드는 흐려진다.
-     거리 --d는 PairGrid(components/PairGrid.tsx)가 잰다. 화면에 보일 때만(.moving) 움직이고, 움직임 줄이기 설정이면 멈춘다 */
+  /* 모션(11/25): 흰 해결 카드가 바로 위 문제 카드 자리로 올라가면서 문제 카드와 같은 높이로 늘어나 덮고, 올라간 뒤 화살표는 사라진다.
+     잠시 뒤 거꾸로 돌아온다 — 01→02→03 반 박자씩, 5.4초 주기. 흰 바탕은 ::before 층이라 늘어나도 주변 배치가 출렁이지 않는다.
+     거리 --d·높이 --h는 PairGrid(components/PairGrid.tsx)가 잰다. 화면에 보일 때만(.moving) 움직이고, 움직임 줄이기 설정이면 멈춘다 */
   .pair-sol{position:relative;z-index:1}
   .pair-grid.moving .pair-sol{animation:pairCover 5.4s cubic-bezier(.4,0,.2,1) infinite}
+  .pair-grid.moving .pair-sol::before{animation:pairGrow 5.4s cubic-bezier(.4,0,.2,1) infinite}
+  .pair-grid.moving .pair-arrow{animation:pairArrow 5.4s ease-in-out infinite}
   .pair-grid.moving .pair-prob{animation:pairDim 5.4s ease-in-out infinite}
-  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-prob{animation-delay:.5s}
-  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-prob{animation-delay:1s}
-  @keyframes pairCover{0%,22%{transform:translateY(0)}40%,66%{transform:translateY(calc(-1 * var(--d,0px)));box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}84%,100%{transform:translateY(0)}}
-  @keyframes pairDim{0%,26%{opacity:1}40%,62%{opacity:.12}80%,100%{opacity:1}}
-  @media(prefers-reduced-motion:reduce){.pair-grid.moving .pair-sol,.pair-grid.moving .pair-prob{animation:none}}
+  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-sol::before,.pair-grid.moving .pair:nth-child(2) .pair-arrow,.pair-grid.moving .pair:nth-child(2) .pair-prob{animation-delay:.5s}
+  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-sol::before,.pair-grid.moving .pair:nth-child(3) .pair-arrow,.pair-grid.moving .pair:nth-child(3) .pair-prob{animation-delay:1s}
+  @keyframes pairCover{0%,22%{transform:translateY(0)}38%,68%{transform:translateY(calc(-1 * var(--d,0px)))}84%,100%{transform:translateY(0)}}
+  @keyframes pairGrow{0%,28%{height:100%;box-shadow:0 0 0 0 rgba(51,106,255,0)}42%,64%{height:var(--h,100%);box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}78%,100%{height:100%;box-shadow:0 0 0 0 rgba(51,106,255,0)}}
+  @keyframes pairArrow{0%,30%{opacity:1}40%,70%{opacity:0}84%,100%{opacity:1}}
+  @keyframes pairDim{0%,26%{opacity:1}40%,64%{opacity:0}80%,100%{opacity:1}}
+  @media(prefers-reduced-motion:reduce){.pair-grid.moving .pair-sol,.pair-grid.moving .pair-sol::before,.pair-grid.moving .pair-arrow,.pair-grid.moving .pair-prob{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
 
