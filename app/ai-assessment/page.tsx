@@ -3,7 +3,7 @@ import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 히어로·
 import PageHero, { HeroWord } from "@/components/PageHero";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
-import SoftCta from "@/components/SoftCta";
+import NextProductCard from "@/components/NextProductCard";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -249,10 +249,10 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 12 · AI 면접 안내 — 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
+      {/* 12 · AI 면접 안내 — 상대 제품 썸네일 카드(NextProductCard). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
       <section className="band" id="next">
         <div className="wrap">
-          <SoftCta title="지원자가 많은 1차 검증은 AI 면접으로" href="/ai-interview" label="AI 면접 보기" outline />
+          <NextProductCard href="/ai-interview" title="지원자가 많은 1차 검증은 AI 면접으로" body="AI가 묻고 답에 따라 꼬리질문을 이어 가며, 검증 리포트 한 장으로 정리합니다." />
         </div>
       </section>
 

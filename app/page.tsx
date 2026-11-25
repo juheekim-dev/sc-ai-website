@@ -13,18 +13,10 @@ import { getFaqs } from "@/lib/faq";
 import { PRODUCTS } from "@/lib/products";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
-// 04 해결 — 제품 카드. 이름·주소·한 줄 설명은 lib/products.ts(GNB·푸터와 공용), 카드 위 도식과 기능 3개만 여기서 정한다.
-const PRODUCT_CARDS: Record<string, { img: string; alt: string; points: string[] }> = {
-  "/ai-interview": {
-    img: "/diagram-question.webp",
-    alt: "AI 면접 도식: 지원자 영상과 AI 질문·꼬리질문",
-    points: ["평가 기준·질문 자동 생성", "답에 따라 꼬리질문", "등급·역량·강약점 리포트"],
-  },
-  "/ai-assessment": {
-    img: "/diagram-task.webp",
-    alt: "AI 역량검사 도식: 개발 화면의 과제 코드와 AI 어시스턴트 대화",
-    points: ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
-  },
+// 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
+const PRODUCT_POINTS: Record<string, string[]> = {
+  "/ai-interview": ["평가 기준·질문 자동 생성", "답에 따라 꼬리질문", "등급·역량·강약점 리포트"],
+  "/ai-assessment": ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
 };
 
 // 홈 canonical (중복 색인 방지) — 공통 메타는 layout.tsx. 어드민 SEO 초안(적용 시) 덮어씀.
@@ -125,20 +117,17 @@ export default async function HomePage() {
             <p className="lead">직무와 지원자 규모에 맞춰 따로, 또는 함께 쓸 수 있습니다.</p>
           </div>
           <div className="value-grid two">
-            {PRODUCTS.map((p) => {
-              const card = PRODUCT_CARDS[p.href];
-              return (
-                <div className="valcard prod" key={p.href}>
-                  <img className="prod-shot" src={card.img} alt={card.alt} width={1080} height={570} loading="lazy" />
-                  <h3>{p.title}{p.isNew && <span className="prod-new">NEW</span>}</h3>
-                  <p>{p.desc}</p>
-                  <ul className="hr-points">
-                    {card.points.map((t) => <li key={t}>{t}</li>)}
-                  </ul>
-                  <Link href={p.href} className="prod-link">자세히 보기 <i className="fa-solid fa-arrow-right"></i></Link>
-                </div>
-              );
-            })}
+            {PRODUCTS.map((p) => (
+              <div className="valcard prod" key={p.href}>
+                <img className="prod-shot" src={p.img} alt={p.alt} width={1080} height={570} loading="lazy" />
+                <h3>{p.title}{p.isNew && <span className="prod-new">NEW</span>}</h3>
+                <p>{p.desc}</p>
+                <ul className="hr-points">
+                  {PRODUCT_POINTS[p.href].map((t) => <li key={t}>{t}</li>)}
+                </ul>
+                <Link href={p.href} className="prod-link">자세히 보기 <i className="fa-solid fa-arrow-right"></i></Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>

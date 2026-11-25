@@ -270,6 +270,16 @@
   .soft-cta-btn{margin-top:28px}
   @media(max-width:680px){.soft-cta{margin-top:44px}.soft-cta-btn{margin-top:22px;width:100%;justify-content:center}}
 
+  /* 제품 페이지 끝 '다른 제품 안내'(NextProductCard) — 왼쪽 상대 제품 도식 썸네일(카드 가장자리까지, 잘리지 않게 contain — 남는 위아래는 도식 바탕과 같은 --soft), 오른쪽 제목·설명·버튼.
+     홈 소개서 안내(.soft-cta)와 일부러 다른 모양(2026-11-25 시안 A안). 모바일은 썸네일 위·글 아래 */
+  .next-card{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);max-width:1040px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .next-card .nc-shot{display:block;width:100%;height:100%;object-fit:contain;background:var(--soft)}
+  .next-card .nc-body{padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+  .next-card h3{font-size:clamp(21px,2.3vw,28px);font-weight:700;letter-spacing:-.02em;line-height:1.35;color:var(--ink);text-wrap:balance}
+  .next-card p{font-size:16px;color:var(--slate);margin-top:12px;line-height:1.6}
+  .next-card .btn{margin-top:26px}
+  @media(max-width:760px){.next-card{grid-template-columns:minmax(0,1fr)}.next-card .nc-shot{height:auto}.next-card .nc-body{padding:24px 22px 28px}.next-card .btn{width:100%;justify-content:center}}
+
   .logo-wall{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 40px;align-items:center;margin-top:52px;padding-top:40px;border-top:1px solid var(--line)}
   .logo-wall span{font-weight:700;font-size:20px;color:#A2ACC2}
   /* 3개 지표는 어떤 폭에서도 한 줄(3열) 유지 — VALUE와 동일하게 gap·패딩·폰트만 축소 */

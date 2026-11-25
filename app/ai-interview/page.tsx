@@ -6,7 +6,7 @@ import ReportRows from "@/components/ReportRows";
 import IntegritySection from "@/components/IntegritySection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
-import SoftCta from "@/components/SoftCta";
+import NextProductCard from "@/components/NextProductCard";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -196,10 +196,10 @@ export default function AiInterviewPage() {
         </div>
       </section>
 
-      {/* 11 · AI 역량검사 안내 */}
+      {/* 11 · AI 역량검사 안내 — 상대 제품 썸네일 카드(NextProductCard) */}
       <section className="band" id="next">
         <div className="wrap">
-          <SoftCta title="AI를 실무에 쓰는 실력까지 확인하고 싶다면" href="/ai-assessment" label="AI 역량검사 보기" outline />
+          <NextProductCard href="/ai-assessment" title="AI를 실무에 쓰는 실력까지 확인하고 싶다면" body="지원자가 AI와 함께 실제 과제를 풀고, 결과물과 AI를 쓴 과정까지 평가합니다." />
         </div>
       </section>
 
