@@ -57,11 +57,12 @@ const KINDS = [
   { icon: "fa-diagram-project", title: "코딩 테스트", body: "개발 기본기를 AI 없이 봅니다. AI와 검색 없이 함수를 구현하면 숨은 테스트로 자동 채점합니다." },
 ];
 
-// 응시 환경 — 카드 아래 실제 응시 화면을 가공한 이미지(얼굴은 실루엣, 시간·사용량은 지움). 아이콘은 두지 않는다(11/25).
+// 응시 환경 — B안(11/25): 왼쪽 큰 카드(전체 화면 공유) + 오른쪽 작은 카드 2장, 카드·이미지 바탕 모두 흰색.
+// 이미지는 실제 응시 화면을 가공한 것(얼굴은 실루엣, 시간·사용량은 지움 — 원본·스크립트는 _docs/홈페이지 개편/도식/캡처가공). 아이콘은 두지 않는다.
 const ENV = [
-  { title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다.", img: "/assessment-env-face.webp", alt: "응시 화면의 카메라 창: 녹화 중 표시" },
-  { title: "전체 화면 공유", body: "모니터 전체를 공유한 채로 응시하고, 보조 모니터가 있는지도 확인합니다.", img: "/assessment-env-screen.webp", alt: "응시 화면 왼쪽 위의 화면 녹화 중 표시와 과제 설명" },
-  { title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다.", img: "/assessment-env-paste.webp", alt: "AI 어시스턴트 입력창 위 안내: 붙여 넣은 글은 기록되고 본인이 쓴 지시로 보지 않음" },
+  { title: "전체 화면 공유", body: "모니터 전체를 공유한 채로 응시하고, 보조 모니터가 있는지도 확인합니다.", img: "/assessment-env-screen.webp", alt: "응시 화면 왼쪽 위의 화면 녹화 중 표시와 과제 설명", big: true },
+  { title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다.", img: "/assessment-env-face.webp", alt: "응시 화면의 카메라 창: 녹화 중 표시", big: false },
+  { title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다.", img: "/assessment-env-paste.webp", alt: "AI 어시스턴트 입력창 위 안내: 붙여 넣은 글은 기록되고 본인이 쓴 지시로 보지 않음", big: false },
 ];
 
 // 제품 페이지 FAQ는 코드에 고정한다(어드민 FAQ는 홈 전용).
@@ -115,8 +116,19 @@ export default function AiAssessmentPage() {
         isNew
         title={<>AI와 함께 일하는 실력을,<br /><span className="blue">실제 과제</span>로 확인합니다</>}
         lead="지원자는 AI 어시스턴트와 함께 업무 과제를 풉니다. 결과물과 함께, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
-        img="/hero-assessment.webp"
+        img="/hero-assessment-base.webp"
         alt="AI 역량검사 응시 화면: 지원자가 AI 어시스턴트에게 파일 비교를 맡기고 보고서를 작성하는 모습"
+        // 히어로 모션(11/25, 시안 M-1 수정): AI 어시스턴트 카드는 위→아래, 보고서 카드는 아래→위, '작업 과정 기록 중' 칩은 왼쪽→오른쪽.
+        // 레이어 원본은 _docs/홈페이지 개편/도식/캡처가공(hero-l-*). 점선 좌표도 같은 파일의 HB.dash와 같다.
+        layers={[
+          { src: "/hero-assessment-ai.webp", move: "down" },
+          { src: "/hero-assessment-doc.webp", move: "up" },
+          { src: "/hero-assessment-chip.webp", move: "right" },
+        ]}
+        lines={[
+          { d: "M512 132 V196", dot: [512, 198] },
+          { d: "M318 232 V200", dot: [318, 198] },
+        ]}
       />
 
       {/* 02 · 문제 — 어두운 띠(남색→블랙). 위를 지날 때 GNB가 흰 로고로 바뀌게 data-nav="dark" */}
@@ -226,12 +238,14 @@ export default function AiAssessmentPage() {
             <h2>따로 설정하지 않아도<br /><span className="blue">응시 환경을 확인</span>합니다</h2>
             <p className="lead">의심스러운 순간은 리포트에 모이고, 채용팀이 영상과 함께 하나씩 확인합니다.</p>
           </div>
-          <div className="value-grid">
+          <div className="env-bento">
             {ENV.map((e) => (
-              <div className="valcard has-shot" key={e.title}>
-                <h3>{e.title}</h3>
-                <p>{e.body}</p>
-                <img className="vc-shot" src={e.img} alt={e.alt} width={720} height={400} loading="lazy" />
+              <div className={e.big ? "eb-card big" : "eb-card"} key={e.title}>
+                <div className="eb-txt">
+                  <h3>{e.title}</h3>
+                  <p>{e.body}</p>
+                </div>
+                <img src={e.img} alt={e.alt} width={720} height={400} loading="lazy" />
               </div>
             ))}
           </div>
