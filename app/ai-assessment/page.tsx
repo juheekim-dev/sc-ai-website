@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 카드·단계·CTA를 그대로 쓴다
 import ProductHero from "@/components/ProductHero";
 import StepFlow from "@/components/StepFlow";
+import PairGrid from "@/components/PairGrid";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
 import NextProductCard from "@/components/NextProductCard";
@@ -40,6 +41,7 @@ const START = [
 ];
 
 // 02 · 문제 — 어두운 띠(C안, 11/25): 위는 어두운 문제 카드, 화살표 아래 흰 해결 카드. 세 쌍을 1:1로 잇는다.
+// 모션: 흰 해결 카드가 위 문제 카드 자리로 올라가 덮었다 돌아온다(components/PairGrid.tsx).
 // 이미지 없이 글로만 가는 섹션이라 말을 정확히 — 그대로 냈는지 ↔ 맡긴 내용 기록, 검증했는지 ↔ 검증 평가, 이해하는지 ↔ AI 인터뷰.
 // 아래 '진행 방식'이 자세히 보여 주므로 여기서는 한 줄씩만 쓴다.
 const PAIRS = [
@@ -123,15 +125,7 @@ export default function AiAssessmentPage() {
           <div className="head">
             <h2>결과물만으로는<br /><span className="blue">AI와 일하는 실력</span>이 보이지 않습니다</h2>
           </div>
-          <ol className="pair-grid">
-            {PAIRS.map((p, i) => (
-              <li className="pair" key={p.problem}>
-                <div className="pair-prob"><span className="n">{String(i + 1).padStart(2, "0")}</span><p>{p.problem}</p></div>
-                <span className="pair-arrow" aria-hidden="true"></span>
-                <p className="pair-sol"><span className="pair-ck" aria-hidden="true"></span>{p.solution}</p>
-              </li>
-            ))}
-          </ol>
+          <PairGrid pairs={PAIRS} />
         </div>
       </section>
 

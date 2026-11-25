@@ -562,7 +562,6 @@
   .band.dark{color:#fff;background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%)}
   .band.dark .head{text-align:center;max-width:760px;margin:0 auto}
   .band.dark .head h2{color:#fff}
-  .band.dark .head h2 .blue{color:var(--blue-2)}
   .pair-grid{list-style:none;margin:50px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:18px}
   .pair{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:12px;min-width:0}
   .pair-prob{border-radius:var(--r);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:22px 24px 24px}
@@ -575,6 +574,16 @@
   .pair-ck{width:20px;height:20px;margin-top:.1em;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .pair-ck::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
   @media(max-width:760px){.pair-grid{grid-template-columns:1fr;grid-template-rows:none;row-gap:26px;margin-top:36px}.pair{grid-row:auto;grid-template-rows:none}.pair-prob p{font-size:16px}.pair-sol{font-size:15px}}
+  /* 모션(11/25): 흰 해결 카드가 바로 위 문제 카드 자리로 올라가 덮었다가 돌아온다 — 01→02→03 반 박자씩, 덮는 동안 문제 카드는 흐려진다.
+     거리 --d는 PairGrid(components/PairGrid.tsx)가 잰다. 화면에 보일 때만(.moving) 움직이고, 움직임 줄이기 설정이면 멈춘다 */
+  .pair-sol{position:relative;z-index:1}
+  .pair-grid.moving .pair-sol{animation:pairCover 5.4s cubic-bezier(.4,0,.2,1) infinite}
+  .pair-grid.moving .pair-prob{animation:pairDim 5.4s ease-in-out infinite}
+  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-prob{animation-delay:.5s}
+  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-prob{animation-delay:1s}
+  @keyframes pairCover{0%,22%{transform:translateY(0)}40%,66%{transform:translateY(calc(-1 * var(--d,0px)));box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}84%,100%{transform:translateY(0)}}
+  @keyframes pairDim{0%,26%{opacity:1}40%,62%{opacity:.12}80%,100%{opacity:1}}
+  @media(prefers-reduced-motion:reduce){.pair-grid.moving .pair-sol,.pair-grid.moving .pair-prob{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
 
