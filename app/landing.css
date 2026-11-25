@@ -197,6 +197,13 @@
   @media(max-width:560px){.flow2{grid-template-columns:1fr;gap:14px;padding:24px 18px}.pstep{padding:22px 20px}.pstep h3{font-size:17px}.pstep p{font-size:13.5px}}
   /* 모션 최소화 선호 시 루프 애니메이션 정지 */
   @media(prefers-reduced-motion:reduce){.pstep,.pstep .pic{animation:none}}
+  /* 단계 카드 아래 실제 제품 화면(2026-11-25, StepFlow의 img) — 카드 좌우·아래 여백만큼 밖으로 빼서 폭을 꽉 채우고, 길이가 다른 설명 아래에서도 이미지 높이를 맞춘다 */
+  .pstep.has-shot{display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+  .pstep.has-shot .pstep-tag{align-self:center}
+  .pstep.has-shot p{margin-bottom:22px}
+  .ps-shot{display:block;width:calc(100% + 2 * clamp(20px,2.2vw,28px));max-width:none;height:auto;margin:auto calc(-1 * clamp(20px,2.2vw,28px)) 0;background:#E8F0FF}
+  @media(max-width:760px){.ps-shot{width:calc(100% + 32px);margin:auto -16px 0}}
+  @media(max-width:560px){.ps-shot{width:calc(100% + 40px);margin:auto -20px 0}}
   /* mockup */
   .ui{max-width:860px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
   .ui-top{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);background:#fbfcff}
@@ -586,3 +593,9 @@
     .valcard.prod h3{font-size:19px}
     .sec-marks img{height:40px}
   }
+  /* 카드 아래 실제 제품 화면(2026-11-25, AI 역량검사 응시 환경) — .valcard 반응형 여백(30·14·24px)만큼 밖으로 빼서 폭을 꽉 채운다 */
+  .valcard.has-shot{padding-bottom:0;overflow:hidden}
+  .valcard.has-shot p{margin-bottom:22px}
+  .vc-shot{display:block;align-self:center;width:calc(100% + 60px);max-width:none;height:auto;margin:auto -30px 0;background:#E8F0FF}
+  @media(max-width:760px){.vc-shot{width:calc(100% + 28px);margin:auto -14px 0}}
+  @media(max-width:560px){.vc-shot{width:calc(100% + 48px);margin:auto -24px 0}}

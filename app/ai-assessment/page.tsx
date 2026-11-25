@@ -43,10 +43,11 @@ const KINDS = [
   { icon: "fa-diagram-project", title: "코딩 테스트", body: "개발 기본기를 AI 없이 봅니다. AI와 검색 없이 함수를 구현하면 숨은 테스트로 자동 채점합니다." },
 ];
 
+// 카드 아래 이미지는 실제 응시 화면을 가공한 것(얼굴은 실루엣, 시간·사용량은 지움) — 원본·스크립트는 _docs/홈페이지 개편/도식/캡처가공
 const ENV = [
-  { icon: "fa-user-check", title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다." },
-  { icon: "fa-eye", title: "전체 화면 공유", body: "모니터 전체를 공유한 채로 응시하고, 보조 모니터가 있는지도 확인합니다." },
-  { icon: "fa-arrow-up-right-from-square", title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다." },
+  { icon: "fa-user-check", title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다.", img: "/assessment-env-face.webp", alt: "응시 화면의 카메라 창: 녹화 중 표시" },
+  { icon: "fa-eye", title: "전체 화면 공유", body: "모니터 전체를 공유한 채로 응시하고, 보조 모니터가 있는지도 확인합니다.", img: "/assessment-env-screen.webp", alt: "응시 화면 왼쪽 위의 화면 녹화 중 표시와 과제 설명" },
+  { icon: "fa-arrow-up-right-from-square", title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다.", img: "/assessment-env-paste.webp", alt: "AI 어시스턴트 입력창 위 안내: 붙여 넣은 글은 기록되고 본인이 쓴 지시로 보지 않음" },
 ];
 
 // lucide 선 아이콘 경로
@@ -60,9 +61,9 @@ const ICON = {
 };
 
 const START = [
-  { title: "채용공고 입력", body: <>채용공고를 넣거나<br />문제 은행 템플릿을 고릅니다.</>, icon: ICON.file },
-  { title: "AI가 과제 생성", body: <>AI가 과제와 채점 기준을 만들고<br />스스로 검증합니다.</>, icon: ICON.sparkles },
-  { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, icon: ICON.send },
+  { title: "채용공고 입력", body: <>채용공고를 넣거나<br />문제 은행 템플릿을 고릅니다.</>, icon: ICON.file, img: "/assessment-step-jd.webp", alt: "채용공고 입력 화면: 직무 기술서를 붙여 넣는 칸" },
+  { title: "AI가 과제 생성", body: <>AI가 과제와 채점 기준을 만들고<br />스스로 검증합니다.</>, icon: ICON.sparkles, img: "/assessment-step-task.webp", alt: "문제 만들기 화면: 개발 과제, 업무 과제, 코딩 테스트 중 과제 유형 선택" },
+  { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, icon: ICON.send, img: "/assessment-step-review.webp", alt: "평가 기준 화면: 역량별 1점부터 단계별 기준 문장" },
 ];
 
 const CANDIDATE = [
@@ -112,7 +113,7 @@ export default function AiAssessmentPage() {
         title={<>AI와 함께 일하는 실력을,<br /><span className="blue">실제 과제</span>로 확인합니다</>}
         lead="지원자는 AI 어시스턴트와 함께 업무 과제를 풉니다. 결과물과 함께, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
         img="/hero-assessment.webp"
-        alt="AI 역량검사 제품 화면: 과제 코드와 AI 어시스턴트 대화, 그 위에 AI 추천과 항목별 점수·근거가 있는 AI 역량검사 리포트"
+        alt="AI 역량검사 응시 화면: 지원자가 AI 어시스턴트에게 파일 비교를 맡기고 보고서를 작성하는 모습"
       />
 
       {/* 02 · 왜 과정을 보나 */}
@@ -234,10 +235,11 @@ export default function AiAssessmentPage() {
           </div>
           <div className="value-grid">
             {ENV.map((e) => (
-              <div className="valcard" key={e.title}>
+              <div className="valcard has-shot" key={e.title}>
                 <div className="ic"><i className={`fa-solid ${e.icon}`}></i></div>
                 <h3>{e.title}</h3>
                 <p>{e.body}</p>
+                <img className="vc-shot" src={e.img} alt={e.alt} width={720} height={400} loading="lazy" />
               </div>
             ))}
           </div>
