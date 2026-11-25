@@ -166,6 +166,10 @@
   .sidecard li:last-child{border:none}
   .sidecard li i{color:var(--blue);width:18px;text-align:center}
   .sidecard.team li i{color:var(--ink)}
+  /* 블릿 목록(2026-11-25 AI 역량검사 비교 카드 '결과물만 볼 때') — 가운데 정렬 줄 대신 왼쪽 정렬 점 목록, 구분선 없음 */
+  .sidecard ul.dots{width:fit-content;max-width:100%;margin:0 auto}
+  .sidecard ul.dots li{justify-content:flex-start;align-items:flex-start;text-align:left;border-bottom:0;padding:7px 0}
+  .sidecard ul.dots li::before{content:"";width:6px;height:6px;margin-top:.62em;border-radius:50%;background:var(--ink);flex:none}
   .sidecard{align-items:center;text-align:center}
   .sidecard ul{width:100%}
   .sidecard .cap{align-self:center}

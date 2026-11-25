@@ -39,11 +39,12 @@ const START = [
   { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, img: "/assessment-step-review.webp", alt: "평가 기준 화면: 역량별 1점부터 단계별 기준 문장" },
 ];
 
-// 02 · 비교 — 프로그래머스 '기존 평가 방식 vs AI 역량평가'처럼 결과물만 볼 때와 나란히(홈의 .split/.sidecard 재사용).
+// 02 · 비교 — 결과물만 볼 때와 나란히(홈의 .split/.sidecard 재사용). 이미지 없이 글로만 가는 섹션이라 말을 정확히(11/25):
+// 두 카드의 줄을 하나씩 짝지었다 — 그대로 냈는지 ↔ 맡긴 내용 기록, 검증했는지 ↔ 검증 평가, 이해하는지 ↔ AI 인터뷰.
 // 아래 '진행 방식'이 자세히 보여 주므로 여기서는 한 줄씩만 쓴다.
 const COMPARE = {
-  before: ["점수가 같으면 누가 더 잘하는지 가리기 어렵습니다", "AI가 쓴 답을 그대로 냈는지 알 수 없습니다", "결과를 직접 이해했는지 확인할 방법이 없습니다"],
-  after: ["AI와 함께 실제 업무 과제를 풉니다", "AI에 맡긴 지시와 검증 과정까지 평가합니다", "제출 뒤 AI 인터뷰로 이해도를 확인합니다"],
+  before: ["AI가 쓴 답을 그대로 냈는지 알 수 없습니다", "AI 결과를 검증했는지 알 수 없습니다", "제출한 내용을 이해하는지 알 수 없습니다"],
+  after: ["AI에 무엇을 맡겼는지 기록에 남습니다", "AI 결과를 검증했는지 평가합니다", "제출 뒤 AI 인터뷰로 이해도를 확인합니다"],
 };
 
 // 04 · 과제 유형(아이콘 카드 — 이미지가 없으니 아이콘을 둔다)
@@ -119,12 +120,12 @@ export default function AiAssessmentPage() {
       <section className="band soft" id="why">
         <div className="wrap">
           <div className="head">
-            <h2>결과물만 봐서는<br /><span className="blue">누가 했는지</span> 모릅니다</h2>
+            <h2>결과물만으로는<br /><span className="blue">AI와 일하는 실력</span>이 보이지 않습니다</h2>
           </div>
           <div className="split">
             <div className="sidecard team">
               <span className="cap">결과물만 볼 때</span>
-              <ul>{COMPARE.before.map((t) => <li key={t}>{t}</li>)}</ul>
+              <ul className="dots">{COMPARE.before.map((t) => <li key={t}>{t}</li>)}</ul>
             </div>
             <div className="sidecard ai">
               <span className="cap">AI 역량검사</span>
