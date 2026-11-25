@@ -9,6 +9,8 @@ import IntegritySection from "@/components/IntegritySection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
 import ProductCompare from "@/components/ProductCompare";
+import OrbImage from "@/components/OrbImage";
+import { ORB_QUESTION } from "@/lib/products";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -105,7 +107,8 @@ export default function AiInterviewPage() {
         // 히어로(11/25 B안 3차): 화면 + AI 면접관 오브 카드 + 리포트 카드. 화면은 AI 역량검사와 같은 어두운 색(#181818, 11/25 4차 — 흰 화면에서 바꿈). 모션은 AI 역량검사와 같은 흐름 —
         // AI 면접관 카드 위→아래, 리포트 카드 아래→위, '답변 분석 중' 칩 왼쪽→오른쪽. 원본은 _docs/홈페이지 개편/도식/캡처가공(iv3-l-*)
         layers={[
-          { src: "/hero-interview-ai.webp", move: "down" },
+          // AI 면접관 카드의 오브는 움직이는 오브(LiveOrb)를 겹친다 — 자리는 레이어 캔버스(600×448) 좌표, 이미지와 같은 흐림(투명도 .62)
+          { src: "/hero-interview-ai.webp", move: "down", orb: { x: 325, y: 59, size: 64, w: 600, h: 448, cover: "#FFFFFF", opacity: 0.62 } },
           { src: "/hero-interview-report.webp", move: "up" },
           { src: "/hero-interview-chip.webp", move: "right" },
         ]}
@@ -146,7 +149,7 @@ export default function AiInterviewPage() {
                   <p>AI 면접관이 질문하고, 지원자의 답변을 들은 뒤 부족한 부분은 꼬리질문으로 한 번 더 확인합니다.</p>
                 </div>
                 <div className="hr-media">
-                  <img className="hr-img" src="/diagram-question.webp" alt="면접 진행 도식: AI 면접관과 AI 질문·꼬리질문" width={1080} height={570} loading="lazy" />
+                  <OrbImage className="hr-img" src="/diagram-question.webp" alt="면접 진행 도식: AI 면접관과 AI 질문·꼬리질문" orb={ORB_QUESTION} width={1080} height={570} />
                 </div>
               </div>
             }

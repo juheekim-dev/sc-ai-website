@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PRODUCTS, type ProductHref } from "@/lib/products";
+import OrbImage from "./OrbImage";
 
 // 제품 페이지 끝 '다른 제품 안내' — 두 제품 비교(2026-11-25 시안 2안, 옛 NextProductCard를 바꿈). /ai-interview·/ai-assessment 공용.
 // 두 제품을 늘 같은 순서(AI 면접 → AI 역량검사, 권장 순서와 같음)로 나란히 놓고 확인하는 것·지원자가 하는 일·권장 단계 세 줄만 비교한다.
@@ -18,7 +19,7 @@ export default function ProductCompare({ current }: { current: ProductHref }) {
           const here = p.href === current;
           return (
             <article key={p.href} className={here ? "pcmp-card" : "pcmp-card go"}>
-              <img src={p.img} alt={p.alt} width={1080} height={570} loading="lazy" />
+              <OrbImage src={p.img} alt={p.alt} orb={p.orb} width={1080} height={570} />
               <div className="pcmp-body">
                 <div className="pcmp-top">
                   <h3>{p.title}</h3>

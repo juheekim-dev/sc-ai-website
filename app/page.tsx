@@ -11,6 +11,7 @@ import FaqList from "@/components/FaqList";
 import SoftCta from "@/components/SoftCta";
 import { getFaqs } from "@/lib/faq";
 import { PRODUCTS } from "@/lib/products";
+import OrbImage from "@/components/OrbImage";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
 // 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
@@ -119,7 +120,7 @@ export default async function HomePage() {
           <div className="value-grid two">
             {PRODUCTS.map((p) => (
               <div className="valcard prod" key={p.href}>
-                <img className="prod-shot" src={p.img} alt={p.alt} width={1080} height={570} loading="lazy" />
+                <OrbImage className="prod-shot" src={p.img} alt={p.alt} orb={p.orb} width={1080} height={570} />
                 <h3>{p.title}{p.isNew && <span className="prod-new">NEW</span>}</h3>
                 <p>{p.desc}</p>
                 <ul className="hr-points">

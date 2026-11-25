@@ -59,7 +59,7 @@
 
   /* 제품 상세 페이지 히어로(ProductHero, 2026-11-25) — 홈의 어두운 히어로와 다르게 밝은 바탕 + 오른쪽 제품 이미지.
      헤더(65px) 밑까지 바탕이 이어지도록 끌어올리고 그만큼 위 여백을 더한다. 이미지는 투명 바탕 webp(제품 화면 + 리포트 카드). */
-  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(32px,4vw,56px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56, 아래 88→56 */
+  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(56px,7.5vw,112px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56. 같은 날 "바로 아래가 어두운 띠라 답답해, 배경을 더": 아래 56→112 */
     /* 11/25 "배경 화이트 부분이 더 보이게, 답답해": 오른쪽 블루 빛 .13 → .06·범위 축소, 위 하늘색 #F5F8FF → #FAFBFF이고 중간(55%)에서 이미 흰색 */
     background:radial-gradient(42% 58% at 86% 50%,rgba(58,111,255,.06) 0%,rgba(58,111,255,0) 70%),linear-gradient(180deg,#FAFBFF 0%,#FFFFFF 55%)}
   .phero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(24px,4vw,60px);align-items:center;max-width:1240px}
@@ -85,6 +85,16 @@
   @keyframes hsRight{0%,100%{transform:translateX(0)}50%{transform:translateX(2.4%)}}
   @keyframes hsDash{to{stroke-dashoffset:-16}}
   @media(prefers-reduced-motion:reduce){.hs-lines path,.hero-stage .hs-down,.hero-stage .hs-up,.hero-stage .hs-right{animation:none}}
+  /* 레이어 안에 움직이는 오브가 있으면(HeroLayer.orb) 이미지와 오브를 한 상자로 묶어 함께 움직인다 */
+  .hero-stage .hs-layer{position:absolute;inset:0}
+  /* 움직이는 AI 면접관 오브(LiveOrb, 11/25 "말할 때마다 움직이거든") — 이미지 속 오브 자리에 겹친다. 불러오기 전엔 투명이라 아래 정지 오브가 보이고,
+     첫 장면을 그린 뒤(data-on) 그 자리를 바탕색(--cover)으로 덮고 그 위에 그린다. 캔버스는 상자 크기에 맞춰 늘고 준다 */
+  .live-orb{position:absolute;aspect-ratio:1;pointer-events:none}
+  .live-orb canvas{display:block;width:100%!important;height:100%!important;visibility:hidden}
+  .live-orb[data-on]{background:var(--cover)}
+  .live-orb[data-on] canvas{visibility:visible}
+  .orb-host{display:block;position:relative;overflow:hidden}
+  .orb-host>img{display:block;width:100%;height:auto}
   @media(max-width:880px){.phero-grid{grid-template-columns:minmax(0,1fr)}.phero-text{text-align:center}.phero p{margin-left:auto;margin-right:auto}.phero-cta{justify-content:center}.phero-media{max-width:620px;margin:0 auto}}
   @media(max-width:560px){.phero h1{font-size:30px;line-height:1.36}.phero-cta .btn{width:100%;justify-content:center}}
 
