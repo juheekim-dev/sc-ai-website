@@ -42,9 +42,9 @@ const KINDS = [
 ];
 
 const ENV = [
-  { icon: "fa-user-check", title: "카메라 확인", body: "얼굴이 보이지 않거나 여러 명이 보이거나 자리를 비운 순간을 기록합니다." },
-  { icon: "fa-eye", title: "화면 공유", body: "모니터 전체 화면을 공유하고 전체 화면을 유지합니다. 보조 모니터가 있는지도 확인합니다." },
-  { icon: "fa-list-ul", title: "입력 기록", body: "탭 이탈과 붙여넣기가 기록되고, 지원자 코드는 분리된 환경에서만 실행됩니다." },
+  { icon: "fa-user-check", title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다." },
+  { icon: "fa-eye", title: "전체 화면 공유", body: "모니터 전체를 공유한 채로 응시하고, 보조 모니터가 있는지도 확인합니다." },
+  { icon: "fa-arrow-up-right-from-square", title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다." },
 ];
 
 // 제품 페이지 FAQ는 코드에 고정한다(어드민 FAQ는 홈 전용).
@@ -221,8 +221,8 @@ export default function AiAssessmentPage() {
       <section className="band soft" id="environment">
         <div className="wrap">
           <div className="head">
-            <h2>응시 환경은<br /><span className="blue">기본으로</span> 확인합니다</h2>
-            <p className="lead">의심 신호는 리포트에 모이고, 채용팀이 하나씩 확인합니다.</p>
+            <h2>따로 설정하지 않아도<br /><span className="blue">응시 환경을 확인</span>합니다</h2>
+            <p className="lead">의심스러운 순간은 리포트에 모이고, 채용팀이 영상과 함께 하나씩 확인합니다.</p>
           </div>
           <div className="value-grid">
             {ENV.map((e) => (
