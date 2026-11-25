@@ -166,10 +166,6 @@
   .sidecard li:last-child{border:none}
   .sidecard li i{color:var(--blue);width:18px;text-align:center}
   .sidecard.team li i{color:var(--ink)}
-  /* 블릿 목록(2026-11-25 AI 역량검사 비교 카드 '결과물만 볼 때') — 가운데 정렬 줄 대신 왼쪽 정렬 점 목록, 구분선 없음 */
-  .sidecard ul.dots{width:fit-content;max-width:100%;margin:0 auto}
-  .sidecard ul.dots li{justify-content:flex-start;align-items:flex-start;text-align:left;border-bottom:0;padding:7px 0}
-  .sidecard ul.dots li::before{content:"";width:6px;height:6px;margin-top:.62em;border-radius:50%;background:var(--ink);flex:none}
   .sidecard{align-items:center;text-align:center}
   .sidecard ul{width:100%}
   .sidecard .cap{align-self:center}
@@ -561,6 +557,24 @@
   /* 공용 섹션 틀 — 배경만 바꿔(흰색·연한 블루) 번갈아 쓴다. 머리(.head)는 가운데 정렬 */
   .band{background:#fff}
   .band.soft{background:var(--soft)}
+  /* 문제 섹션(어두운 띠) — 2026-11-25 AI 역량검사 02(C안). 배경은 남색→블랙 세로 그라데이션(히어로·CTA의 남색 빛과 구분).
+     위는 어두운 문제 카드, 화살표 아래 흰 해결 카드 — 세 쌍을 1:1로 잇는다. subgrid로 세 칸의 화살표·해결 카드 높이를 맞춘다 */
+  .band.dark{color:#fff;background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%)}
+  .band.dark .head{text-align:center;max-width:760px;margin:0 auto}
+  .band.dark .head h2{color:#fff}
+  .band.dark .head h2 .blue{color:var(--blue-2)}
+  .pair-grid{list-style:none;margin:50px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:18px}
+  .pair{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:12px;min-width:0}
+  .pair-prob{border-radius:var(--r);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:22px 24px 24px}
+  .pair-prob .n{display:block;font-size:13px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.5);margin-bottom:10px}
+  .pair-prob p{display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:rgba(255,255,255,.92)}
+  .pair-prob p::before{content:"";width:6px;height:6px;margin-top:.66em;border-radius:50%;background:currentColor;flex:none}
+  .pair-arrow{justify-self:center;width:2px;height:24px;background:linear-gradient(var(--blue-2),var(--blue));position:relative}
+  .pair-arrow::after{content:"";position:absolute;left:50%;bottom:-1px;width:9px;height:9px;border:solid var(--blue);border-width:0 2px 2px 0;transform:translateX(-50%) rotate(45deg)}
+  .pair-sol{display:flex;gap:10px;margin:0;border-radius:var(--r);background:#fff;color:var(--ink);padding:18px 22px;font-size:16px;font-weight:600;line-height:1.5}
+  .pair-ck{width:20px;height:20px;margin-top:.1em;border-radius:50%;background:var(--blue);position:relative;flex:none}
+  .pair-ck::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  @media(max-width:760px){.pair-grid{grid-template-columns:1fr;grid-template-rows:none;row-gap:26px;margin-top:36px}.pair{grid-row:auto;grid-template-rows:none}.pair-prob p{font-size:16px}.pair-sol{font-size:15px}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
 

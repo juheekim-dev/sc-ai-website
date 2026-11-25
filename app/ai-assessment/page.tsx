@@ -39,13 +39,14 @@ const START = [
   { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, img: "/assessment-step-review.webp", alt: "평가 기준 화면: 역량별 1점부터 단계별 기준 문장" },
 ];
 
-// 02 · 비교 — 결과물만 볼 때와 나란히(홈의 .split/.sidecard 재사용). 이미지 없이 글로만 가는 섹션이라 말을 정확히(11/25):
-// 두 카드의 줄을 하나씩 짝지었다 — 그대로 냈는지 ↔ 맡긴 내용 기록, 검증했는지 ↔ 검증 평가, 이해하는지 ↔ AI 인터뷰.
+// 02 · 문제 — 어두운 띠(C안, 11/25): 위는 어두운 문제 카드, 화살표 아래 흰 해결 카드. 세 쌍을 1:1로 잇는다.
+// 이미지 없이 글로만 가는 섹션이라 말을 정확히 — 그대로 냈는지 ↔ 맡긴 내용 기록, 검증했는지 ↔ 검증 평가, 이해하는지 ↔ AI 인터뷰.
 // 아래 '진행 방식'이 자세히 보여 주므로 여기서는 한 줄씩만 쓴다.
-const COMPARE = {
-  before: ["AI가 쓴 답을 그대로 냈는지 알 수 없습니다", "AI 결과를 검증했는지 알 수 없습니다", "제출한 내용을 이해하는지 알 수 없습니다"],
-  after: ["AI에 무엇을 맡겼는지 기록에 남습니다", "AI 결과를 검증했는지 평가합니다", "제출 뒤 AI 인터뷰로 이해도를 확인합니다"],
-};
+const PAIRS = [
+  { problem: "AI가 쓴 답을 그대로 냈는지 알 수 없습니다", solution: "AI에 무엇을 맡겼는지 기록에 남습니다" },
+  { problem: "AI 결과를 검증했는지 알 수 없습니다", solution: "AI 결과를 검증했는지 평가합니다" },
+  { problem: "제출한 내용을 이해하는지 알 수 없습니다", solution: "제출 뒤 AI 인터뷰로 이해도를 확인합니다" },
+];
 
 // 04 · 과제 유형(아이콘 카드 — 이미지가 없으니 아이콘을 둔다)
 const KINDS = [
@@ -98,11 +99,11 @@ const JSON_LD = {
 };
 
 // 섹션 흐름(2026-11-25 정리 — "중복되고 길다"는 피드백, 프로그래머스 AI 역량평가 페이지 흐름 참고: 비교 → 진행 방식 → 유형 → 운영 → CTA)
-// 01 히어로(실제 응시 화면) · 02 비교(결과물만 볼 때 vs AI 역량검사) · 03 진행 방식(과제 화면·과정 평가·AI 인터뷰·평가와 리포트)
+// 01 히어로(실제 응시 화면) · 02 문제(어두운 띠, 문제→해결 세 쌍) · 03 진행 방식(과제 화면·과정 평가·AI 인터뷰·평가와 리포트)
 // · 04 과제 유형 · 05 과제 만들기 · 06 응시 환경 · 07 보안 · 08 FAQ · 09 AI 면접 안내 · 10 마지막 CTA  (12개 → 10개)
 // 뺀 것: '지원자 응시 과정'(진행 방식·응시 환경과 겹침 → 준비물·가상 체험은 FAQ로), '채용팀 기능'(FAQ로 — AI 면접 페이지에는 그대로),
-// 과정 평가의 붙여넣기 문장(응시 환경 카드와 같은 내용). '왜 과정을 보나' 3카드는 비교 2카드로 바꿨다.
-// 배경은 흰색↔연한 블루가 번갈아: 02 연한 · 03 흰(.how) · 04 연한 · 05 흰 · 06 연한 · 07 흰 · 08 연한(.faq) · 09 흰
+// 과정 평가의 붙여넣기 문장(응시 환경 카드와 같은 내용). '왜 과정을 보나' 3카드는 문제→해결 세 쌍(어두운 띠)으로 바꿨다.
+// 배경: 02는 어두운 띠로 끊고, 그 뒤는 흰색↔연한 블루가 번갈아: 03 흰(.how) · 04 연한 · 05 흰 · 06 연한 · 07 흰 · 08 연한(.faq) · 09 흰
 export default function AiAssessmentPage() {
   return (
     <>
@@ -116,22 +117,21 @@ export default function AiAssessmentPage() {
         alt="AI 역량검사 응시 화면: 지원자가 AI 어시스턴트에게 파일 비교를 맡기고 보고서를 작성하는 모습"
       />
 
-      {/* 02 · 비교 — 결과물만 볼 때 vs AI 역량검사 */}
-      <section className="band soft" id="why">
+      {/* 02 · 문제 — 어두운 띠(남색→블랙). 위를 지날 때 GNB가 흰 로고로 바뀌게 data-nav="dark" */}
+      <section className="band dark" id="why" data-nav="dark">
         <div className="wrap">
           <div className="head">
             <h2>결과물만으로는<br /><span className="blue">AI와 일하는 실력</span>이 보이지 않습니다</h2>
           </div>
-          <div className="split">
-            <div className="sidecard team">
-              <span className="cap">결과물만 볼 때</span>
-              <ul className="dots">{COMPARE.before.map((t) => <li key={t}>{t}</li>)}</ul>
-            </div>
-            <div className="sidecard ai">
-              <span className="cap">AI 역량검사</span>
-              <ul>{COMPARE.after.map((t) => <li key={t}>{t}</li>)}</ul>
-            </div>
-          </div>
+          <ol className="pair-grid">
+            {PAIRS.map((p, i) => (
+              <li className="pair" key={p.problem}>
+                <div className="pair-prob"><span className="n">{String(i + 1).padStart(2, "0")}</span><p>{p.problem}</p></div>
+                <span className="pair-arrow" aria-hidden="true"></span>
+                <p className="pair-sol"><span className="pair-ck" aria-hidden="true"></span>{p.solution}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
