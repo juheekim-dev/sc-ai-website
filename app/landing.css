@@ -657,8 +657,8 @@
   .integ-list li span:not(.integ-ic){display:block;margin-top:2px;font-size:14.5px;line-height:1.55;color:var(--slate)}
   .integ-note{margin-top:18px;font-size:14px;color:var(--slate)}
   .integ .hr-link{margin-top:14px}
-  .integ-frame{background:#E3EAFE;border-radius:24px;padding:clamp(14px,2vw,26px)}
-  .ir{background:#fff;border-radius:18px;padding:22px 22px 18px;box-shadow:0 18px 40px -22px rgba(20,40,90,.35);display:grid;gap:12px}
+  .integ-frame{min-width:0} /* 바깥 연한 블루 판(이중 박스)은 빼고 카드에 그림자(11/25) */
+  .ir{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 22px 18px;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12);display:grid;gap:12px}
   .ir-h{display:flex;align-items:center;gap:10px}
   .ir-h b{font-size:17px;color:var(--ink)}
   .ir-shield{width:20px;height:20px;fill:var(--blue)}

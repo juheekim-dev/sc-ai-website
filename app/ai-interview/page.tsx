@@ -104,8 +104,19 @@ export default function AiInterviewPage() {
         name="AI 면접"
         title={<>1차 면접,<br />질문부터 리포트까지<br /><span className="blue">AI</span>가 진행합니다</>}
         lead="채용공고를 넣으면 평가 기준과 질문을 만들고, 지원자 답변에 꼬리질문을 이어 갑니다. 채용팀은 리포트를 보고 만날 사람을 정합니다."
-        img="/hero-interview.webp"
-        alt="AI 면접 제품 화면: 지원자 영상과 AI 질문·꼬리질문, 그 위에 종합 등급과 역량 막대가 있는 AI 면접 리포트"
+        img="/hero-interview-base.webp"
+        alt="AI 면접 화면: AI 면접관이 질문과 꼬리질문을 하고, 지원자 답변을 분석해 종합 등급과 역량 막대가 있는 AI 면접 리포트로 정리하는 모습"
+        // 히어로(11/25 B안 3차): AI 역량검사(어두운 화면)와 구분되는 흰 화면 + AI 면접관 오브 카드 + 리포트 카드. 모션은 AI 역량검사와 같은 흐름 —
+        // AI 면접관 카드 위→아래, 리포트 카드 아래→위, '답변 분석 중' 칩 왼쪽→오른쪽. 원본은 _docs/홈페이지 개편/도식/캡처가공(iv3-l-*)
+        layers={[
+          { src: "/hero-interview-ai.webp", move: "down" },
+          { src: "/hero-interview-report.webp", move: "up" },
+          { src: "/hero-interview-chip.webp", move: "right" },
+        ]}
+        lines={[
+          { d: "M395 197 V218", dot: [395, 220] },
+          { d: "M300 264 V232", dot: [300, 230] },
+        ]}
       />
 
       {/* 02 · 고객사 로고 */}
