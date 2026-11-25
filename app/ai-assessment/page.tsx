@@ -5,7 +5,7 @@ import StepFlow from "@/components/StepFlow";
 import PairGrid from "@/components/PairGrid";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
-import NextProductCard from "@/components/NextProductCard";
+import ProductCompare from "@/components/ProductCompare";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -60,7 +60,7 @@ const KINDS = [
 // 이미지는 실제 응시 화면을 가공한 것(얼굴은 실루엣, 시간·사용량은 지움 — 원본·스크립트는 _docs/홈페이지 개편/도식/캡처가공). 아이콘은 두지 않는다.
 const ENV = [
   { title: "전체 화면 공유", body: "모니터 전체를 공유한 채로 응시하고, 보조 모니터가 있는지도 확인합니다.", img: "/assessment-env-screen.webp", alt: "응시 화면 왼쪽 위의 화면 녹화 중 표시와 과제 설명", big: true },
-  { title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다.", img: "/assessment-env-face.webp", alt: "응시 화면의 카메라 창: 녹화 중 표시", big: false, pos: "center top" }, // 작은 카드에서 카메라 창(가운데)이 잘리지 않게(11/25)
+  { title: "얼굴 확인", body: "자리를 비우거나 다른 사람이 함께 보이면 그 순간을 기록합니다.", img: "/assessment-env-face.webp", alt: "응시 화면의 카메라 창: 녹화 중 표시", big: false }, // 카메라 창을 이미지 왼쪽에 두어 세 장 모두 왼쪽 위 기준으로 잘린다(11/25, 둥근 모서리를 맞춤)
   { title: "탭 이탈·붙여넣기", body: "다른 탭으로 나가거나 글을 붙여 넣으면 기록에 남습니다.", img: "/assessment-env-paste.webp", alt: "AI 어시스턴트 입력창 위 안내 '직접 쓴 지시가 평가돼요'와 지원자가 직접 입력하는 지시", big: false },
 ];
 
@@ -244,7 +244,7 @@ export default function AiAssessmentPage() {
                   <h3>{e.title}</h3>
                   <p>{e.body}</p>
                 </div>
-                <img src={e.img} alt={e.alt} width={720} height={400} loading="lazy" style={"pos" in e ? { objectPosition: e.pos } : undefined} />
+                <img src={e.img} alt={e.alt} width={720} height={400} loading="lazy" />
               </div>
             ))}
           </div>
@@ -264,10 +264,10 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 09 · AI 면접 안내 — 상대 제품 썸네일 카드(NextProductCard). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
+      {/* 09 · 다른 제품 안내 — 두 제품 비교(ProductCompare, 11/25 시안 2안). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
       <section className="band" id="next">
         <div className="wrap">
-          <NextProductCard href="/ai-interview" title="지원자가 많은 1차 검증은 AI 면접으로" body="AI가 묻고 답에 따라 꼬리질문을 이어 가며, 검증 리포트 한 장으로 정리합니다." />
+          <ProductCompare current="/ai-assessment" />
         </div>
       </section>
 

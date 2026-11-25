@@ -28,6 +28,13 @@ const ITEMS = [
   { icon: ICON.rec, title: "면접 중 화면 녹화", body: "지원자 화면을 녹화해 영상과 함께 확인합니다." },
 ];
 
+// 면접 영상의 감지 장면 3칸 — 위 감지 내역 줄과 같은 종류·시각
+const CLIPS = [
+  { label: "시선 이탈", t: "03:12" },
+  { label: "탭 전환", t: "08:40" },
+  { label: "여러 얼굴", t: "12:05" },
+];
+
 export default function IntegritySection({ withLink = false }: { withLink?: boolean }) {
   return (
     <section className="band soft" id="integrity">
@@ -51,23 +58,29 @@ export default function IntegritySection({ withLink = false }: { withLink?: bool
           )}
         </div>
 
-        {/* 감지 내역 카드(예시) — 시각은 예시 값. 타임라인 표시 위치는 시각에 맞춘다(03:12/15:00 = 21%, 08:40/15:00 = 58%) */}
+        {/* 감지 내역 카드(예시) — 시각은 예시 값. 타임라인 표시 위치는 시각에 맞춘다(03:12/15:00 = 21%, 08:40/15:00 = 58%, 12:05/15:00 = 80%).
+            면접 영상(11/25 "3개로 나누고 영상 박스 안에 텍스트"): 가로로 긴 한 칸 → 감지 장면 3칸(감지 종류·시각을 칸 안에). 지금 재생 중인 첫 칸은 블루 테두리 */}
         <div className="integ-frame">
-          <div className="ir" role="img" aria-label="부정행위 감지 내역 예시: 시선 이탈 3분 12초, 탭 전환 8분 40초. 누르면 면접 영상의 그 장면으로 이동합니다.">
+          <div className="ir" role="img" aria-label="부정행위 감지 내역 예시: 시선 이탈 3분 12초, 탭 전환 8분 40초, 여러 얼굴 12분 5초. 누르면 면접 영상의 그 장면으로 이동합니다.">
             <div className="ir-h">
               <svg viewBox="0 0 24 24" className="ir-shield" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z" /></svg>
               <b>부정행위 감지 내역</b><span className="ir-smp">예시</span>
             </div>
-            <div className="ir-sum"><span>감지</span><span className="ir-pill">2건</span><strong>눌러서 그 장면을 확인하세요</strong></div>
+            <div className="ir-sum"><span>감지</span><span className="ir-pill">3건</span><strong>눌러서 그 장면을 확인하세요</strong></div>
             <div className="ir-row"><Icon d={ICON.eye} />시선 이탈<span className="ir-t"><i></i>03:12</span></div>
             <div className="ir-row"><Icon d={ICON.out} />탭 전환<span className="ir-t"><i></i>08:40</span></div>
+            <div className="ir-row"><Icon d={ICON.users} />여러 얼굴<span className="ir-t"><i></i>12:05</span></div>
             <div className="ir-vid">
               <div className="ir-vh">면접 영상<span>시선 이탈 03:12</span></div>
-              <div className="ir-screen"><span className="ir-bigplay" aria-hidden="true"></span><span className="ir-badge">● 시선 이탈</span></div>
-              <div className="ir-bar"><span className="ir-play"></span><span className="ir-track"><b style={{ width: "21%" }}></b><i style={{ left: "21%" }}></i><i style={{ left: "58%" }}></i></span></div>
+              <div className="ir-clips">
+                {CLIPS.map((c, i) => (
+                  <div key={c.label} className={i === 0 ? "ir-clip on" : "ir-clip"}><span className="ir-clip-tag">{c.label}</span><span className="ir-clip-play" aria-hidden="true"></span><span className="ir-clip-t">{c.t}</span></div>
+                ))}
+              </div>
+              <div className="ir-bar"><span className="ir-play"></span><span className="ir-track"><b style={{ width: "21%" }}></b><i style={{ left: "21%" }}></i><i style={{ left: "58%" }}></i><i style={{ left: "80%" }}></i></span></div>
               <div className="ir-times"><span>0:00</span><span>15:00</span></div>
             </div>
-            <div className="ir-chips"><span>여러 얼굴 없음</span><span>보조 모니터 없음</span></div>
+            <div className="ir-chips"><span>보조 모니터 없음</span></div>
             <p className="ir-foot">감지 내역은 판단을 돕는 자료이고, 최종 판단은 채용팀이 합니다.</p>
           </div>
         </div>

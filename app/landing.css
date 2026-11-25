@@ -60,7 +60,8 @@
   /* 제품 상세 페이지 히어로(ProductHero, 2026-11-25) — 홈의 어두운 히어로와 다르게 밝은 바탕 + 오른쪽 제품 이미지.
      헤더(65px) 밑까지 바탕이 이어지도록 끌어올리고 그만큼 위 여백을 더한다. 이미지는 투명 바탕 webp(제품 화면 + 리포트 카드). */
   .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(32px,4vw,56px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56, 아래 88→56 */
-    background:radial-gradient(55% 75% at 88% 48%,rgba(58,111,255,.13) 0%,rgba(58,111,255,0) 70%),linear-gradient(180deg,#F5F8FF 0%,#FFFFFF 100%)}
+    /* 11/25 "배경 화이트 부분이 더 보이게, 답답해": 오른쪽 블루 빛 .13 → .06·범위 축소, 위 하늘색 #F5F8FF → #FAFBFF이고 중간(55%)에서 이미 흰색 */
+    background:radial-gradient(42% 58% at 86% 50%,rgba(58,111,255,.06) 0%,rgba(58,111,255,0) 70%),linear-gradient(180deg,#FAFBFF 0%,#FFFFFF 55%)}
   .phero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(24px,4vw,60px);align-items:center;max-width:1240px}
   .phero-name{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--blue-d);background:var(--soft-2);padding:7px 15px;border-radius:999px;margin-bottom:20px}
   .phero h1{font-size:clamp(32px,4.1vw,54px);font-weight:700;line-height:1.28;letter-spacing:-.025em;color:var(--ink);text-wrap:balance}
@@ -307,15 +308,21 @@
   .soft-cta-btn{margin-top:28px}
   @media(max-width:680px){.soft-cta{margin-top:44px}.soft-cta-btn{margin-top:22px;width:100%;justify-content:center}}
 
-  /* 제품 페이지 끝 '다른 제품 안내'(NextProductCard) — 왼쪽 상대 제품 도식 썸네일(카드 가장자리까지, 잘리지 않게 contain — 남는 위아래는 도식 바탕과 같은 --soft), 오른쪽 제목·설명·버튼.
-     홈 소개서 안내(.soft-cta)와 일부러 다른 모양(2026-11-25 시안 A안). 모바일은 썸네일 위·글 아래 */
-  .next-card{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);max-width:1040px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
-  .next-card .nc-shot{display:block;width:100%;height:100%;object-fit:contain;background:var(--soft)}
-  .next-card .nc-body{padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
-  .next-card h3{font-size:clamp(21px,2.3vw,28px);font-weight:700;letter-spacing:-.02em;line-height:1.35;color:var(--ink);text-wrap:balance}
-  .next-card p{font-size:16px;color:var(--slate);margin-top:12px;line-height:1.6}
-  .next-card .btn{margin-top:26px}
-  @media(max-width:760px){.next-card{grid-template-columns:minmax(0,1fr)}.next-card .nc-shot{height:auto}.next-card .nc-body{padding:24px 22px 28px}.next-card .btn{width:100%;justify-content:center}}
+  /* 제품 페이지 끝 '다른 제품 안내' — 두 제품 비교(ProductCompare, 2026-11-25 시안 2안). 두 카드를 같은 순서로 나란히,
+     지금 보는 제품은 '지금 보는 제품' 표시만, 상대 제품 카드에만 블루 테두리·그림자·버튼. 버튼은 카드 맨 아래로 */
+  .pcmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:1000px;margin:44px auto 0}
+  .pcmp-card{display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  .pcmp-card img{display:block;width:100%;height:auto;background:var(--soft)}
+  .pcmp-body{flex:1;display:flex;flex-direction:column;gap:16px;padding:24px 26px 28px}
+  .pcmp-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .pcmp-top h3{font-size:21px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+  .pcmp-here{font-size:12.5px;font-weight:700;color:var(--slate);background:var(--line);padding:6px 12px;border-radius:999px;white-space:nowrap}
+  .pcmp-card dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 18px;margin:0;font-size:15px;line-height:1.6}
+  .pcmp-card dt{color:var(--slate-2);font-weight:600}
+  .pcmp-card dd{margin:0;color:var(--ink)}
+  .pcmp-card.go{border-color:var(--blue);box-shadow:0 18px 40px -20px rgba(51,106,255,.55)}
+  .pcmp-card .btn{align-self:flex-start;margin-top:auto}
+  @media(max-width:760px){.pcmp{grid-template-columns:minmax(0,1fr);margin-top:32px}.pcmp-body{padding:20px 20px 24px}.pcmp-card dl{grid-template-columns:minmax(0,1fr);gap:2px}.pcmp-card dd{margin-bottom:10px}.pcmp-card .btn{align-self:stretch;justify-content:center}}
 
   .logo-wall{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 40px;align-items:center;margin-top:52px;padding-top:40px;border-top:1px solid var(--line)}
   .logo-wall span{font-weight:700;font-size:20px;color:#A2ACC2}
@@ -682,11 +689,15 @@
   .ir-vid{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
   .ir-vh{display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--ink)}
   .ir-vh span{font-weight:500;font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
-  .ir-screen{position:relative;height:96px;border-radius:10px;background:#1E283F;overflow:hidden}
-  /* 영상 칸 가운데 재생 버튼(11/25 — 가로로 긴 칸에 사람 실루엣이 어색해 바꿈) */
-  .ir-bigplay{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:rgba(255,255,255,.16)}
-  .ir-bigplay::after{content:"";position:absolute;left:16px;top:12px;border-style:solid;border-width:8px 0 8px 12px;border-color:transparent transparent transparent #fff}
-  .ir-badge{position:absolute;right:10px;top:10px;font-size:11px;font-weight:700;color:var(--blue-d);background:#D8E2FF;border-radius:999px;padding:2px 9px}
+  /* 면접 영상 — 감지 장면 3칸(11/25 "3개로 나누고 영상 박스 안에 텍스트"): 칸마다 감지 종류(위)·재생 버튼(가운데)·시각(아래). 첫 칸이 지금 재생 중(블루 테두리) */
+  .ir-clips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .ir-clip{position:relative;height:84px;border-radius:10px;background:#1E283F;overflow:hidden}
+  .ir-clip.on{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--blue)}
+  .ir-clip-tag{position:absolute;left:8px;top:8px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;line-height:1;color:var(--blue-d);background:#D8E2FF;border-radius:999px;padding:4px 8px;white-space:nowrap}
+  .ir-clip-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .ir-clip-play{position:absolute;left:50%;top:54%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(255,255,255,.18)}
+  .ir-clip-play::after{content:"";position:absolute;left:10px;top:7.5px;border-style:solid;border-width:5.5px 0 5.5px 8.5px;border-color:transparent transparent transparent #fff}
+  .ir-clip-t{position:absolute;right:8px;bottom:6px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);font-variant-numeric:tabular-nums}
   .ir-bar{display:flex;align-items:center;gap:10px}
   .ir-play{width:30px;height:30px;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .ir-play::after{content:"";position:absolute;left:12px;top:9px;border-style:solid;border-width:6px 0 6px 9px;border-color:transparent transparent transparent #fff}

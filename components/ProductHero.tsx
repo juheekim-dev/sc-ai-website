@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 // 레이어 모션(2026-11-25): img(바탕) 위에 같은 크기(1200×840, 투명)의 레이어를 겹치고 레이어마다 움직인다.
 // move — down: 위→아래, up: 아래→위, right: 왼쪽→오른쪽(모두 화면 쪽으로 모였다 돌아온다). 스타일·모션은 app/landing.css(.hero-stage).
 export type HeroLayer = { src: string; move?: "down" | "up" | "right" };
-// 레이어 사이 점선(viewBox 600×420 좌표) — d는 카드 → 화면 방향으로 그린다(점선이 그 방향으로 흐른다), dot은 화면 위 끝점.
+// 레이어 사이 점선(viewBox = size 좌표, 기본 600×420) — d는 카드 → 화면 방향으로 그린다(점선이 그 방향으로 흐른다), dot은 화면 위 끝점.
 export type HeroLine = { d: string; dot: [number, number] };
 
 /**
@@ -15,7 +15,8 @@ export type HeroLine = { d: string; dot: [number, number] };
  * layers를 주면 img를 바탕으로 레이어를 겹쳐 그리고 움직인다(움직임 줄이기 설정이면 멈춤). 스타일은 app/landing.css(.phero).
  * data-nav를 두지 않는다 — 밝은 바탕이라 GNB를 반전하지 않는다(AI 면접에 어두운 바탕을 잠깐 썼다가 "답답하다"는 피드백으로 되돌림, 11/25).
  */
-export default function ProductHero({ name, isNew = false, title, lead, img, alt, layers, lines }: {
+// size: 이미지 캔버스 크기(CSS px, 출력은 2배). 기본 600×420. AI 면접은 리포트 카드를 아래로 내리며 600×448(11/25). 점선 viewBox도 이 값을 따른다.
+export default function ProductHero({ name, isNew = false, title, lead, img, alt, layers, lines, size = [600, 420] }: {
   name: string;
   isNew?: boolean;
   title: ReactNode;
@@ -24,6 +25,7 @@ export default function ProductHero({ name, isNew = false, title, lead, img, alt
   alt: string;
   layers?: HeroLayer[];
   lines?: HeroLine[];
+  size?: [number, number];
 }) {
   return (
     <section className="phero" id="hero">
@@ -40,9 +42,9 @@ export default function ProductHero({ name, isNew = false, title, lead, img, alt
         <div className="phero-media">
           {layers ? (
             <div className="hero-stage" role="img" aria-label={alt}>
-              <img src={img} alt="" width={1200} height={840} fetchPriority="high" />
+              <img src={img} alt="" width={size[0] * 2} height={size[1] * 2} fetchPriority="high" />
               {lines && (
-                <svg className="hs-lines" viewBox="0 0 600 420" aria-hidden="true">
+                <svg className="hs-lines" viewBox={`0 0 ${size[0]} ${size[1]}`} aria-hidden="true">
                   {lines.map((l) => (
                     <g key={l.d}>
                       <path d={l.d} />
@@ -52,11 +54,11 @@ export default function ProductHero({ name, isNew = false, title, lead, img, alt
                 </svg>
               )}
               {layers.map((l) => (
-                <img key={l.src} className={l.move ? `hs-${l.move}` : undefined} src={l.src} alt="" width={1200} height={840} />
+                <img key={l.src} className={l.move ? `hs-${l.move}` : undefined} src={l.src} alt="" width={size[0] * 2} height={size[1] * 2} />
               ))}
             </div>
           ) : (
-            <img src={img} alt={alt} width={1200} height={840} fetchPriority="high" />
+            <img src={img} alt={alt} width={size[0] * 2} height={size[1] * 2} fetchPriority="high" />
           )}
         </div>
       </div>

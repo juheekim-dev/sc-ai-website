@@ -8,7 +8,7 @@ import ReportRows from "@/components/ReportRows";
 import IntegritySection from "@/components/IntegritySection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
-import NextProductCard from "@/components/NextProductCard";
+import ProductCompare from "@/components/ProductCompare";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -111,8 +111,10 @@ export default function AiInterviewPage() {
         ]}
         lines={[
           { d: "M315 197 V221", dot: [315, 223] },
-          { d: "M250 264 V234", dot: [250, 232] },
+          { d: "M250 292 V234", dot: [250, 232] },
         ]}
+        // 11/25 "리포트 카드 지금보다 아래로": 카드 top 266 → 294, 캔버스 600×420 → 600×448(레이어 4장 모두)
+        size={[600, 448]}
       />
 
       {/* 02 · 고객사 로고 */}
@@ -144,7 +146,7 @@ export default function AiInterviewPage() {
                   <p>AI 면접관이 질문하고, 지원자의 답변을 들은 뒤 부족한 부분은 꼬리질문으로 한 번 더 확인합니다.</p>
                 </div>
                 <div className="hr-media">
-                  <img className="hr-img" src="/diagram-question.webp" alt="면접 진행 도식: AI 면접관 영상과 AI 질문·꼬리질문" width={1080} height={570} loading="lazy" />
+                  <img className="hr-img" src="/diagram-question.webp" alt="면접 진행 도식: AI 면접관과 AI 질문·꼬리질문" width={1080} height={570} loading="lazy" />
                 </div>
               </div>
             }
@@ -197,10 +199,10 @@ export default function AiInterviewPage() {
         </div>
       </section>
 
-      {/* 10 · AI 역량검사 안내 — 상대 제품 썸네일 카드(NextProductCard) */}
+      {/* 10 · 다른 제품 안내 — 두 제품 비교(ProductCompare, 11/25 시안 2안). 지금 보는 제품 표시 + AI 역량검사 카드에 버튼 */}
       <section className="band" id="next">
         <div className="wrap">
-          <NextProductCard href="/ai-assessment" title="AI를 실무에 쓰는 실력까지 확인하고 싶다면" body="지원자가 AI와 함께 실제 과제를 풀고, 결과물과 AI를 쓴 과정까지 평가합니다." />
+          <ProductCompare current="/ai-interview" />
         </div>
       </section>
 
