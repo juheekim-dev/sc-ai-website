@@ -69,6 +69,15 @@
   .phero-cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:34px}
   .phero-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--blue-d)}
   .phero-link:hover{color:var(--ink)}
+  /* 히어로 아래 차별점 띠(2026-11-25, ProductHero의 points): 그리드 두 칸을 가로지르는 흰 띠, 세 칸을 선으로 나눔 */
+  .phero-points{grid-column:1/-1;list-style:none;margin:clamp(4px,1.5vw,16px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .phero-points li{display:grid;gap:6px;align-content:start;padding:20px 24px;border-left:1px solid var(--line)}
+  .phero-points li:first-child{border-left:0}
+  .phero-points b{display:flex;align-items:center;gap:9px;font-size:16.5px;letter-spacing:-.01em;color:var(--ink)}
+  .phero-points b i{width:20px;height:20px;border-radius:50%;background:var(--blue);position:relative;flex:none}
+  .phero-points b i::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .phero-points span{font-size:14.5px;line-height:1.55;color:var(--slate)}
+  @media(max-width:880px){.phero-points{grid-template-columns:minmax(0,1fr)}.phero-points li{border-left:0;border-top:1px solid var(--line)}.phero-points li:first-child{border-top:0}}
   .phero-media img{display:block;width:100%;height:auto}
   /* 히어로 레이어 모션(2026-11-25, AI 역량검사 — ProductHero의 layers·lines): 바탕 위에 같은 크기 투명 레이어를 겹치고,
      AI 어시스턴트 카드는 위→아래, 보고서 카드는 아래→위, 칩은 왼쪽→오른쪽으로 화면 쪽에 모였다 돌아온다. 점선은 화면 쪽으로 흐른다 */
@@ -634,6 +643,16 @@
   /* 보안 — ISO 인증 마크(푸터와 같은 파일)를 크게 한 줄로 */
   .sec-marks{list-style:none;margin:36px 0 0;padding:0;display:flex;justify-content:center;flex-wrap:wrap;gap:14px 22px}
   .sec-marks img{display:block;height:48px;width:auto}
+  /* 보안 좌우 분할(2026-11-25 B안, 공용): 왼쪽 제목·인증 마크 2×2, 오른쪽 보안 항목을 카드 없이 선으로 나눈 목록 */
+  .sec-split{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(28px,5vw,72px);align-items:center}
+  .sec-split .head{text-align:left;max-width:none;margin:0}
+  .sec-split .sec-marks{display:grid;grid-template-columns:repeat(2,max-content);justify-content:start;gap:12px 16px;margin-top:30px}
+  .sec-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .sec-list li{display:flex;gap:18px;padding:24px 4px;border-bottom:1px solid var(--line)}
+  .sec-list .ic{width:46px;height:46px;border-radius:12px;background:var(--soft-2);color:var(--blue);display:grid;place-items:center;font-size:20px;flex:none}
+  .sec-list h3{margin:0;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
+  .sec-list p{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--slate)}
+  @media(max-width:880px){.sec-split{grid-template-columns:minmax(0,1fr)}.sec-split .head{text-align:center}.sec-split .sec-marks{justify-content:center}}
 
   @media(max-width:880px){.hr-points.two{grid-template-columns:1fr}}
   @media(max-width:760px){
