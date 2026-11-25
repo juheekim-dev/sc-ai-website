@@ -7,7 +7,7 @@ export const PRODUCTS = [
     desc: "AI가 질문하고, 검증 리포트까지 정리합니다",
     isNew: false,
     img: "/diagram-question.webp",
-    alt: "AI 면접 도식: 지원자 영상과 AI 질문·꼬리질문",
+    alt: "AI 면접 도식: AI 면접관 영상과 AI 질문·꼬리질문",
   },
   {
     href: "/ai-assessment",
