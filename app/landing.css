@@ -681,9 +681,9 @@
   .ir-vh{display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--ink)}
   .ir-vh span{font-weight:500;font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
   .ir-screen{position:relative;height:96px;border-radius:10px;background:#1E283F;overflow:hidden}
-  .ir-person{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);width:96px;height:72px}
-  .ir-person::before{content:"";position:absolute;left:50%;top:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:#3A4766}
-  .ir-person::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40px;border-radius:48px 48px 0 0;background:#3A4766}
+  /* 영상 칸 가운데 재생 버튼(11/25 — 가로로 긴 칸에 사람 실루엣이 어색해 바꿈) */
+  .ir-bigplay{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:rgba(255,255,255,.16)}
+  .ir-bigplay::after{content:"";position:absolute;left:16px;top:12px;border-style:solid;border-width:8px 0 8px 12px;border-color:transparent transparent transparent #fff}
   .ir-badge{position:absolute;right:10px;top:10px;font-size:11px;font-weight:700;color:var(--blue-d);background:#D8E2FF;border-radius:999px;padding:2px 9px}
   .ir-bar{display:flex;align-items:center;gap:10px}
   .ir-play{width:30px;height:30px;border-radius:50%;background:var(--blue);position:relative;flex:none}

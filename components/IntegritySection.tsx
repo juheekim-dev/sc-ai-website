@@ -63,7 +63,7 @@ export default function IntegritySection({ withLink = false }: { withLink?: bool
             <div className="ir-row"><Icon d={ICON.out} />탭 전환<span className="ir-t"><i></i>08:40</span></div>
             <div className="ir-vid">
               <div className="ir-vh">면접 영상<span>시선 이탈 03:12</span></div>
-              <div className="ir-screen"><span className="ir-person"></span><span className="ir-badge">● 시선 이탈</span></div>
+              <div className="ir-screen"><span className="ir-bigplay" aria-hidden="true"></span><span className="ir-badge">● 시선 이탈</span></div>
               <div className="ir-bar"><span className="ir-play"></span><span className="ir-track"><b style={{ width: "21%" }}></b><i style={{ left: "21%" }}></i><i style={{ left: "58%" }}></i></span></div>
               <div className="ir-times"><span>0:00</span><span>15:00</span></div>
             </div>

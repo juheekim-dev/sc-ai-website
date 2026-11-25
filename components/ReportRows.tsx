@@ -9,9 +9,11 @@ const ROWS: { tag: string; title: string; body: ReactNode; src: string; alt: str
   { tag: "리포트 04", title: "강점·약점 분석", body: <><strong>강점과 약점</strong>을 구분해, 대면 면접에서 확인할 포인트까지 짚어줍니다.</>, src: "/diagram-strength.webp", alt: "강점·약점 분석 도식" },
 ];
 
-export default function ReportRows() {
+// before: 리포트 행 앞에 붙일 행(.how-row) — 같은 .how-rows 안에 넣어야 지그재그(짝수 행 뒤집기)가 이어진다. AI 면접의 '면접 진행' 행(2026-11-25).
+export default function ReportRows({ before }: { before?: ReactNode }) {
   return (
     <div className="how-rows">
+      {before}
       {ROWS.map((r) => (
         <div className="how-row" key={r.tag}>
           <div className="hr-info">
