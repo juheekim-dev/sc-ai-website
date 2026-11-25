@@ -69,6 +69,13 @@
   .phero-cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:34px}
   .phero-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--blue-d)}
   .phero-link:hover{color:var(--ink)}
+  /* 어두운 히어로(ProductHero dark — AI 면접, 11/25): AI 역량검사 문제 띠(.band.dark)와 같은 남색→블랙 세로 그라데이션. 흰 화면 이미지와 대비 */
+  .phero.dark{background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%)}
+  .phero.dark h1{color:#fff}
+  .phero.dark p{color:#B9BDC7}
+  .phero.dark .phero-name{color:#DCE7FF;background:rgba(255,255,255,.08)}
+  .phero.dark .phero-link{color:#C9D7FF}
+  .phero.dark .phero-link:hover{color:#fff}
   .phero-media img{display:block;width:100%;height:auto}
   /* 히어로 레이어 모션(2026-11-25, AI 역량검사 — ProductHero의 layers·lines): 바탕 위에 같은 크기 투명 레이어를 겹치고,
      AI 어시스턴트 카드는 위→아래, 보고서 카드는 아래→위, 칩은 왼쪽→오른쪽으로 화면 쪽에 모였다 돌아온다. 점선은 화면 쪽으로 흐른다 */

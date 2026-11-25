@@ -102,6 +102,7 @@ export default function AiInterviewPage() {
       {/* 01 · 히어로 */}
       <ProductHero
         name="AI 면접"
+        dark // 어두운 바탕(AI 역량검사 문제 띠와 같은 남색→블랙) — 밝은 바탕에 어두운 화면인 AI 역량검사 히어로와 대비(11/25)
         title={<>1차 면접,<br />질문부터 리포트까지<br /><span className="blue">AI</span>가 진행합니다</>}
         lead="채용공고를 넣으면 평가 기준과 질문을 만들고, 지원자 답변에 꼬리질문을 이어 갑니다. 채용팀은 리포트를 보고 만날 사람을 정합니다."
         img="/hero-interview-base.webp"
@@ -114,7 +115,7 @@ export default function AiInterviewPage() {
           { src: "/hero-interview-chip.webp", move: "right" },
         ]}
         lines={[
-          { d: "M395 197 V218", dot: [395, 220] },
+          { d: "M403 197 V225", dot: [403, 227] },
           { d: "M300 264 V232", dot: [300, 230] },
         ]}
       />
