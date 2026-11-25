@@ -6,8 +6,6 @@ import type { ReactNode } from "react";
 export type HeroLayer = { src: string; move?: "down" | "up" | "right" };
 // 레이어 사이 점선(viewBox 600×420 좌표) — d는 카드 → 화면 방향으로 그린다(점선이 그 방향으로 흐른다), dot은 화면 위 끝점.
 export type HeroLine = { d: string; dot: [number, number] };
-// 히어로 아래 차별점 띠(2026-11-25) — 그리드 두 칸을 가로지르는 흰 띠에 세 가지를 나란히.
-export type HeroPoint = { title: string; body: string };
 
 /**
  * 제품 상세 페이지 히어로(2026-11-25) — /ai-interview·/ai-assessment 공용. 홈은 어두운 PageHero를 그대로 쓴다.
@@ -17,7 +15,7 @@ export type HeroPoint = { title: string; body: string };
  * layers를 주면 img를 바탕으로 레이어를 겹쳐 그리고 움직인다(움직임 줄이기 설정이면 멈춤). 스타일은 app/landing.css(.phero).
  * data-nav를 두지 않는다 — 밝은 바탕이라 GNB를 반전하지 않는다.
  */
-export default function ProductHero({ name, isNew = false, title, lead, img, alt, layers, lines, points }: {
+export default function ProductHero({ name, isNew = false, title, lead, img, alt, layers, lines }: {
   name: string;
   isNew?: boolean;
   title: ReactNode;
@@ -26,7 +24,6 @@ export default function ProductHero({ name, isNew = false, title, lead, img, alt
   alt: string;
   layers?: HeroLayer[];
   lines?: HeroLine[];
-  points?: HeroPoint[];
 }) {
   return (
     <section className="phero" id="hero">
@@ -62,13 +59,6 @@ export default function ProductHero({ name, isNew = false, title, lead, img, alt
             <img src={img} alt={alt} width={1200} height={840} fetchPriority="high" />
           )}
         </div>
-        {points && (
-          <ul className="phero-points" aria-label={`${name}의 차별점`}>
-            {points.map((p) => (
-              <li key={p.title}><b><i aria-hidden="true"></i>{p.title}</b><span>{p.body}</span></li>
-            ))}
-          </ul>
-        )}
       </div>
     </section>
   );

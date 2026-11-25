@@ -59,7 +59,7 @@
 
   /* 제품 상세 페이지 히어로(ProductHero, 2026-11-25) — 홈의 어두운 히어로와 다르게 밝은 바탕 + 오른쪽 제품 이미지.
      헤더(65px) 밑까지 바탕이 이어지도록 끌어올리고 그만큼 위 여백을 더한다. 이미지는 투명 바탕 webp(제품 화면 + 리포트 카드). */
-  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(36px,6vw,84px)) 0 clamp(48px,6vw,88px);
+  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(32px,4vw,56px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56, 아래 88→56 */
     background:radial-gradient(55% 75% at 88% 48%,rgba(58,111,255,.13) 0%,rgba(58,111,255,0) 70%),linear-gradient(180deg,#F5F8FF 0%,#FFFFFF 100%)}
   .phero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(24px,4vw,60px);align-items:center;max-width:1240px}
   .phero-name{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--blue-d);background:var(--soft-2);padding:7px 15px;border-radius:999px;margin-bottom:20px}
@@ -69,15 +69,6 @@
   .phero-cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:34px}
   .phero-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--blue-d)}
   .phero-link:hover{color:var(--ink)}
-  /* 히어로 아래 차별점 띠(2026-11-25, ProductHero의 points): 그리드 두 칸을 가로지르는 흰 띠, 세 칸을 선으로 나눔 */
-  .phero-points{grid-column:1/-1;list-style:none;margin:clamp(4px,1.5vw,16px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
-  .phero-points li{display:grid;gap:6px;align-content:start;padding:20px 24px;border-left:1px solid var(--line)}
-  .phero-points li:first-child{border-left:0}
-  .phero-points b{display:flex;align-items:center;gap:9px;font-size:16.5px;letter-spacing:-.01em;color:var(--ink)}
-  .phero-points b i{width:20px;height:20px;border-radius:50%;background:var(--blue);position:relative;flex:none}
-  .phero-points b i::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
-  .phero-points span{font-size:14.5px;line-height:1.55;color:var(--slate)}
-  @media(max-width:880px){.phero-points{grid-template-columns:minmax(0,1fr)}.phero-points li{border-left:0;border-top:1px solid var(--line)}.phero-points li:first-child{border-top:0}}
   .phero-media img{display:block;width:100%;height:auto}
   /* 히어로 레이어 모션(2026-11-25, AI 역량검사 — ProductHero의 layers·lines): 바탕 위에 같은 크기 투명 레이어를 겹치고,
      AI 어시스턴트 카드는 위→아래, 보고서 카드는 아래→위, 칩은 왼쪽→오른쪽으로 화면 쪽에 모였다 돌아온다. 점선은 화면 쪽으로 흐른다 */
@@ -581,41 +572,32 @@
   .band{background:#fff}
   .band.soft{background:var(--soft)}
   /* 문제 섹션(어두운 띠) — 2026-11-25 AI 역량검사 02(C안). 배경은 남색→블랙 세로 그라데이션(히어로·CTA의 남색 빛과 구분).
-     위는 어두운 문제 카드, 화살표 아래 흰 해결 카드 — 세 쌍을 1:1로 잇는다. subgrid로 세 칸의 화살표·해결 카드 높이를 맞춘다 */
+     처음엔 어두운 문제 카드 01~03만 보이고, 흰 체크 박스가 같은 자리에 겹쳐 올라와 덮는다(11/25, 화살표 삭제) */
   .band.dark{color:#fff;background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%)}
   .band.dark .head{text-align:center;max-width:760px;margin:0 auto}
   .band.dark .head h2{color:#fff}
-  .pair-grid{list-style:none;margin:50px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:18px}
-  .pair{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:12px;min-width:0}
+  .pair-grid{list-style:none;margin:50px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .pair{position:relative;display:grid;min-width:0}
   .pair-prob{border-radius:var(--r);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:22px 24px 24px}
   .pair-prob .n{display:block;font-size:13px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.5);margin-bottom:10px}
   .pair-prob p{display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:rgba(255,255,255,.92)}
   .pair-prob p::before{content:"";width:6px;height:6px;margin-top:.66em;border-radius:50%;background:currentColor;flex:none}
-  .pair-arrow{justify-self:center;width:2px;height:24px;background:linear-gradient(var(--blue-2),var(--blue));position:relative}
-  .pair-arrow::after{content:"";position:absolute;left:50%;bottom:-1px;width:9px;height:9px;border:solid var(--blue);border-width:0 2px 2px 0;transform:translateX(-50%) rotate(45deg)}
-  .pair-sol{display:flex;margin:0;color:var(--ink);padding:18px 22px;font-size:16px;font-weight:600;line-height:1.5}
+  /* 흰 체크 박스는 문제 카드 위에 겹쳐 두고(같은 크기, 글은 가운데) 처음엔 숨긴다 — "처음에는 01~03만"(11/25) */
+  .pair-sol{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;padding:18px 22px;border-radius:var(--r);background:#fff;color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;opacity:0;transform:translateY(56px);pointer-events:none}
   .pair-sol-in{display:inline-flex;gap:10px;align-items:flex-start}
-  .pair-sol::before{content:"";position:absolute;left:0;right:0;top:0;height:100%;z-index:-1;border-radius:var(--r);background:#fff}
   .pair-ck{width:20px;height:20px;margin-top:.1em;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .pair-ck::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
-  @media(max-width:760px){.pair-grid{grid-template-columns:1fr;grid-template-rows:none;row-gap:26px;margin-top:36px}.pair{grid-row:auto;grid-template-rows:none}.pair-prob p{font-size:16px}.pair-sol{font-size:15px}}
-  /* 모션(11/25): 흰 해결 카드가 바로 위 문제 카드 자리로 올라가면서 문제 카드와 같은 높이로 늘어나 덮고, 올라간 뒤 화살표는 사라진다.
-     다 덮은 순간 체크와 문구는 박스 가운데로 내려온다. 잠시 뒤 거꾸로 돌아온다 — 01→02→03 반 박자씩, 5.4초 주기. 흰 바탕은 ::before 층이라 늘어나도 주변 배치가 출렁이지 않는다.
-     거리 --d·높이 --h는 PairGrid(components/PairGrid.tsx)가 잰다. 화면에 보일 때만(.moving) 움직이고, 움직임 줄이기 설정이면 멈춘다 */
-  .pair-sol{position:relative;z-index:1}
-  .pair-grid.moving .pair-sol{animation:pairCover 5.4s cubic-bezier(.4,0,.2,1) infinite}
-  .pair-grid.moving .pair-sol::before{animation:pairGrow 5.4s cubic-bezier(.4,0,.2,1) infinite}
-  .pair-grid.moving .pair-arrow{animation:pairArrow 5.4s ease-in-out infinite}
-  .pair-grid.moving .pair-prob{animation:pairDim 5.4s ease-in-out infinite}
-  .pair-grid.moving .pair-sol-in{animation:pairCenter 5.4s cubic-bezier(.4,0,.2,1) infinite}
-  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-sol::before,.pair-grid.moving .pair:nth-child(2) .pair-arrow,.pair-grid.moving .pair:nth-child(2) .pair-prob,.pair-grid.moving .pair:nth-child(2) .pair-sol-in{animation-delay:.5s}
-  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-sol::before,.pair-grid.moving .pair:nth-child(3) .pair-arrow,.pair-grid.moving .pair:nth-child(3) .pair-prob,.pair-grid.moving .pair:nth-child(3) .pair-sol-in{animation-delay:1s}
-  @keyframes pairCover{0%,22%{transform:translateY(0)}38%,68%{transform:translateY(calc(-1 * var(--d,0px)))}84%,100%{transform:translateY(0)}}
-  @keyframes pairGrow{0%,28%{height:100%;box-shadow:0 0 0 0 rgba(51,106,255,0)}42%,64%{height:var(--h,100%);box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}78%,100%{height:100%;box-shadow:0 0 0 0 rgba(51,106,255,0)}}
-  @keyframes pairArrow{0%,30%{opacity:1}40%,70%{opacity:0}84%,100%{opacity:1}}
-  @keyframes pairCenter{0%,28%{transform:translate(0,0)}42%,64%{transform:translate(var(--tx,0px),var(--ty,0px))}78%,100%{transform:translate(0,0)}}
-  @keyframes pairDim{0%,26%{opacity:1}40%,64%{opacity:0}80%,100%{opacity:1}}
-  @media(prefers-reduced-motion:reduce){.pair-grid.moving .pair-sol,.pair-grid.moving .pair-sol::before,.pair-grid.moving .pair-sol-in,.pair-grid.moving .pair-arrow,.pair-grid.moving .pair-prob{animation:none}}
+  @media(max-width:760px){.pair-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:36px}.pair-prob p{font-size:16px}.pair-sol{font-size:15px}}
+  /* 모션(11/25): 체크 박스가 01→02→03 차례로 아래에서 올라와 문제 카드를 덮고, 셋 다 덮인 뒤 차례로 내려간다(10초 주기, 0.9초 간격).
+     화면에 보일 때만(.moving, PairGrid) 움직이고 들어올 때마다 처음(문제 카드만)부터 다시 시작한다 */
+  .pair-grid.moving .pair-sol{animation:pairRise 10s cubic-bezier(.4,0,.2,1) infinite}
+  .pair-grid.moving .pair-prob{animation:pairDim 10s ease-in-out infinite}
+  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-prob{animation-delay:.9s}
+  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-prob{animation-delay:1.8s}
+  @keyframes pairRise{0%,16%{opacity:0;transform:translateY(56px);box-shadow:0 0 0 0 rgba(51,106,255,0)}24%,70%{opacity:1;transform:translateY(0);box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}78%,100%{opacity:0;transform:translateY(56px);box-shadow:0 0 0 0 rgba(51,106,255,0)}}
+  @keyframes pairDim{0%,18%{opacity:1}24%,70%{opacity:0}76%,100%{opacity:1}}
+  /* 움직임 줄이기 설정: 체크 박스를 문제 카드 아래에 그대로 보여 준다 */
+  @media(prefers-reduced-motion:reduce){.pair{gap:12px}.pair-sol{position:static;opacity:1;transform:none;justify-content:flex-start}.pair-grid.moving .pair-sol,.pair-grid.moving .pair-prob{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
 
@@ -647,8 +629,10 @@
   .sec-split{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(28px,5vw,72px);align-items:center}
   .sec-split .head{text-align:left;max-width:none;margin:0}
   .sec-split .sec-marks{display:grid;grid-template-columns:repeat(2,max-content);justify-content:start;gap:12px 16px;margin-top:30px}
-  .sec-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .sec-list{list-style:none;margin:0;padding:0}
   .sec-list li{display:flex;gap:18px;padding:24px 4px;border-bottom:1px solid var(--line)}
+  .sec-list li:first-child{padding-top:0}
+  .sec-list li:last-child{border-bottom:0;padding-bottom:0} /* 위아래 라인 없이 사이 구분선만(11/25) */
   .sec-list .ic{width:46px;height:46px;border-radius:12px;background:var(--soft-2);color:var(--blue);display:grid;place-items:center;font-size:20px;flex:none}
   .sec-list h3{margin:0;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
   .sec-list p{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--slate)}

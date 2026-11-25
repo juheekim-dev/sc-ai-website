@@ -3,10 +3,9 @@
 import { useEffect, useRef } from "react";
 
 // 문제 → 해결 세 쌍(.pair-grid) — AI 역량검사 02 문제 섹션(2026-11-25 C안). 스타일·모션은 app/landing.css(.pair-grid).
-// 모션: 흰 해결 카드가 바로 위 문제 카드 자리로 올라가면서 문제 카드와 같은 높이로 늘어나 덮고, 화살표는 사라졌다가
-// 돌아온다(01→02→03 반 박자씩). 다 덮은 순간에는 체크와 문구가 박스 가운데로 내려온다(11/25).
-// 올라갈 거리(--d), 늘어날 높이(--h = 문제 카드 높이), 가운데로 옮길 거리(--tx·--ty)는 화면 폭에 따라 글 줄 수가 달라져 여기서 잰다. 화면에 보일 때만(.moving) 움직이고,
-// 움직임 줄이기 설정이면 CSS가 멈춘다. 스크립트가 없어도 카드는 제자리에 그대로 보인다.
+// 처음엔 01~03 문제 카드만 보이고(화살표 없음), 흰 체크 박스가 01→02→03 차례로 아래에서 올라와 같은 자리의 문제 카드를 덮는다.
+// 셋 다 덮인 뒤 차례로 내려가고 다시 반복. 화면에 보일 때만(.moving) 움직이고, 들어올 때마다 처음부터 시작한다.
+// 움직임 줄이기 설정이면 CSS가 체크 박스를 문제 카드 아래에 그대로 보여 준다.
 export type Pair = { problem: string; solution: string };
 
 export default function PairGrid({ pairs }: { pairs: Pair[] }) {
@@ -15,26 +14,9 @@ export default function PairGrid({ pairs }: { pairs: Pair[] }) {
   useEffect(() => {
     const ol = ref.current;
     if (!ol) return;
-    const measure = () => {
-      ol.querySelectorAll<HTMLLIElement>(".pair").forEach((li) => {
-        const prob = li.querySelector<HTMLElement>(".pair-prob");
-        const sol = li.querySelector<HTMLElement>(".pair-sol");
-        if (!prob || !sol) return;
-        li.style.setProperty("--d", `${sol.offsetTop - prob.offsetTop}px`);
-        li.style.setProperty("--h", `${prob.offsetHeight}px`);
-        const inner = sol.querySelector<HTMLElement>(".pair-sol-in");
-        if (!inner) return;
-        const cs = getComputedStyle(sol);
-        li.style.setProperty("--tx", `${(sol.clientWidth - inner.offsetWidth) / 2 - parseFloat(cs.paddingLeft)}px`);
-        li.style.setProperty("--ty", `${(prob.offsetHeight - inner.offsetHeight) / 2 - parseFloat(cs.paddingTop)}px`);
-      });
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(ol);
     const io = new IntersectionObserver(([e]) => ol.classList.toggle("moving", e.isIntersecting), { threshold: 0.3 });
     io.observe(ol);
-    return () => { ro.disconnect(); io.disconnect(); };
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -42,7 +24,6 @@ export default function PairGrid({ pairs }: { pairs: Pair[] }) {
       {pairs.map((p, i) => (
         <li className="pair" key={p.problem}>
           <div className="pair-prob"><span className="n">{String(i + 1).padStart(2, "0")}</span><p>{p.problem}</p></div>
-          <span className="pair-arrow" aria-hidden="true"></span>
           <p className="pair-sol"><span className="pair-sol-in"><span className="pair-ck" aria-hidden="true"></span>{p.solution}</span></p>
         </li>
       ))}
