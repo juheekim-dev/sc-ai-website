@@ -69,13 +69,6 @@
   .phero-cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:34px}
   .phero-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--blue-d)}
   .phero-link:hover{color:var(--ink)}
-  /* 어두운 히어로(ProductHero dark — AI 면접, 11/25): AI 역량검사 문제 띠(.band.dark)와 같은 남색→블랙 세로 그라데이션. 흰 화면 이미지와 대비 */
-  .phero.dark{background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%)}
-  .phero.dark h1{color:#fff}
-  .phero.dark p{color:#B9BDC7}
-  .phero.dark .phero-name{color:#DCE7FF;background:rgba(255,255,255,.08)}
-  .phero.dark .phero-link{color:#C9D7FF}
-  .phero.dark .phero-link:hover{color:#fff}
   .phero-media img{display:block;width:100%;height:auto}
   /* 히어로 레이어 모션(2026-11-25, AI 역량검사 — ProductHero의 layers·lines): 바탕 위에 같은 크기 투명 레이어를 겹치고,
      AI 어시스턴트 카드는 위→아래, 보고서 카드는 아래→위, 칩은 왼쪽→오른쪽으로 화면 쪽에 모였다 돌아온다. 점선은 화면 쪽으로 흐른다 */
@@ -603,14 +596,15 @@
   .pair-ck{width:20px;height:20px;margin-top:.1em;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .pair-ck::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
   @media(max-width:760px){.pair-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:36px}.pair-prob p{font-size:15px}.pair-sol{font-size:14.5px}}
-  /* 모션(11/25): 체크 박스가 01→02→03 차례로 아래에서 올라와 문제 카드를 덮고, 셋 다 덮인 뒤 차례로 내려간다(10초 주기, 0.9초 간격).
+  /* 모션(11/25): 체크 박스가 01→02→03 차례로 아래에서 올라와 문제 카드를 덮고, 셋 다 덮인 뒤 차례로 내려간다.
+     "속도를 천천히"(11/25): 10초 → 14초 주기, 간격 0.9 → 1.4초, 올라오고 내려가는 데 각 약 1.7초, 셋 다 덮인 채 약 3.6초.
      화면에 보일 때만(.moving, PairGrid) 움직이고 들어올 때마다 처음(문제 카드만)부터 다시 시작한다 */
-  .pair-grid.moving .pair-sol{animation:pairRise 10s cubic-bezier(.4,0,.2,1) infinite}
-  .pair-grid.moving .pair-prob{animation:pairDim 10s ease-in-out infinite}
-  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-prob{animation-delay:.9s}
-  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-prob{animation-delay:1.8s}
-  @keyframes pairRise{0%,16%{opacity:0;transform:translateY(56px);box-shadow:0 0 0 0 rgba(51,106,255,0)}24%,70%{opacity:1;transform:translateY(0);box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}78%,100%{opacity:0;transform:translateY(56px);box-shadow:0 0 0 0 rgba(51,106,255,0)}}
-  @keyframes pairDim{0%,18%{opacity:1}24%,70%{opacity:0}76%,100%{opacity:1}}
+  .pair-grid.moving .pair-sol{animation:pairRise 14s cubic-bezier(.4,0,.2,1) infinite}
+  .pair-grid.moving .pair-prob{animation:pairDim 14s ease-in-out infinite}
+  .pair-grid.moving .pair:nth-child(2) .pair-sol,.pair-grid.moving .pair:nth-child(2) .pair-prob{animation-delay:1.4s}
+  .pair-grid.moving .pair:nth-child(3) .pair-sol,.pair-grid.moving .pair:nth-child(3) .pair-prob{animation-delay:2.8s}
+  @keyframes pairRise{0%,14%{opacity:0;transform:translateY(56px);box-shadow:0 0 0 0 rgba(51,106,255,0)}26%,72%{opacity:1;transform:translateY(0);box-shadow:0 18px 40px -12px rgba(51,106,255,.9)}84%,100%{opacity:0;transform:translateY(56px);box-shadow:0 0 0 0 rgba(51,106,255,0)}}
+  @keyframes pairDim{0%,16%{opacity:1}26%,72%{opacity:0}82%,100%{opacity:1}}
   /* 움직임 줄이기 설정: 체크 박스를 문제 카드 아래에 그대로 보여 준다 */
   @media(prefers-reduced-motion:reduce){.pair{gap:12px}.pair-sol{position:static;opacity:1;transform:none;justify-content:flex-start}.pair-grid.moving .pair-sol,.pair-grid.moving .pair-prob{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}

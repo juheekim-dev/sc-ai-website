@@ -47,10 +47,10 @@ const TYPES = [
 ];
 
 // 06 · 도입 3단계 — AI 역량검사 '과제 만들기'처럼 카드 아래 화면 이미지(아이콘 없음, 11/25).
-// STEP 01은 실제 캡처(새 프로젝트 · 면접 유형 선택, 인재상 기반 카드는 잘라 냄), 02·03은 캡처가 없어 같은 스타일로 그림 — _docs/홈페이지 개편/도식/캡처가공
+// STEP 01은 AI 역량검사 STEP 1과 같은 채용공고 입력 이미지, 02·03은 캡처가 없어 같은 스타일로 그리고 정보를 최대한 줄임(질문은 회색 막대) — _docs/홈페이지 개편/도식/캡처가공
 const START = [
-  { title: "채용공고 등록", body: <>직무 기술서를 넣거나<br />이력서 기반 면접을 고릅니다.</>, img: "/interview-step-type.webp", alt: "새 프로젝트 만들기 화면: 채용공고 기반 면접과 이력서 기반 면접 중 면접 유형 선택" },
-  { title: "AI가 기준·질문 생성", body: <>AI가 평가 기준과 질문을 만들고<br />채용팀이 고치거나 승인합니다.</>, img: "/interview-step-criteria.webp", alt: "평가 기준과 질문 화면: 평가 항목별 질문 목록과 수정·승인 버튼" },
+  { title: "채용공고 등록", body: <>직무 기술서를 넣거나<br />이력서 기반 면접을 고릅니다.</>, img: "/assessment-step-jd.webp", alt: "채용공고 입력 화면: 직무 기술서의 요구사항을 넣는 칸" },
+  { title: "AI가 기준·질문 생성", body: <>AI가 평가 기준과 질문을 만들고<br />채용팀이 고치거나 승인합니다.</>, img: "/interview-step-criteria.webp", alt: "평가 기준과 질문 화면: 평가 항목 탭과 질문 목록, 승인 버튼" },
   { title: "링크 보내고 리포트 받기", body: <>지원자에게 링크를 보내면<br />응시가 끝나는 대로 리포트가 옵니다.</>, img: "/interview-step-invite.webp", alt: "지원자 목록 화면: 응시를 마친 지원자의 리포트 보기" },
 ];
 
@@ -97,8 +97,8 @@ export default function AiInterviewPage() {
       {/* 01 · 히어로 */}
       <ProductHero
         name="AI 면접"
-        dark // 어두운 바탕(AI 역량검사 문제 띠와 같은 남색→블랙) — 밝은 바탕에 어두운 화면인 AI 역량검사 히어로와 대비(11/25)
-        title={<>1차 면접,<br />질문부터 리포트까지<br /><span className="blue">AI</span>가 진행합니다</>}
+        // 헤드카피 두 줄(11/25) — "1차 면접, 질문부터 리포트까지 / AI가 진행합니다"는 첫 줄이 글 칸(약 520px)보다 길어 세 줄이 되어 문구를 다듬음
+        title={<>1차 면접은 <span className="blue">AI</span>에게,<br />질문부터 리포트까지</>}
         lead="채용공고를 넣으면 평가 기준과 질문을 만들고, 지원자 답변에 꼬리질문을 이어 갑니다. 채용팀은 리포트를 보고 만날 사람을 정합니다."
         img="/hero-interview-base.webp"
         alt="AI 면접 화면: AI 면접관이 질문과 꼬리질문을 하고, 지원자 답변을 분석해 종합 등급과 역량 막대가 있는 AI 면접 리포트로 정리하는 모습"
@@ -110,8 +110,8 @@ export default function AiInterviewPage() {
           { src: "/hero-interview-chip.webp", move: "right" },
         ]}
         lines={[
-          { d: "M403 197 V225", dot: [403, 227] },
-          { d: "M300 264 V232", dot: [300, 230] },
+          { d: "M315 197 V221", dot: [315, 223] },
+          { d: "M250 264 V234", dot: [250, 232] },
         ]}
       />
 

@@ -13,9 +13,9 @@ export type HeroLine = { d: string; dot: [number, number] };
  * 이미지 원본은 _docs/홈페이지 개편/도식/캡처가공/make.mjs — AI 역량검사는 실제 응시 화면을 가공한 레이어(hero-l-*: 화면·AI 어시스턴트·보고서·칩,
  * 글은 '파일 1, 2, 3' 같은 일반 내용), AI 면접은 AI 역량검사와 구분되는 흰 화면을 캡처 배치대로 그린 레이어(iv3-l-*: 화면·AI 면접관 오브 카드·리포트·칩).
  * layers를 주면 img를 바탕으로 레이어를 겹쳐 그리고 움직인다(움직임 줄이기 설정이면 멈춤). 스타일은 app/landing.css(.phero).
- * dark를 주면 어두운 바탕(문제 띠와 같은 남색→블랙)에 흰 글씨 — AI 면접(2026-11-25, 밝은 바탕에 어두운 화면인 AI 역량검사와 대비). 이때만 data-nav="dark"로 GNB를 흰 로고로 반전한다.
+ * data-nav를 두지 않는다 — 밝은 바탕이라 GNB를 반전하지 않는다(AI 면접에 어두운 바탕을 잠깐 썼다가 "답답하다"는 피드백으로 되돌림, 11/25).
  */
-export default function ProductHero({ name, isNew = false, title, lead, img, alt, layers, lines, dark = false }: {
+export default function ProductHero({ name, isNew = false, title, lead, img, alt, layers, lines }: {
   name: string;
   isNew?: boolean;
   title: ReactNode;
@@ -24,10 +24,9 @@ export default function ProductHero({ name, isNew = false, title, lead, img, alt
   alt: string;
   layers?: HeroLayer[];
   lines?: HeroLine[];
-  dark?: boolean;
 }) {
   return (
-    <section className={dark ? "phero dark" : "phero"} id="hero" data-nav={dark ? "dark" : undefined}>
+    <section className="phero" id="hero">
       <div className="wrap phero-grid">
         <div className="phero-text">
           <span className="phero-name">{name}{isNew && <span className="prod-new">NEW</span>}</span>
