@@ -170,7 +170,7 @@ export default function AiAssessmentPage() {
                 <p>과제를 제출하면 AI 인터뷰가 이어집니다. AI가 결과에 대해 묻고, 지원자의 답으로 이해도를 평가합니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-debrief.webp" alt="AI 인터뷰 도식: 제출한 코드와 AI 질문, 지원자 음성 답변, 이해도" width={1080} height={570} loading="lazy" />
+                <img className="hr-img" src="/diagram-debrief.webp" alt="AI 인터뷰 도식: 제출한 코드와, AI 질문과 지원자 음성 답변이 오가는 대화" width={1080} height={570} loading="lazy" />
               </div>
             </div>
             <div className="how-row">
@@ -185,7 +185,7 @@ export default function AiAssessmentPage() {
                 <p>채용팀은 항목마다 검토 완료나 이의를 표시하고, 정정한 평가를 공식 결과로 고를 수 있습니다. 원래 평가는 남습니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-scorecard.webp" alt="평가와 리포트 도식: AI 추천 4단계와 항목별 점수, 근거" width={1080} height={570} loading="lazy" />
+                <img className="hr-img" src="/diagram-scorecard.webp" alt="평가와 리포트 도식: AI 추천 등급과 항목별 점수, 근거" width={1080} height={570} loading="lazy" />
               </div>
             </div>
           </div>
