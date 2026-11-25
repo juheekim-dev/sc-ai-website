@@ -587,16 +587,15 @@
   .band.dark .head h2{color:#fff}
   .pair-grid{list-style:none;margin:50px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
   .pair{position:relative;display:grid;min-width:0}
-  .pair-prob{border-radius:var(--r);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:22px 24px 24px}
-  .pair-prob .n{display:block;font-size:13px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.5);margin-bottom:10px}
-  .pair-prob p{display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:rgba(255,255,255,.92)}
-  .pair-prob p::before{content:"";box-sizing:border-box;width:20px;height:20px;margin-top:.12em;border-radius:50%;border:2px solid rgba(255,255,255,.42);flex:none} /* 빈 체크 — 흰 체크 박스가 덮으면 블루 체크로(11/25 "블릿 말고 체크 박스 구조") */
+  .pair-prob{border-radius:var(--r);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);padding:22px 20px;min-height:72px;display:flex;align-items:center}
+  .pair-prob p{display:flex;gap:8px;margin:0;font-size:clamp(14px,1.1vw,15.5px);line-height:1.5;letter-spacing:-.01em;color:rgba(255,255,255,.92)} /* 한 줄에 들어가게(11/25) — 번호 01~03 삭제 */
+  .pair-prob p::before{content:"";width:6px;height:6px;margin-top:.66em;border-radius:50%;background:currentColor;flex:none} /* 블릿(빈 체크 원 → 다시 점, 11/25) */
   /* 흰 체크 박스는 문제 카드 위에 겹쳐 두고(같은 크기, 글은 가운데) 처음엔 숨긴다 — "처음에는 01~03만"(11/25) */
-  .pair-sol{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;padding:18px 22px;border-radius:var(--r);background:#fff;color:var(--ink);font-size:16px;font-weight:600;line-height:1.5;opacity:0;transform:translateY(56px);pointer-events:none}
+  .pair-sol{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;padding:14px 16px;border-radius:var(--r);background:#fff;color:var(--ink);font-size:clamp(14px,1.1vw,15.5px);font-weight:600;line-height:1.5;letter-spacing:-.01em;opacity:0;transform:translateY(56px);pointer-events:none}
   .pair-sol-in{display:inline-flex;gap:10px;align-items:flex-start}
   .pair-ck{width:20px;height:20px;margin-top:.1em;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .pair-ck::after{content:"";position:absolute;left:7px;top:4px;width:4.5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
-  @media(max-width:760px){.pair-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:36px}.pair-prob p{font-size:16px}.pair-sol{font-size:15px}}
+  @media(max-width:760px){.pair-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:36px}.pair-prob p{font-size:15px}.pair-sol{font-size:14.5px}}
   /* 모션(11/25): 체크 박스가 01→02→03 차례로 아래에서 올라와 문제 카드를 덮고, 셋 다 덮인 뒤 차례로 내려간다(10초 주기, 0.9초 간격).
      화면에 보일 때만(.moving, PairGrid) 움직이고 들어올 때마다 처음(문제 카드만)부터 다시 시작한다 */
   .pair-grid.moving .pair-sol{animation:pairRise 10s cubic-bezier(.4,0,.2,1) infinite}
@@ -646,6 +645,51 @@
   .sec-list h3{margin:0;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
   .sec-list p{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--slate)}
   @media(max-width:880px){.sec-split{grid-template-columns:minmax(0,1fr)}.sec-split .head{text-align:center}.sec-split .sec-marks{justify-content:center}}
+  /* 부정행위 감지(2026-11-25 E안, 홈·AI 면접 공용 IntegritySection): 왼쪽 제목·감지 항목(아이콘·제목·한 줄 설명),
+     오른쪽 HTML '감지 내역' 카드(예시, 연한 블루 판 위). 감지 표시는 블루 */
+  .integ{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,64px);align-items:center}
+  .integ .head{text-align:left;max-width:none;margin:0}
+  .integ-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:16px}
+  .integ-list li{display:flex;gap:14px;align-items:flex-start}
+  .integ-ic{width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--tint);color:var(--blue);display:grid;place-items:center;flex:none}
+  .integ-ic svg{width:21px;height:21px}
+  .integ-list b{display:block;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
+  .integ-list li span:not(.integ-ic){display:block;margin-top:2px;font-size:14.5px;line-height:1.55;color:var(--slate)}
+  .integ-note{margin-top:18px;font-size:14px;color:var(--slate)}
+  .integ .hr-link{margin-top:14px}
+  .integ-frame{background:#E3EAFE;border-radius:24px;padding:clamp(14px,2vw,26px)}
+  .ir{background:#fff;border-radius:18px;padding:22px 22px 18px;box-shadow:0 18px 40px -22px rgba(20,40,90,.35);display:grid;gap:12px}
+  .ir-h{display:flex;align-items:center;gap:10px}
+  .ir-h b{font-size:17px;color:var(--ink)}
+  .ir-shield{width:20px;height:20px;fill:var(--blue)}
+  .ir-smp{margin-left:auto;font-size:12px;font-weight:600;color:var(--slate);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+  .ir-sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#F6F8FC;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--slate)}
+  .ir-sum strong{font-size:14.5px;color:var(--ink)}
+  .ir-pill{font-weight:700;font-size:13px;color:var(--blue-d);border:1.5px solid var(--blue);border-radius:999px;padding:3px 12px}
+  .ir-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:600;color:var(--ink)}
+  .ir-row svg{width:19px;height:19px;color:var(--blue)}
+  .ir-t{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--slate);font-variant-numeric:tabular-nums}
+  .ir-t i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+  .ir-vid{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
+  .ir-vh{display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--ink)}
+  .ir-vh span{font-weight:500;font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
+  .ir-screen{position:relative;height:96px;border-radius:10px;background:#1E283F;overflow:hidden}
+  .ir-person{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);width:96px;height:72px}
+  .ir-person::before{content:"";position:absolute;left:50%;top:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:#3A4766}
+  .ir-person::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40px;border-radius:48px 48px 0 0;background:#3A4766}
+  .ir-badge{position:absolute;right:10px;top:10px;font-size:11px;font-weight:700;color:var(--blue-d);background:#D8E2FF;border-radius:999px;padding:2px 9px}
+  .ir-bar{display:flex;align-items:center;gap:10px}
+  .ir-play{width:30px;height:30px;border-radius:50%;background:var(--blue);position:relative;flex:none}
+  .ir-play::after{content:"";position:absolute;left:12px;top:9px;border-style:solid;border-width:6px 0 6px 9px;border-color:transparent transparent transparent #fff}
+  .ir-track{position:relative;flex:1;height:6px;border-radius:3px;background:#E3EAFE}
+  .ir-track b{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--blue)}
+  .ir-track i{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+  .ir-times{display:flex;justify-content:space-between;padding-left:40px;font-size:12px;color:var(--slate);font-variant-numeric:tabular-nums}
+  .ir-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .ir-chips span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px}
+  .ir-chips span::before{content:"✓";width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;display:grid;place-items:center}
+  .ir-foot{margin:0;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--slate)}
+  @media(max-width:880px){.integ{grid-template-columns:minmax(0,1fr)}.integ .head{text-align:center}.integ-note{text-align:center}.integ .hr-link{display:flex;justify-content:center}}
 
   @media(max-width:880px){.hr-points.two{grid-template-columns:1fr}}
   @media(max-width:760px){
