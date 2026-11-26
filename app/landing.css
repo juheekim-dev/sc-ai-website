@@ -616,22 +616,23 @@
   .pl-ck::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2.2px 2.2px 0;transform:translate(0,-1px) rotate(45deg)}
   .pl-arrow{height:2px;background:linear-gradient(90deg,rgba(83,130,255,.25),var(--blue));position:relative;transform-origin:left}
   .pl-arrow::after{content:"";position:absolute;right:-1px;top:-4px;width:8px;height:8px;border:solid var(--blue);border-width:2px 2px 0 0;transform:rotate(45deg)}
-  /* 모션: 화면에 들어오면(.inview, PairGrid) 한 번 — 위 줄부터 화살표가 그어지고 해결 문장이 나타난다(줄 간격 1초). 그 전에는 첫 장면에서 멈춤 */
-  .pl-arrow{animation:plLine .8s ease-out both}
-  .pl-sol{animation:plIn 1s ease-out both}
-  .pair-list li:nth-child(1) .pl-arrow{animation-delay:.2s}
-  .pair-list li:nth-child(1) .pl-sol{animation-delay:.7s}
-  .pair-list li:nth-child(2) .pl-arrow{animation-delay:1.2s}
-  .pair-list li:nth-child(2) .pl-sol{animation-delay:1.7s}
-  .pair-list li:nth-child(3) .pl-arrow{animation-delay:2.2s}
-  .pair-list li:nth-child(3) .pl-sol{animation-delay:2.7s}
-  .pair-list:not(.inview) .pl-arrow,.pair-list:not(.inview) .pl-sol{animation-play-state:paused}
+  /* 모션: 화면에 들어오면(.inview, PairGrid) 한 번 — 한 줄씩 차례로(줄 간격 0.9초) 문제(x)와 해결(체크) 문장이 함께 나타나고 그 사이 화살표가 그어진다.
+     (11/26 "x 문장과 체크 문장 같이 나오게, 차례대로" — 예전엔 문제가 처음부터 보이고 해결만 나타남) 그 전에는 첫 장면에서 멈춤 */
+  .pl-prob,.pl-sol{animation:plIn .9s ease-out both}
+  .pl-arrow{animation:plLine .7s ease-out both}
+  .pair-list li:nth-child(1) .pl-prob,.pair-list li:nth-child(1) .pl-sol{animation-delay:.2s}
+  .pair-list li:nth-child(1) .pl-arrow{animation-delay:.35s}
+  .pair-list li:nth-child(2) .pl-prob,.pair-list li:nth-child(2) .pl-sol{animation-delay:1.1s}
+  .pair-list li:nth-child(2) .pl-arrow{animation-delay:1.25s}
+  .pair-list li:nth-child(3) .pl-prob,.pair-list li:nth-child(3) .pl-sol{animation-delay:2s}
+  .pair-list li:nth-child(3) .pl-arrow{animation-delay:2.15s}
+  .pair-list:not(.inview) .pl-prob,.pair-list:not(.inview) .pl-arrow,.pair-list:not(.inview) .pl-sol{animation-play-state:paused}
   @keyframes plLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  @keyframes plIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+  @keyframes plIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @media(max-width:1024px){.pl-prob{font-size:16.5px}.pl-sol{font-size:18px}}
   @media(max-width:760px){.pair-list{margin-top:36px}.pair-list li{grid-template-columns:minmax(0,1fr);gap:10px;padding:18px 2px}.pl-arrow{display:none}.pl-prob{font-size:16px}}
   /* 움직임 줄이기 설정: 모션 없이 다 보여 준다 */
-  @media(prefers-reduced-motion:reduce){.pl-arrow,.pl-sol{animation:none}}
+  @media(prefers-reduced-motion:reduce){.pl-prob,.pl-arrow,.pl-sol{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
 
