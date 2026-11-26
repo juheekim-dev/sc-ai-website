@@ -11,8 +11,9 @@ const ROWS: { tag: string; title: string; body: ReactNode; svg: MotionKey; alt: 
   { tag: "리포트 04", title: "강점·약점 분석", body: <><strong>강점과 약점</strong>을 구분해, 대면 면접에서 확인할 포인트까지 짚어줍니다.</>, svg: "strength", alt: "강점·약점 분석 도식: 강점 카드와 약점 카드" },
 ];
 
-// before: 리포트 행 앞에 붙일 행(.how-row) — 같은 .how-rows 안에 넣어야 지그재그(짝수 행 뒤집기)가 이어진다. AI 면접의 '면접 진행' 행(2026-11-25).
-export default function ReportRows({ before }: { before?: ReactNode }) {
+// before·after: 리포트 행 앞·뒤에 붙일 행(.how-row) — 같은 .how-rows 안에 넣어야 지그재그(짝수 행 뒤집기)가 이어진다.
+// before = AI 면접의 '면접 진행' 행(2026-11-25), after = 홈의 'AI 역량검사 리포트' 행(2026-11-26).
+export default function ReportRows({ before, after }: { before?: ReactNode; after?: ReactNode }) {
   return (
     <div className="how-rows">
       {before}
@@ -26,6 +27,7 @@ export default function ReportRows({ before }: { before?: ReactNode }) {
           <div className="hr-media"><MotionDiagram name={r.svg} label={r.alt} /></div>
         </div>
       ))}
+      {after}
     </div>
   );
 }

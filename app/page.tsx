@@ -11,7 +11,11 @@ import FaqList from "@/components/FaqList";
 import SoftCta from "@/components/SoftCta";
 import { getFaqs } from "@/lib/faq";
 import { PRODUCTS } from "@/lib/products";
-import OrbImage from "@/components/OrbImage";
+import AskDemo from "@/components/AskDemo";
+import AssistDemo from "@/components/AssistDemo";
+import ProductFlow from "@/components/ProductFlow";
+import MotionDiagram from "@/components/MotionDiagram";
+import StepFlow from "@/components/StepFlow";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
 // 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
@@ -19,6 +23,14 @@ const PRODUCT_POINTS: Record<string, string[]> = {
   "/ai-interview": ["평가 기준·질문 자동 생성", "답에 따라 꼬리질문", "등급·역량·강약점 리포트"],
   "/ai-assessment": ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
 };
+
+// 06 · 도입 3단계 — 제품 페이지와 같은 화면 이미지(StepFlow img, 아이콘 없음). 두 제품을 함께 말하므로 STEP 02는 '질문·과제'.
+// 이미지: 01 채용공고 입력(두 제품 공용) · 02 평가 기준과 질문(AI 면접 STEP 02) · 03 지원자 목록과 리포트(AI 면접 STEP 03)
+const START = [
+  { title: "채용공고 등록", body: <>채용공고를 넣으면<br />AI가 직무와 요구 역량을 읽습니다.</>, img: "/assessment-step-jd.webp", alt: "채용공고 입력 화면: 직무 기술서의 요구사항을 넣는 칸" },
+  { title: "AI가 질문·과제 생성", body: <>AI가 평가 기준과 질문·과제를 만들고<br />채용팀이 확인합니다.</>, img: "/interview-step-criteria.webp", alt: "평가 기준과 질문 화면: 평가 항목 탭과 질문 목록, 승인 버튼" },
+  { title: "링크 보내고 리포트 받기", body: <>지원자에게 링크를 보내면<br />응시가 끝나는 대로 리포트가 옵니다.</>, img: "/interview-step-invite.webp", alt: "지원자 목록 화면: 응시를 마친 지원자의 리포트 보기" },
+];
 
 // 홈 canonical (중복 색인 방지) — 공통 메타는 layout.tsx. 어드민 SEO 초안(적용 시) 덮어씀.
 const FALLBACK_METADATA: Metadata = { alternates: { canonical: "/" } };
@@ -110,17 +122,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 04 · 해결 — 제품 2종 (2026-11 개편: 가치 카드 3개를 두 제품 카드로 교체) */}
+      {/* SECTION 04 · 해결 — 제품 2종. 카드 위 그림은 제품 페이지 '진행 방식'의 움직이는 카드(AskDemo·AssistDemo, 2026-11-26 옛 도식 썸네일에서 바꿈) */}
       <section className="value" id="products">
         <div className="wrap">
           <div className="head">
             <h2>그래서, 사람을 만나기 전에<br /><span className="blue">AI가 먼저 검증</span>합니다</h2>
-            <p className="lead">직무와 지원자 규모에 맞춰 따로, 또는 함께 쓸 수 있습니다.</p>
+            <p className="lead">AI 면접은 질문으로, AI 역량검사는 실제 과제로 지원자를 확인합니다.</p>
           </div>
           <div className="value-grid two">
             {PRODUCTS.map((p) => (
               <div className="valcard prod" key={p.href}>
-                <OrbImage className="prod-shot" src={p.img} alt={p.alt} orb={p.orb} width={1080} height={570} />
+                <div className="prod-shot">{p.href === "/ai-interview" ? <AskDemo /> : <AssistDemo />}</div>
                 <h3>{p.title}{p.isNew && <span className="prod-new">NEW</span>}</h3>
                 <p>{p.desc}</p>
                 <ul className="hr-points">
@@ -133,44 +145,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 05 · ROLE REVERSAL (깔때기) */}
-      <section className="role-funnel" id="role">
+      {/* SECTION 05 · 함께 쓰는 순서 — 제품 페이지 끝 안내와 같은 ProductFlow(히어로 화면 썸네일). 옛 깔때기(AI 선별 → 사람 판단)를 같은 뜻의 세 단계로 바꿈(2026-11-26) */}
+      <section className="band soft" id="flow">
         <div className="wrap">
-          <div className="head">
-            <h2>지원자 선별은 <span className="blue">AI</span>가,<br />최종 판단은 <span className="blue">사람</span>이</h2>
-            <p className="lead">AI가 전체 지원자를 먼저 선별하고, 채용팀은 최종 의사결정에 집중합니다.</p>
-          </div>
-          <div className="funnel3">
-            <div className="fn-wrap">
-              <svg className="fn-svg" viewBox="0 48 1140 636" role="img" aria-label="지원자 전체를 AI가 자동 검증·필터링해 핵심 인재 리포트로 좁히고, 최종 판단만 채용팀이 내리는 깔때기">
-                <defs>
-                  <linearGradient id="fnGrad" gradientUnits="userSpaceOnUse" x1="540" y1="62" x2="610" y2="496">
-                    <stop offset="0" stopColor="#4577FF" stopOpacity="0.9" />
-                    <stop offset="1" stopColor="#3A6FFF" />
-                  </linearGradient>
-                </defs>
-                <g className="fn-guides">
-                  <path d="M925 135 H990 Q1000 135 1000 145 V425 Q1000 435 990 435 H730" fill="none" stroke="#5382FF" strokeWidth="1.5" strokeDasharray="6 6" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M950 580 H650" fill="none" stroke="#2144a5" strokeWidth="1.5" strokeDasharray="6 6" strokeLinecap="round" />
-                </g>
-                <path className="seg" d="M215.2 71.7 Q210 62 221 62 L919 62 Q930 62 924.8 71.7 L857.2 198.3 Q852 208 841 208 L299 208 Q288 208 282.8 198.3 Z" fill="url(#fnGrad)" />
-                <path className="seg" d="M311.3 233.7 Q306 224 317 224 L823 224 Q834 224 828.7 233.7 L767.3 346.3 Q762 356 751 356 L389 356 Q378 356 372.7 346.3 Z" fill="url(#fnGrad)" />
-                <path className="seg" d="M401.2 383.7 Q396 374 407 374 L733 374 Q744 374 738.8 383.7 L683.2 486.3 Q678 496 667 496 L473 496 Q462 496 456.8 486.3 Z" fill="url(#fnGrad)" />
-                <path className="tip" d="M483.6 523.4 Q478 514 489 514 L651 514 Q662 514 656.4 523.4 L575.6 658.6 Q570 668 564.4 658.6 Z" fill="#2144a5" />
-                <text className="fl" x="570" y="135">지원자 전체 - AI 자동 검증</text>
-                <text className="fl" x="570" y="290">핵심 역량 기준으로 지원자 선별</text>
-                <text className="fl" x="570" y="435">핵심 인재 리포트</text>
-                <text className="fl ft" x="570" y="552">최종</text>
-                <text className="fl ft" x="570" y="586">판단</text>
-              </svg>
-              <span className="fn-tag tag-ai"><i className="fa-solid fa-robot"></i> AI</span>
-              <span className="fn-tag tag-team"><i className="fa-solid fa-user"></i> 채용팀</span>
-            </div>
-          </div>
+          <ProductFlow />
         </div>
       </section>
 
-      {/* SECTION 06 · 작동 방식 — 리포트 4종(공용) + 도입 3단계 */}
+      {/* SECTION 06 · 작동 방식 — 리포트(AI 면접 4종 + AI 역량검사 1, 공용 ReportRows) + 도입 3단계(제품 페이지와 같은 화면 이미지 StepFlow) */}
       <section className="how" id="how">
         <div className="wrap">
           <div className="head">
@@ -178,33 +160,27 @@ export default async function HomePage() {
             <p className="lead">요약, 등급, 역량, 면접 포인트까지 한눈에 확인하세요.</p>
           </div>
 
-          <ReportRows />
+          <ReportRows
+            after={
+              <div className="how-row">
+                <div className="hr-info">
+                  <span className="hr-eyebrow">AI 역량검사 리포트</span>
+                  <h3>점수마다 근거가 붙습니다</h3>
+                  <p>AI 추천 등급과 항목별 점수, 근거를 함께 봅니다. AI에 보낸 지시와 작업 리플레이도 리포트에 남습니다.</p>
+                  <Link href="/ai-assessment" className="hr-link">AI 역량검사 자세히 보기 <i className="fa-solid fa-arrow-right"></i></Link>
+                </div>
+                <div className="hr-media">
+                  <MotionDiagram name="scorecard" label="AI 역량검사 리포트 도식: AI 추천 등급과 항목별 점수, 근거" />
+                </div>
+              </div>
+            }
+          />
 
           <div className="head" style={{ paddingTop: "clamp(112px,15vw,190px)" }}>
             <h2>채용공고만 등록하면, 검증 리포트까지<br /><span className="blue">AI가 진행</span>합니다</h2>
+            <p className="lead">AI가 만든 기준과 질문·과제는 채용팀이 확인해야 반영됩니다.</p>
           </div>
-
-          {/* 프로세스(시안2) — 라이트블루 패널 + 3단계 카드. 펄스/페이드업 루프 모션(CSS). */}
-          <div className="flow2">
-            <div className="pstep">
-              <div className="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg></div>
-              <span className="pstep-tag">STEP 01</span>
-              <h3>채용공고 등록</h3>
-              <p>공고를 등록하면<br />AI가 직무·요구 역량을 분석합니다.</p>
-            </div>
-            <div className="pstep">
-              <div className="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z" /><path d="m14 7 3 3" /><path d="M5 6v4" /><path d="M19 14v4" /><path d="M10 2v2" /><path d="M7 8H3" /><path d="M21 16h-4" /><path d="M11 3H9" /></svg></div>
-              <span className="pstep-tag">STEP 02</span>
-              <h3>AI가 질문·과제 생성</h3>
-              <p>AI가 평가 기준·질문·과제를 만들고,<br />채용팀이 확인하면 지원자가 응시합니다.</p>
-            </div>
-            <div className="pstep">
-              <div className="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M16 13H8" /><path d="M16 17H8" /><path d="M10 9H8" /></svg></div>
-              <span className="pstep-tag">STEP 03</span>
-              <h3>검증 리포트 수신</h3>
-              <p>AI가 응답을 분석·채점해<br />한 장의 리포트로 정리합니다.</p>
-            </div>
-          </div>
+          <StepFlow steps={START} />
         </div>
       </section>
 
@@ -276,8 +252,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 12 · 마지막 CTA */}
-      <FinalCta before={<>다음 채용은,<br /></>} word="AI 면접" after="으로 더 빠르게 시작하세요." />
+      {/* SECTION 12 · 마지막 CTA — 두 제품을 함께 말하므로 강조어는 'AI'(11/26, 옛 'AI 면접') */}
+      <FinalCta before={<>다음 채용은,<br /></>} word="AI" after="로 더 빠르게 시작하세요." />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </>

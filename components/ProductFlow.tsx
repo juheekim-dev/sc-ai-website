@@ -5,7 +5,7 @@ import HeroStage, { type HeroStageData } from "./HeroStage";
 // 제품 페이지 끝 '다른 제품 안내' — 함께 쓰는 순서(2026-11-26 시안 1안 + 연결 2안, 옛 '두 제품 비교'를 바꿈). /ai-interview·/ai-assessment 공용.
 // 권장 순서 예시(AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 → 핵심 후보만 대면 면접, 차이 소개자료 '함께 쓰면')를 세 단계 카드로.
 // 1·2단계 그림은 각 제품의 히어로 화면(HeroStage, 움직이는 오브 없이), 3단계도 같은 결의 '핵심 후보' 화면(대면 면접 확인 포인트 — AI 면접 리포트에 있는 항목).
-// 지금 보는 제품에는 '지금 보는 제품' 표시만, 상대 제품 카드에만 블루 테두리와 버튼. 카드 사이는 흰 원 안의 꺾쇠. 스타일은 app/landing.css(.pflow).
+// 지금 보는 제품에는 '지금 보는 제품' 표시만, 상대 제품 카드에만 블루 테두리와 버튼. 홈(current 없음)은 두 제품 카드 모두 버튼(2026-11-26, 옛 깔때기 자리). 카드 사이는 흰 원 안의 꺾쇠. 스타일은 app/landing.css(.pflow).
 // 3단계 그림(11/26 시안 '나' 디벨롭): 히어로와 같은 구성 — 어두운 '핵심 후보' 화면 + 흰 카드 2장(대면 면접 확인 포인트·검사 결과) + 칩 + 점선, 레이어마다 모션.
 // 이름은 가상, 첫 후보 사진은 사용자가 준 목업 에셋. 원본은 _docs/홈페이지 개편/도식/캡처가공(f2f-l-*).
 const F2F: { title: string; sub: string; stage: HeroStageData } = {
@@ -23,11 +23,11 @@ const F2F: { title: string; sub: string; stage: HeroStageData } = {
   },
 };
 
-export default function ProductFlow({ current }: { current: ProductHref }) {
+export default function ProductFlow({ current }: { current?: ProductHref }) {
   return (
     <>
       <div className="head">
-        <span className="hr-eyebrow">함께 쓰면 좋은 제품</span>
+        {current && <span className="hr-eyebrow">함께 쓰면 좋은 제품</span>}
         <h2>두 제품을 함께 쓰면<br />대면 면접에는 <span className="blue">핵심 후보</span>만 남습니다</h2>
         <p className="lead">따로 써도 되고 함께 써도 됩니다. 아래는 권장 순서 예시이고, 실제 순서는 회사의 채용 방식에 맞추면 됩니다.</p>
       </div>
