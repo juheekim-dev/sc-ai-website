@@ -100,16 +100,17 @@
      히어로 AI 면접관 카드와 같은 모양(흰 바탕·블루 테두리·흐린 오브·블루 말풍선·꼬리질문 칩)을 도식과 같은 연한 판(1080:570, 내용이 길면 늘어남) 가운데에.
      화면에 보이면(.play) 질문(약 0.4초) → 꼬리질문(약 2.8초)이 차례로 떠오르고 7.7초쯤 사라졌다 다시(9초 반복). '질문 중' 점은 천천히 깜빡임 */
   .ask-demo{aspect-ratio:1080/570;border-radius:clamp(14px,2.2vw,24px);background:#F4F8FE;display:grid;place-items:center;padding:clamp(14px,3vw,32px)}
-  .ad-card{width:min(100%,440px);box-sizing:border-box;background:#fff;border:2.5px solid var(--blue);border-radius:18px;padding:20px 22px 22px;box-shadow:0 18px 40px -20px rgba(20,40,90,.28)}
+  /* 11/26 "파란 테두리 삭제 후 그림자로, 두 제품을 비교할 수 있게 같은 화면 크기로" — 흰·어두운 카드 모두 같은 폭·최소 높이, 테두리 없이 그림자 */
+  .ad-card{width:min(100%,440px);min-height:236px;box-sizing:border-box;background:#fff;border-radius:18px;padding:20px 22px 22px;box-shadow:0 22px 48px -20px rgba(20,40,90,.34),0 2px 10px rgba(20,40,90,.06)}
   .ad-head{display:flex;align-items:center;gap:9px}
   .ad-head b{font-size:17px;letter-spacing:-.01em;color:var(--ink)}
   .ad-head span{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--slate-2)}
   .ad-head i{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:adDot 1.4s ease-in-out infinite}
   .ad-row{display:flex;align-items:center;gap:14px;margin-top:16px}
   .ad-orb{position:relative;flex:none;width:76px;aspect-ratio:1}
-  .ad-ask{margin:0;background:var(--blue);color:#fff;border-radius:14px;padding:12px 16px;font-size:15.5px;font-weight:600;line-height:1.5;letter-spacing:-.01em}
-  .ad-follow{margin:14px 0 0;padding-left:90px;display:flex;gap:9px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--slate)}
-  .ad-follow b{flex:none;font-size:12.5px;line-height:23px;font-weight:700;color:var(--blue-d);background:var(--soft-2);padding:0 8px;border-radius:6px}
+  .ad-card .ad-ask{margin:0;background:var(--blue);color:#fff;border-radius:14px;padding:12px 16px;font-size:15.5px;font-weight:600;line-height:1.5;letter-spacing:-.01em}
+  .ad-card .ad-follow{margin:14px 0 0;padding-left:90px;display:flex;gap:9px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--slate)}
+  .ad-card .ad-follow b{flex:none;font-size:12.5px;line-height:23px;font-weight:700;color:var(--blue-d);background:var(--soft-2);padding:0 8px;border-radius:6px}
   /* 모션: .ad-1(질문·지시) → .ad-2(꼬리질문·AI 답)가 차례로 — 두 카드 공용 */
   .ask-demo .ad-1,.ask-demo .ad-2{opacity:0}
   .ask-demo.play .ad-1{animation:adAsk 9s ease-in-out infinite}
@@ -119,15 +120,15 @@
   @keyframes adDot{0%,100%{opacity:1}50%{opacity:.35}}
   /* AI 역량검사 '과제 화면'(AssistDemo, 11/26 "히어로 이미지로, AI 면접 참고해") — 히어로 AI 어시스턴트 카드와 같은 어두운 카드:
      'Build' 초록 점, 지원자 지시 말풍선(오른쪽, 남색), AI 답 한 줄(✦ + 완료 칩). 색은 히어로 레이어(캡처가공 make.mjs .callout)와 같은 값 */
-  .ad-card.dark{background:#1e1e1e;box-shadow:0 18px 40px -18px rgba(16,32,96,.45)}
+  .ad-card.dark{background:#1e1e1e;box-shadow:0 22px 48px -20px rgba(16,32,96,.5),0 2px 10px rgba(16,32,96,.1)}
   .ad-card.dark .ad-head b{color:#fff}
   .ad-card.dark .ad-head span{color:#9d9d9d}
   .ad-card.dark .ad-head i{background:#89d185}
-  .ad-you{margin:18px 0 0 auto;width:fit-content;max-width:88%;background:#03395e;color:#fff;border-radius:14px;padding:12px 16px;font-size:15.5px;font-weight:500;line-height:1.5}
-  .ad-ai{margin:14px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:15px;line-height:1.55;color:#d4d4d4}
+  .ad-card .ad-you{margin:18px 0 0 auto;width:fit-content;max-width:88%;background:#03395e;color:#fff;border-radius:14px;padding:12px 16px;font-size:15.5px;font-weight:500;line-height:1.5}
+  .ad-card .ad-ai{margin:14px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:15px;line-height:1.55;color:#d4d4d4}
   .ad-spark{color:#c586c0}
-  .ad-ai em{font-style:normal;font-size:12.5px;font-weight:700;line-height:22px;color:#89d185;background:#272e25;padding:0 8px;border-radius:6px}
-  @media(max-width:560px){.ad-card{padding:16px 16px 18px}.ad-orb{width:56px}.ad-row{gap:12px}.ad-ask{font-size:14px;padding:10px 13px}.ad-follow{padding-left:0;font-size:14px}.ad-you{font-size:14px;padding:10px 13px}.ad-ai{font-size:14px}}
+  .ad-card .ad-ai em{font-style:normal;font-size:12.5px;font-weight:700;line-height:22px;color:#89d185;background:#272e25;padding:0 8px;border-radius:6px}
+  @media(max-width:560px){.ad-card{padding:16px 16px 18px;min-height:0}.ad-orb{width:56px}.ad-row{gap:12px}.ad-card .ad-ask{font-size:14px;padding:10px 13px}.ad-card .ad-follow{padding-left:0;font-size:14px}.ad-card .ad-you{font-size:14px;padding:10px 13px}.ad-card .ad-ai{font-size:14px}}
   @media(prefers-reduced-motion:reduce){.ask-demo .ad-1,.ask-demo .ad-2{opacity:1;animation:none}.ad-head i{animation:none}}
   @media(max-width:880px){.phero-grid{grid-template-columns:minmax(0,1fr)}.phero-text{text-align:center}.phero p{margin-left:auto;margin-right:auto}.phero-cta{justify-content:center}.phero-media{max-width:620px;margin:0 auto}}
   @media(max-width:560px){.phero h1{font-size:30px;line-height:1.36}.phero-cta .btn{width:100%;justify-content:center}}
@@ -807,7 +808,7 @@
      도식 썸네일은 카드 위쪽에 여백 없이 꽉 차게(카드 padding만큼 바깥으로) — 도식 PNG의 둥근 투명 모서리는 같은 연한 블루 바탕으로 메운다 */
   .valcard.prod{text-align:left;align-items:stretch;padding:28px 28px 30px}
   .valcard.prod .prod-shot{display:block;width:calc(100% + 56px);max-width:none;height:auto;margin:-28px -28px 22px;border-radius:calc(var(--r) - 1px) calc(var(--r) - 1px) 0 0;background:var(--soft);overflow:hidden}
-  .valcard.prod .prod-shot .ask-demo{border-radius:0;aspect-ratio:auto;min-height:320px} /* 카드 위 움직이는 카드(AskDemo·AssistDemo, 11/26) — 판 모서리는 카드가 자르고, AI 면접 카드가 내용만큼 늘어나 두 판 높이가 달라지지 않게 같은 최소 높이 */
+  .valcard.prod .prod-shot .ask-demo{border-radius:0} /* 카드 위 움직이는 카드(AskDemo·AssistDemo, 11/26) — 판 모서리는 카드가 자른다. 두 카드 크기는 .ad-card가 맞춘다 */
   .valcard.prod h3{display:flex;align-items:center;gap:8px;font-size:22px;margin-bottom:8px}
   .valcard.prod > p{margin-bottom:0}
   /* 카드 안 체크 목록은 제목·설명과 같은 왼쪽 선 — 모바일 .hr-points 가운데 정렬(리포트용)을 받지 않게 */
@@ -890,7 +891,6 @@
   @media(max-width:880px){.hr-points.two{grid-template-columns:1fr}}
   @media(max-width:760px){
     .value-grid.two{grid-template-columns:1fr;max-width:520px}
-    .valcard.prod .prod-shot .ask-demo{min-height:0} /* 한 줄로 쌓이면 높이를 맞출 필요가 없다 */
     .valcard.prod{padding:22px 20px 24px}
     .valcard.prod .prod-shot{width:calc(100% + 40px);margin:-22px -20px 20px}
     .valcard.prod h3{font-size:19px}
