@@ -95,6 +95,28 @@
   .live-orb[data-on] canvas{visibility:visible}
   .orb-host{display:block;position:relative;overflow:hidden}
   .orb-host>img{display:block;width:100%;height:auto}
+  /* 면접 진행 — AI 면접관 질문 카드(AskDemo, 11/26 "히어로의 AI 면접관 이미지로, 질문하면 꼬리질문이 나오게, 오브는 계속").
+     히어로 AI 면접관 카드와 같은 모양(흰 바탕·블루 테두리·흐린 오브·블루 말풍선·꼬리질문 칩)을 도식과 같은 연한 판(1080:570, 내용이 길면 늘어남) 가운데에.
+     화면에 보이면(.play) 질문(약 0.4초) → 꼬리질문(약 2.8초)이 차례로 떠오르고 7.7초쯤 사라졌다 다시(9초 반복). '질문 중' 점은 천천히 깜빡임 */
+  .ask-demo{aspect-ratio:1080/570;border-radius:clamp(14px,2.2vw,24px);background:#F4F8FE;display:grid;place-items:center;padding:clamp(14px,3vw,32px)}
+  .ad-card{width:min(100%,440px);box-sizing:border-box;background:#fff;border:2.5px solid var(--blue);border-radius:18px;padding:20px 22px 22px;box-shadow:0 18px 40px -20px rgba(20,40,90,.28)}
+  .ad-head{display:flex;align-items:center;gap:9px}
+  .ad-head b{font-size:17px;letter-spacing:-.01em;color:var(--ink)}
+  .ad-head span{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--slate-2)}
+  .ad-head i{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:adDot 1.4s ease-in-out infinite}
+  .ad-row{display:flex;align-items:center;gap:14px;margin-top:16px}
+  .ad-orb{position:relative;flex:none;width:76px;aspect-ratio:1}
+  .ad-ask{margin:0;background:var(--blue);color:#fff;border-radius:14px;padding:12px 16px;font-size:15.5px;font-weight:600;line-height:1.5;letter-spacing:-.01em}
+  .ad-follow{margin:14px 0 0;padding-left:90px;display:flex;gap:9px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--slate)}
+  .ad-follow b{flex:none;font-size:12.5px;line-height:23px;font-weight:700;color:var(--blue-d);background:var(--soft-2);padding:0 8px;border-radius:6px}
+  .ask-demo .ad-ask,.ask-demo .ad-follow{opacity:0}
+  .ask-demo.play .ad-ask{animation:adAsk 9s ease-in-out infinite}
+  .ask-demo.play .ad-follow{animation:adFollow 9s ease-in-out infinite}
+  @keyframes adAsk{0%,4%{opacity:0;transform:translateY(10px)}12%,86%{opacity:1;transform:none}94%,100%{opacity:0;transform:none}}
+  @keyframes adFollow{0%,31%{opacity:0;transform:translateY(10px)}39%,86%{opacity:1;transform:none}94%,100%{opacity:0;transform:none}}
+  @keyframes adDot{0%,100%{opacity:1}50%{opacity:.35}}
+  @media(max-width:560px){.ad-card{padding:16px 16px 18px}.ad-orb{width:56px}.ad-row{gap:12px}.ad-ask{font-size:14px;padding:10px 13px}.ad-follow{padding-left:0;font-size:14px}}
+  @media(prefers-reduced-motion:reduce){.ask-demo .ad-ask,.ask-demo .ad-follow{opacity:1;animation:none}.ad-head i{animation:none}}
   @media(max-width:880px){.phero-grid{grid-template-columns:minmax(0,1fr)}.phero-text{text-align:center}.phero p{margin-left:auto;margin-right:auto}.phero-cta{justify-content:center}.phero-media{max-width:620px;margin:0 auto}}
   @media(max-width:560px){.phero h1{font-size:30px;line-height:1.36}.phero-cta .btn{width:100%;justify-content:center}}
 
@@ -598,41 +620,31 @@
   .band{background:#fff}
   .band.soft{background:var(--soft)}
   /* 문제 섹션(어두운 띠) — AI 면접·AI 역량검사 공용(PairGrid). 배경은 남색→블랙 세로 그라데이션(히어로·CTA의 남색 빛과 구분).
-     2026-11-25 A안("가독성이 떨어진다"): 한 줄에 '문제(흐린 글씨) → 해결(흰 굵은 글씨)', 세 줄을 위아래로. 문제와 해결이 늘 함께 보이고,
-     글자를 키웠다(문제 18px · 해결 20px, 예전 카드 안 15px). 줄 사이는 가는 선. 모바일은 문제 아래 해결(화살표 없음) */
+     2026-11-26 카드형("이게 더 잘 읽힌다" — 시안 C안의 카드): 카드 하나에 문제(x, 흐린 16px) 한 줄과 해결(체크, 흰 굵은 20px) 한 줄을 위아래로,
+     카드 세 장을 가운데 쌓는다(폭 760px). 그 전 A안은 한 줄에 '문제 → 해결'을 화살표로 나란히 뒀다 */
   .band.dark{color:#fff;background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%)}
   .band.dark .head{text-align:center;max-width:760px;margin:0 auto}
   .band.dark .head h2{color:#fff}
-  .pair-list{list-style:none;margin:48px auto 0;padding:0;max-width:980px}
-  .pair-list li{display:grid;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);align-items:center;gap:18px;padding:22px 4px;border-top:1px solid rgba(255,255,255,.12)}
-  .pair-list li:last-child{border-bottom:1px solid rgba(255,255,255,.12)}
-  .pl-prob{display:flex;gap:12px;align-items:center;font-size:18px;line-height:1.5;letter-spacing:-.01em;color:rgba(255,255,255,.62)}
+  .pair-list{list-style:none;margin:48px auto 0;padding:0;max-width:760px;display:grid;gap:14px}
+  .pair-list li{display:grid;gap:10px;padding:20px 26px;border-radius:var(--r);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+  .pl-prob{display:flex;gap:12px;align-items:center;font-size:16px;line-height:1.5;letter-spacing:-.01em;color:rgba(255,255,255,.62)}
   .pl-sol{display:flex;gap:12px;align-items:center;font-size:20px;line-height:1.5;font-weight:700;letter-spacing:-.01em;color:#fff}
-  .pl-x{display:grid;place-items:center;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);position:relative;flex:none}
+  .pl-x{display:grid;place-items:center;width:24px;height:24px;box-sizing:border-box;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);position:relative;flex:none}
   .pl-x::before,.pl-x::after{content:"";position:absolute;width:9px;height:1.6px;background:rgba(255,255,255,.62)}
   .pl-x::before{transform:rotate(45deg)}
   .pl-x::after{transform:rotate(-45deg)}
   .pl-ck{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--blue);flex:none}
   .pl-ck::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2.2px 2.2px 0;transform:translate(0,-1px) rotate(45deg)}
-  .pl-arrow{height:2px;background:linear-gradient(90deg,rgba(83,130,255,.25),var(--blue));position:relative;transform-origin:left}
-  .pl-arrow::after{content:"";position:absolute;right:-1px;top:-4px;width:8px;height:8px;border:solid var(--blue);border-width:2px 2px 0 0;transform:rotate(45deg)}
-  /* 모션: 화면에 들어오면(.inview, PairGrid) 한 번 — 한 줄씩 차례로(줄 간격 0.9초) 문제(x)와 해결(체크) 문장이 함께 나타나고 그 사이 화살표가 그어진다.
-     (11/26 "x 문장과 체크 문장 같이 나오게, 차례대로" — 예전엔 문제가 처음부터 보이고 해결만 나타남) 그 전에는 첫 장면에서 멈춤 */
-  .pl-prob,.pl-sol{animation:plIn .9s ease-out both}
-  .pl-arrow{animation:plLine .7s ease-out both}
-  .pair-list li:nth-child(1) .pl-prob,.pair-list li:nth-child(1) .pl-sol{animation-delay:.2s}
-  .pair-list li:nth-child(1) .pl-arrow{animation-delay:.35s}
-  .pair-list li:nth-child(2) .pl-prob,.pair-list li:nth-child(2) .pl-sol{animation-delay:1.1s}
-  .pair-list li:nth-child(2) .pl-arrow{animation-delay:1.25s}
-  .pair-list li:nth-child(3) .pl-prob,.pair-list li:nth-child(3) .pl-sol{animation-delay:2s}
-  .pair-list li:nth-child(3) .pl-arrow{animation-delay:2.15s}
-  .pair-list:not(.inview) .pl-prob,.pair-list:not(.inview) .pl-arrow,.pair-list:not(.inview) .pl-sol{animation-play-state:paused}
-  @keyframes plLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  @keyframes plIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  @media(max-width:1024px){.pl-prob{font-size:16.5px}.pl-sol{font-size:18px}}
-  @media(max-width:760px){.pair-list{margin-top:36px}.pair-list li{grid-template-columns:minmax(0,1fr);gap:10px;padding:18px 2px}.pl-arrow{display:none}.pl-prob{font-size:16px}}
-  /* 움직임 줄이기 설정: 모션 없이 다 보여 준다 */
-  @media(prefers-reduced-motion:reduce){.pl-prob,.pl-arrow,.pl-sol{animation:none}}
+  /* 모션: 화면에 들어오면(.inview, PairGrid) 한 번 — 카드가 한 장씩 차례로(0.9초 간격) 떠올라 문제(x)와 해결(체크) 문장이 함께 나타난다
+     (11/26 "x 문장과 체크 문장 같이 나오게, 차례대로"). 그 전에는 첫 장면에서 멈춤 */
+  .pair-list li{animation:plIn .9s ease-out both}
+  .pair-list li:nth-child(1){animation-delay:.2s}
+  .pair-list li:nth-child(2){animation-delay:1.1s}
+  .pair-list li:nth-child(3){animation-delay:2s}
+  .pair-list:not(.inview) li{animation-play-state:paused}
+  @keyframes plIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @media(max-width:760px){.pair-list{margin-top:36px;gap:12px}.pair-list li{padding:16px 18px;gap:8px}.pl-prob{font-size:15px}.pl-sol{font-size:17.5px}}
+  @media(prefers-reduced-motion:reduce){.pair-list li{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
 

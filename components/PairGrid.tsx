@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 
 // 문제 → 해결 세 쌍(.pair-list) — AI 면접·AI 역량검사 공용 문제 띠. 스타일·모션은 app/landing.css(.pair-list).
-// 2026-11-25 A안("가독성이 떨어진다"는 피드백으로 다시 짬): 한 줄에 '문제(흐린 글씨) → 해결(흰 굵은 글씨)'을 나란히 두고 세 줄을 위아래로 쌓는다.
-// 문제와 해결이 늘 함께 보인다(예전 C안은 흰 체크 박스가 문제 카드를 덮어 하나씩만 보였다).
-// 화면에 들어오면(.inview) 한 번만 움직인다: 한 줄씩 차례로 문제(x)와 해결(체크) 문장이 함께 나타나고 화살표가 그어진다(11/26). 그 전에는 첫 장면에서 멈춰 있다.
-// 움직임 줄이기 설정이면 CSS가 모션 없이 다 보여 준다. 모바일은 문제 아래에 해결이 온다(화살표 없음).
+// 2026-11-26 카드형("이게 더 잘 읽힌다" — 시안 C안의 카드): 카드 하나에 문제(x, 흐린 글씨) 한 줄과 해결(체크, 흰 굵은 글씨) 한 줄을 위아래로, 카드 세 장을 쌓는다.
+// (그 전 A안은 한 줄에 '문제 → 해결'을 화살표로 나란히 뒀다. 처음 C안은 흰 체크 박스가 문제 카드를 덮어 하나씩만 보였다.)
+// 화면에 들어오면(.inview) 한 번만 움직인다: 카드가 한 장씩 차례로 떠올라 문제와 해결 문장이 함께 나타난다. 그 전에는 첫 장면에서 멈춰 있다.
+// 움직임 줄이기 설정이면 CSS가 모션 없이 다 보여 준다.
 export type Pair = { problem: string; solution: string };
 
 export default function PairGrid({ pairs }: { pairs: Pair[] }) {
@@ -29,7 +29,6 @@ export default function PairGrid({ pairs }: { pairs: Pair[] }) {
       {pairs.map((p) => (
         <li key={p.problem}>
           <span className="pl-prob"><i className="pl-x" aria-hidden="true"></i>{p.problem}</span>
-          <i className="pl-arrow" aria-hidden="true"></i>
           <span className="pl-sol"><i className="pl-ck" aria-hidden="true"></i>{p.solution}</span>
         </li>
       ))}

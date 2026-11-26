@@ -9,8 +9,7 @@ import IntegritySection from "@/components/IntegritySection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
 import ProductCompare from "@/components/ProductCompare";
-import OrbImage from "@/components/OrbImage";
-import { ORB_QUESTION } from "@/lib/products";
+import AskDemo from "@/components/AskDemo";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -35,7 +34,7 @@ export function generateMetadata() {
 
 // 문구의 사실 근거: _docs/홈페이지 개편/AI면접_AI역량검사_차이_소개자료.md (회사별로 켜는 기능·수치는 싣지 않는다)
 
-// 03 · 문제 — 어두운 띠(AI 역량검사와 같은 A안, 11/25): 한 줄에 '문제 → 해결', 세 줄을 위아래로(components/PairGrid.tsx).
+// 03 · 문제 — 어두운 띠(AI 역량검사와 같은 카드형, 11/26): 카드 하나에 문제(x)·해결(체크) 한 줄씩, 카드 세 장(components/PairGrid.tsx).
 // 예전 '이럴 때 씁니다' 세 장(지원자가 많을 때 · 경험 확인 · 같은 기준)을 문제 → 해결로 짝지었다. 문장은 한 줄에 들어가게 짧게.
 const PAIRS = [
   { problem: "지원자가 많아 1차 면접을 다 못 봅니다", solution: "AI가 1차 면접을 한 번에 진행합니다" },
@@ -149,7 +148,8 @@ export default function AiInterviewPage() {
                   <p>AI 면접관이 질문하고, 지원자의 답변을 들은 뒤 부족한 부분은 꼬리질문으로 한 번 더 확인합니다.</p>
                 </div>
                 <div className="hr-media">
-                  <OrbImage className="hr-img" src="/diagram-question.webp" alt="면접 진행 도식: AI 면접관과 AI 질문·꼬리질문" orb={ORB_QUESTION} width={1080} height={570} />
+                  {/* 11/26 "히어로의 AI 면접관 이미지로, 질문하면 꼬리질문이 나오게" — 도식 대신 움직이는 질문 카드 */}
+                  <AskDemo />
                 </div>
               </div>
             }
