@@ -429,7 +429,7 @@
      카드 사이는 흰 원 안의 블루 꺾쇠(점선 화살표 대신, 모바일은 아래 방향) */
   .pflow{list-style:none;margin:44px auto 0;padding:0;max-width:1080px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}
   .pf-step{position:relative;display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
-  .pf-step.go{border-color:var(--blue);box-shadow:0 18px 40px -20px rgba(51,106,255,.55)}
+  .pf-step.go{border-color:rgba(51,106,255,.35);box-shadow:0 18px 40px -20px rgba(51,106,255,.45)} /* 11/26 "테두리가 너무 튄다" — 블루(--blue #336AFF) 35% 투명도, 그림자도 조금 약하게 */
   .pf-thumb{aspect-ratio:4/3;border-radius:calc(var(--r) - 1px) calc(var(--r) - 1px) 0 0;border-bottom:1px solid var(--line);display:grid;place-items:center;padding:8px 10px;overflow:hidden;background:#fff}
   .pf-thumb .hero-stage{width:90%}
   /* 3단계 대면 면접 카드(11/26 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로") — 카드 전체를 문제 띠(.band.dark)와 같은 남색→블랙으로.
