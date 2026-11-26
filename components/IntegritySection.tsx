@@ -48,22 +48,17 @@ const CLIPS = [
   { label: "여러 얼굴", t: "12:05" },
 ];
 
-// 시선 추적 링(11/26, 사용자가 보낸 참고 이미지 — 눈 둘레 눈금 링 + 시선 선). 좌표는 integrity-face.webp(840×630) 기준, 오른쪽 눈 (465, 213).
-// 눈 자체는 가리지 않는다: 가장 안쪽 링(r 30)이 눈 바깥을 돌고, 시선 선은 링 가장자리에서 시작해 '시선 추적' 태그까지. 링 두 겹은 서로 반대로 천천히 돈다.
+// 얼굴·시선 표시(SVG). 좌표는 integrity-face.webp(1120×630, 가로로 긴 화면 비율 — 11/26 "화면 비율로") 기준.
+// 11/26 "얼굴 감지는 사각형 모서리 4개만", "눈의 시선 감지 그래픽은 과해, 덜어줘" → 얼굴은 모서리 4개, 시선은 오른쪽 눈 (610, 215) 둘레 가는 링 하나 + 태그까지 점선.
+// 눈 자체는 가리지 않는다. 박스 범위 x 435~691, y 120~391 — 태그 자리(.ig-box)와 같은 값.
+const FACE = { x1: 435, y1: 120, x2: 691, y2: 391, len: 30 };
 function GazeHud() {
+  const { x1, y1, x2, y2, len: l } = FACE;
   return (
-    <svg className="ig-hud" viewBox="0 0 840 630" aria-hidden="true">
-      <g className="ig-hud-ring">
-        <circle cx="465" cy="213" r="62" className="ig-hud-dots" />
-        <circle cx="465" cy="213" r="50" className="ig-hud-ticks" />
-      </g>
-      <circle cx="465" cy="213" r="41" className="ig-hud-thin" />
-      <circle cx="465" cy="213" r="30" className="ig-hud-thin ig-hud-in" />
-      <g className="ig-hud-arc">
-        <circle cx="465" cy="213" r="55" className="ig-hud-blue" />
-      </g>
-      <line x1="495" y1="213" x2="566" y2="213" className="ig-hud-line" />
-      <circle cx="566" cy="213" r="3.5" className="ig-hud-end" />
+    <svg className="ig-hud" viewBox="0 0 1120 630" aria-hidden="true">
+      <path className="ig-hud-corner" d={`M${x1} ${y1 + l}V${y1}H${x1 + l}M${x2 - l} ${y1}H${x2}V${y1 + l}M${x2} ${y2 - l}V${y2}H${x2 - l}M${x1 + l} ${y2}H${x1}V${y2 - l}`} />
+      <circle cx="610" cy="215" r="25" className="ig-hud-ring" />
+      <line x1="635" y1="215" x2="706" y2="215" className="ig-hud-line" />
     </svg>
   );
 }
@@ -78,7 +73,7 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
     <>
       <div className="ig-cams" role="img" aria-label="면접 중 녹화 화면 예시: 정면 카메라로 얼굴 1명과 시선을 따라가고 AI 안경 착용을 검사하며, 지원자 화면 공유와 측면 카메라로 키보드 위 손과 책상 주변을 함께 봅니다.">
         <div className="ig-face">
-          <img src="/integrity-face.webp" alt="" width={840} height={630} loading="lazy" />
+          <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" />
           <GazeHud />
           <span className="ig-box"><span className="ig-tag">얼굴 1명</span><span className="ig-tag ig-tag-b">안경 검사 · AI 안경 없음</span></span>
           <span className="ig-gaze">시선 추적 · 정면</span>
