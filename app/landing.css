@@ -15,6 +15,8 @@
     -webkit-mask-image:radial-gradient(ellipse 72% 64% at 50% 44%, #000 26%, transparent 86%);
             mask-image:radial-gradient(ellipse 72% 64% at 50% 44%, #000 26%, transparent 86%)}
   @media(prefers-reduced-motion:reduce){.hero-bg #hero-particles{display:none}}
+  /* 플루티드 글래스 바탕(FlutedGlassBg, 2026-11-26 시안 A-1안) — 히어로 전체를 덮는 WebGL 캔버스. 위 그라데이션은 WebGL이 없을 때의 대체 바탕 */
+  .hero-bg #hero-glass{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;display:block}
   /* 히어로 강조어 그라데이션 모션 — 다크 배경용 밝은 톤(시안빛 블루→바이올렛) 가로 흐름 */
   /* 헤드라인: 키워드(수천 명·상위 후보)는 화이트, 나머지는 하늘색 그라데이션 */
   .decl h1 .hl{color:#fff;-webkit-text-fill-color:#fff;font-weight:700;position:relative}

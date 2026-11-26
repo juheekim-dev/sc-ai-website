@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import HeroParticles from "@/components/HeroParticles";
+import FlutedGlassBg from "@/components/FlutedGlassBg";
 
 // 입자가 모여드는 강조어. 히어로 h1 안에서 한 번만 쓴다(HeroParticles targetId와 짝).
 export function HeroWord({ children }: { children: ReactNode }) {
@@ -11,10 +12,12 @@ export function HeroWord({ children }: { children: ReactNode }) {
  * 다크 히어로 — 홈 전용(제품 상세 페이지는 밝은 ProductHero, 2026-11-25). 스타일은 app/landing.css(.hero-bg·.decl).
  * 다크 배경 래퍼(.hero-bg: 그라데이션·그레인·입자 캔버스)까지 포함한다.
  * data-nav="dark" → 이 위에서는 GNB가 반전된다(SiteHeader.syncHeader).
+ * 바탕은 플루티드 글래스 빛(FlutedGlassBg, 2026-11-26 시안 A-1안) — 그 위에 입자 수렴 모션(HeroParticles).
  */
 export default function PageHero({ title, lead }: { title: ReactNode; lead: ReactNode }) {
   return (
     <div className="hero-bg" data-nav="dark">
+      <FlutedGlassBg canvasId="hero-glass" />
       <HeroParticles canvasId="hero-particles" targetId="real-word" />
       <section className="decl" id="hero">
         <div className="wrap">
