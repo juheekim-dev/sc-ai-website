@@ -22,7 +22,8 @@ const SHOTS = [
 // 제품 화면 그대로: 진행 중인 AI 면접·AI 역량검사 지원자를 칸으로(칸마다 위 화면 공유, 아래 정면·측면 카메라, 맨 아래 '번호. 이름'과 프로젝트),
 // 감지가 있는 칸은 'AI 감지'로 표시하고 맨 앞으로, 누르면 'AI 감독 리포트'. 응시 중 바로 잡히는 건 시선 이탈·여러 얼굴·얼굴 미감지·시험 화면 이탈(약 10초 간격 갱신).
 // 회사별로 켜는 베타 기능이라 그렇게 밝힌다. 휴대폰·이어폰·가상 머신 감지는 제품 목록에만 있고 감지 코드가 없어 쓰지 않는다. 감지 표시는 사이트 규칙대로 블루(제품은 노랑).
-// 이름은 가상. 사진이 있는 건 첫 칸(목업 인물)뿐이고 나머지는 실루엣.
+// 이름은 가상. 11/26 M2안(포커스 + 목록): 왼쪽 진행 중 목록(감지된 지원자가 맨 위), 오른쪽에 그 지원자를 크게(제품의 '칸을 누르면 크게 보기').
+// 사진은 목업 인물 한 명뿐이라 목록의 나머지는 이름 첫 글자로.
 const LIVE_CELLS = [
   { name: "김서연", project: "서비스 기획자", flag: true },
   { name: "이도윤", project: "백엔드 개발자", flag: false },
@@ -33,11 +34,8 @@ const LIVE_POINTS = [
   "진행 중인 AI 면접·AI 역량검사를 한 화면에",
   "지원자마다 화면 공유·정면·측면 카메라를 실시간으로",
   "시선 이탈·여러 얼굴·자리 비움·화면 이탈은 응시 중에 바로 표시",
-  "감지된 지원자는 맨 앞으로 — 누르면 AI 감독 리포트",
+  "감지된 지원자는 맨 앞으로 — 누르면 크게 보고 AI 감독 리포트로",
 ];
-const Silhouette = () => (
-  <svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="80" cy="40" r="17" /><path d="M42 102v-6a38 38 0 0 1 76 0v6z" /></svg>
-);
 
 // 탭 3 '감지 리포트' = 벤토(11/26 R3 — 감지 항목 탭과 같은 결). 큰 카드 = 면접 영상의 시선 이탈 장면(목업 '실 측면-2'에서 고개 돌린 얼굴 쪽을 16:9로, 모니터는 빠지게)
 // + 두 눈 측정 박스·시선 방향 화살표·'시선 이탈' 배지 + 타임라인. 작은 카드 3장 = 종류·시각 기록 → 그 장면으로 이동 → 판단은 채용팀이.
@@ -107,23 +105,34 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
     </div>
   );
 
-  // 탭 2 — 왼쪽 실시간 모니터링 화면(예시), 오른쪽 설명
+  // 탭 2 — 왼쪽 실시간 모니터링 화면(예시), 오른쪽 설명. 크게 보는 정면 카메라에는 감지 항목 탭과 같은 얼굴 모서리 4개
   const monitor = (
     <>
-      <div className="lv" role="img" aria-label="실시간 모니터링 화면 예시: 진행 중인 지원자 4명의 화면 공유·정면·측면 카메라가 칸마다 보이고, 감지가 있는 첫 번째 지원자 칸에 AI 감지 표시가 있습니다.">
+      <div className="lv" role="img" aria-label="실시간 모니터링 화면 예시: 진행 중인 지원자 4명 중 AI 감지가 있는 첫 번째 지원자가 목록 맨 위에 있고, 그 지원자의 화면 공유·정면·측면 카메라를 크게 보고 있습니다.">
         <div className="lv-h"><b>실시간 모니터링</b><span className="lv-n">진행 중 {LIVE_CELLS.length}</span><span className="lv-q">지원자 이메일로 검색</span></div>
-        <div className="lv-grid">
-          {LIVE_CELLS.map((c, i) => (
-            <div key={c.name} className={c.flag ? "lv-cell flag" : "lv-cell"}>
-              <div className="lv-st"><i></i>{c.flag ? "AI 감지" : "진행 중"}</div>
-              <div className="lv-scr">{c.flag ? <img src="/integrity-screen.webp" alt="" width={640} height={480} loading="lazy" /> : <span className="lv-ph"></span>}</div>
-              <div className="lv-cams">
-                <div>{c.flag ? <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" /> : <Silhouette />}</div>
-                <div>{c.flag ? <img src="/integrity-side.webp" alt="" width={640} height={400} loading="lazy" /> : <Silhouette />}</div>
+        <div className="lv-body">
+          <ul className="lv-list">
+            {LIVE_CELLS.map((c, i) => (
+              <li key={c.name} className={c.flag ? "on" : undefined}>
+                <span className="lv-av">{c.flag ? <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" /> : c.name[0]}</span>
+                <span className="lv-who">{i + 1}. {c.name}<small>{c.project}</small></span>
+                <span className="lv-st">{c.flag ? "AI 감지" : "진행 중"}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="lv-focus">
+            <div className="lv-top"><i></i>AI 감지 · 시선 이탈</div>
+            <div className="lv-v"><img src="/integrity-screen.webp" alt="" width={640} height={480} loading="lazy" /><span className="lv-chip">화면 공유</span></div>
+            <div className="lv-cams">
+              <div className="lv-v">
+                <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" />
+                <svg className="ig-hud" viewBox="0 0 1120 630" aria-hidden="true"><path className="lv-corner" d="M435 150V120H465M661 120H691V150M691 361V391H661M465 391H435V361" /></svg>
+                <span className="lv-chip">정면</span>
               </div>
-              <div className="lv-name"><b>{i + 1}. {c.name}</b><span>{c.project}</span></div>
+              <div className="lv-v"><img src="/integrity-side.webp" alt="" width={640} height={400} loading="lazy" /><span className="lv-chip">측면</span></div>
             </div>
-          ))}
+            <div className="lv-name"><b>1. {LIVE_CELLS[0].name}</b>{LIVE_CELLS[0].project}</div>
+          </div>
         </div>
       </div>
       <div>

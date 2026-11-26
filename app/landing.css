@@ -919,31 +919,36 @@
   .ig-checks li{display:flex;gap:10px;align-items:center;font-size:16px;font-weight:600;color:var(--ink)}
   .ig-checks li::before{content:"✓";width:22px;height:22px;flex:none;border-radius:50%;background:var(--soft-2);color:var(--blue-d);font-size:12px;font-weight:700;display:grid;place-items:center}
   .integ .ig-link{display:flex;justify-content:center;margin-top:36px}
-  /* 실시간 모니터링(11/26, 탭 2) — 채용팀 '실시간 모니터링' 화면 예시. 흰 창 + 지원자 칸 2×2(위 화면 공유, 아래 정면·측면, 맨 아래 이름).
-     감지가 있는 칸(.flag)은 블루 테두리가 천천히 숨 쉬고 'AI 감지' 표시. 나머지 칸은 어두운 화면 자리 + 실루엣 */
-  .lv{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12)}
-  .lv-h{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:14px}
+  /* 실시간 모니터링(11/26, 탭 2, M2안) — 채용팀 '실시간 모니터링' 화면 예시. 흰 창 = 위 머리줄 + 왼쪽 진행 중 목록(.lv-list, 감지된 지원자가 맨 위) +
+     오른쪽 그 지원자를 크게(.lv-focus — 화면 공유 위, 정면·측면 카메라 아래). 감지 줄은 블루 테두리가 천천히 숨 쉰다 */
+  .lv{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12)}
+  .lv-h{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);font-size:14px}
   .lv-h b{color:var(--ink)}
   .lv-n{font-size:12px;font-weight:700;color:var(--blue-d);background:var(--soft-2);border-radius:999px;padding:3px 8px}
   .lv-q{margin-left:auto;font-size:11.5px;color:var(--slate-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap}
-  .lv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .lv-cell{background:#1B2233;border-radius:12px;padding:7px;display:grid;gap:5px;outline:2px solid transparent;outline-offset:-1px}
-  .lv-cell.flag{outline-color:var(--blue);animation:lvRing 2.4s ease-in-out infinite}
-  .lv-st{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:#C9D2E6;line-height:1}
-  .lv-st i{width:6px;height:6px;border-radius:50%;background:#3FBF7F}
-  .lv-cell.flag .lv-st{color:#9DB8FF}
-  .lv-cell.flag .lv-st i{background:var(--blue)}
-  .lv-scr,.lv-cams>div{position:relative;overflow:hidden;border-radius:6px;background:#121722;aspect-ratio:16/10}
-  .lv-scr img,.lv-cams img{display:block;width:100%;height:100%;object-fit:cover}
-  .lv-ph{position:absolute;inset:14% 12%;background:linear-gradient(#2A3247,#2A3247) 0 0/60% 9% no-repeat,linear-gradient(#232A3C,#232A3C) 0 28%/90% 7% no-repeat,linear-gradient(#232A3C,#232A3C) 0 48%/75% 7% no-repeat,linear-gradient(#232A3C,#232A3C) 0 68%/82% 7% no-repeat}
-  .lv-cams{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-  .lv-cams svg{display:block;width:100%;height:100%;fill:#3A4560}
-  .lv-name{display:flex;align-items:baseline;gap:6px;font-size:11px;color:#8E99B3;line-height:1.2;min-width:0}
-  .lv-name b{color:#fff;font-size:11.5px;white-space:nowrap}
-  .lv-name span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  @keyframes lvRing{50%{box-shadow:0 0 0 5px rgba(51,106,255,.28)}}
-  @media (prefers-reduced-motion:reduce){.lv-cell.flag{animation:none}}
-  @media(max-width:560px){.lv{padding:12px}.lv-q{display:none}.lv-grid{gap:8px}.lv-cell{padding:5px}}
+  .lv-body{display:grid;grid-template-columns:38% 62%}
+  .lv-list{list-style:none;margin:0;padding:10px;border-right:1px solid var(--line);display:grid;align-content:start;gap:6px}
+  .lv-list li{display:flex;align-items:center;gap:8px;padding:8px;border-radius:10px;font-size:12.5px;font-weight:600;color:var(--ink);min-width:0}
+  .lv-list li.on{background:var(--soft-2);outline:2px solid var(--blue);outline-offset:-2px;animation:lvRing 2.4s ease-in-out infinite}
+  .lv-av{width:26px;height:26px;flex:none;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#E3E8F3;font-size:11px;color:var(--slate)}
+  .lv-av img{width:100%;height:100%;object-fit:cover;object-position:52% 25%}
+  .lv-who{min-width:0;white-space:nowrap}
+  .lv-who small{display:block;font-size:11px;font-weight:500;color:var(--slate-2);overflow:hidden;text-overflow:ellipsis}
+  .lv-st{margin-left:auto;font-size:10.5px;font-weight:700;color:#2E8B5A;white-space:nowrap}
+  .lv-list li.on .lv-st{color:var(--blue-d)}
+  .lv-focus{padding:12px;background:#1B2233;display:grid;gap:6px;min-width:0}
+  .lv-top{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#9DB8FF}
+  .lv-top i{width:7px;height:7px;border-radius:50%;background:var(--blue)}
+  .lv-v{position:relative;overflow:hidden;border-radius:8px;aspect-ratio:16/10;background:#121722}
+  .lv-v img{display:block;width:100%;height:100%;object-fit:cover}
+  .lv-chip{position:absolute;left:6px;bottom:6px;font-size:10px;font-weight:700;line-height:1;color:#fff;background:rgba(20,28,46,.72);border-radius:999px;padding:3px 6px}
+  .lv-corner{fill:none;stroke:var(--blue);stroke-width:2.5px;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .lv-cams{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .lv-name{font-size:11.5px;color:#8E99B3}
+  .lv-name b{color:#fff;margin-right:6px}
+  @keyframes lvRing{50%{box-shadow:0 0 0 4px rgba(51,106,255,.22)}}
+  @media (prefers-reduced-motion:reduce){.lv-list li.on{animation:none}}
+  @media(max-width:560px){.lv-q{display:none}.lv-body{grid-template-columns:minmax(0,1fr)}.lv-list{border-right:0;border-bottom:1px solid var(--line);grid-template-columns:1fr 1fr}.lv-list li{padding:6px}.lv-st{display:none}}
   /* 감지 리포트 벤토(11/26 R3) — 큰 카드 영상(.rp-vid, .ig-face 틀 재사용) 위 두 눈 측정 박스·시선 방향 화살표·배지, 아래 타임라인(.ir-bar 재사용).
      배지 좌표는 integrity-away.webp(1120×630) 기준 화살표 끝(260, 248). 박스는 천천히 깜박여 '지금 이 장면'을 짚는다 */
   .rp-eye{fill:none;stroke:var(--blue);stroke-width:2.5px;vector-effect:non-scaling-stroke;animation:rpBlink 2.4s ease-in-out infinite}
