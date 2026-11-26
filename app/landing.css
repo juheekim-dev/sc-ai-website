@@ -434,7 +434,7 @@
   .pf-thumb .hero-stage{width:90%}
   /* 3단계 대면 면접 카드(11/26 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로") — 카드 전체를 문제 띠(.band.dark)와 같은 남색→블랙으로.
      글자색은 어두운 바탕에서 쓰는 값(.role-banner .blue·.final p와 같음) */
-  .pf-step.dark{background:radial-gradient(110% 55% at 50% 0%,rgba(51,106,255,.42) 0%,rgba(51,106,255,0) 70%),linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%);border-color:transparent} /* 11/26 "위쪽에 살짝 브랜드 컬러" — 위 가운데에 --blue(#336AFF) 빛을 은은하게 */
+  .pf-step.dark{background:radial-gradient(120% 80% at 50% 0%,rgba(51,106,255,.42) 0%,rgba(51,106,255,0) 72%),linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%);border-color:transparent} /* 11/26 "위쪽에 살짝 브랜드 컬러" → "조금 더 내려오게" — 위 가운데에 --blue(#336AFF) 빛, 세로로 카드 약 80%까지 */
   .pf-step.dark .pf-thumb{background:none;border-bottom-color:rgba(255,255,255,.1)}
   .pf-step.dark .pf-no{color:#7DA9FF}
   .pf-step.dark h3{color:#fff}
@@ -565,18 +565,21 @@
   /* VOICES는 흰색 — 앞 PROOF(연블루 #F4F8FF)와 배경을 나눠 섹션 경계가 드러나게 */
   .voices{background:var(--soft);padding-top:var(--sec-y)} /* 홈 전용 — 11/26 깔때기가 다시 들어와 배경 교차가 밀려 연한 블루로 */
   .voices .head{text-align:center;max-width:720px;margin:0 auto}
-  .v-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px;align-items:stretch;max-width:1040px;margin-left:auto;margin-right:auto}
-  .vc{display:flex;flex-direction:column}
-  /* 말풍선 높이를 통일해 하단(이름 줄)을 맞춤 */
-  .vc .bubble{flex:1;position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 26px 24px;box-shadow:var(--shadow)}
-  .vc .bubble::after{content:"";position:absolute;left:40px;bottom:-9px;width:17px;height:17px;background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
-  .vc .qm{color:var(--blue-2);font-size:24px;line-height:1;margin-bottom:10px}
-  .vc blockquote{font-size:16px;font-weight:400;line-height:1.65;letter-spacing:-.01em;color:var(--ink)}
-  .vc .who{display:flex;align-items:center;gap:12px;margin-top:24px;padding-left:14px}
-  .vc .ava{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-2));color:#fff;display:grid;place-items:center;font-weight:700;font-size:17px;flex-shrink:0}
-  .vc .who .nm{font-weight:700;font-size:15px}
-  .vc .who .ro{font-size:13px;color:var(--slate-2)}
-  @media(max-width:860px){.v-grid{grid-template-columns:1fr;max-width:560px;margin-left:auto;margin-right:auto}}
+  /* 09 케이스 카드(2026-11-26, 후기 말풍선 3개를 대체) — 태그·제목·이전→이후 줄·인용·출처. 데이터는 app/page.tsx CASES */
+  .case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:50px auto 0;max-width:1040px;align-items:stretch}
+  .case{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 30px 24px;box-shadow:var(--shadow)}
+  .case-tag{align-self:flex-start;font-size:12.5px;font-weight:600;color:var(--blue-d);background:var(--soft-2);padding:6px 14px;border-radius:999px}
+  .case h3{margin-top:14px;font-size:21px;line-height:1.4;letter-spacing:-.02em;color:var(--ink)}
+  .case-rows{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+  .case-rows li{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .cr-label{flex:0 0 118px;font-size:13.5px;color:var(--slate-2)}
+  .cr-before{color:var(--slate);text-decoration:line-through;text-decoration-color:var(--slate-2)}
+  .case-rows .fa-arrow-right{font-size:12px;color:var(--blue-2)}
+  .cr-after{font-weight:700;color:var(--blue-d)}
+  .case blockquote{margin-top:auto;padding-top:22px;font-size:15.5px;line-height:1.65;color:var(--ink)}
+  .case-who{margin-top:10px;font-size:13.5px;font-weight:600;color:var(--slate)}
+  .case .psrc{margin-top:4px;font-size:11.5px;color:var(--slate-2)}
+  @media(max-width:860px){.case-grid{grid-template-columns:minmax(0,1fr);max-width:560px}.case{padding:24px 22px 20px}.case h3{font-size:19px}.cr-label{flex-basis:96px}}
 
   /* 7.5 FAQ — 네이티브 <details> 아코디언. 검색용 FAQPage(JSON-LD)와 짝. */
   .faq{background:var(--soft);padding-top:var(--sec-y)}

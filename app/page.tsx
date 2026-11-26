@@ -23,6 +23,36 @@ const PRODUCT_POINTS: Record<string, string[]> = {
   "/ai-assessment": ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
 };
 
+// 09 · 케이스 스터디(2026-11-26) — 회사명은 쓰지 않고 '기업 규모 · 채용 종류'로만 부른다. 원문 블로그 링크도 걸지 않는다(회사명이 드러남).
+// 사실 근거·내부 매핑: _docs/홈페이지 개편/케이스스터디_정리.md. 중견기업 케이스는 자료가 모이면 추가.
+// 대기업 케이스에서 슈퍼코더가 공급한 건 AI 면접뿐이다 — 그 전형의 'AI 활용 역량평가'를 우리 AI 역량검사로 쓰지 않는다.
+// before가 없는 줄은 바뀐 값만 보여 준다.
+const CASES = [
+  {
+    tag: "대기업 · 대량 채용",
+    title: "코딩테스트 대신, 수천 명이 같은 날 AI 면접을 봤습니다",
+    rows: [
+      { label: "1차 검증", before: "코딩테스트", after: "AI 면접" },
+      { label: "응시", after: "수천 명 · 1:1 원격 약 50분" },
+    ],
+    quote: "AI 기술이 실제 현업에서 빠르게 도입되며 일하는 방식에 많은 변화가 있는 만큼 채용 방식 또한 변화가 필요하다고 판단했습니다.",
+    who: "개발 직군 채용형 인턴십 · 채용팀장",
+    src: "언론 보도(2026-08), 슈퍼코더 발표(2026-09)",
+  },
+  {
+    tag: "스타트업 · 경력직 채용",
+    title: "CTO가 직접 보던 1차 면접을 AI 면접으로 바꿨습니다",
+    rows: [
+      { label: "전형", before: "5단계", after: "2단계" },
+      { label: "채용 기간", before: "2~3주", after: "3일 이내" },
+      { label: "채용에 쓰는 시간", before: "주 20시간", after: "주 2시간" },
+    ],
+    quote: "지금은 AI 면접 보고 나서 바로 채용 보고까지, 3일도 안 걸리죠.",
+    who: "AI 스타트업 · CTO",
+    src: "고객사 CTO 인터뷰(2026-09), 자체 체감 기준",
+  },
+];
+
 // 03 · 문제 — 통계 네 개를 문제 줄로, 두 제품이 하는 일을 해결 줄로(카드 한 장에 한 쌍). 수치·출처는 옛 통계 카드 그대로. 문장은 한 줄에 들어가게 짧게.
 const PAIRS = [
   { problem: "기업 84%가 지원자의 거짓·과장을 적발한 적이 있습니다", solution: "AI 면접이 꼬리질문으로 적힌 경험을 확인합니다" },
@@ -181,7 +211,7 @@ export default async function HomePage() {
       {/* SECTION 08 · 보안 (공용) — 흰 바탕(기본값) */}
       <SecuritySection />
 
-      {/* SECTION 09 · 성과·후기(연한 블루) — 옛 성과(PROOF) 섹션을 합침(2026-11-26). 후기 말풍선이 위, 성과 카드 두 장(속도·비용)이 아래.
+      {/* SECTION 09 · 성과·후기(연한 블루) — 옛 성과(PROOF) 섹션을 합침(2026-11-26). 케이스 카드 두 장(대기업·스타트업, 11/26 후기 말풍선 3개를 대체)이 위, 성과 카드 두 장(속도·비용)이 아래.
           성과 카드는 시안 C안(11/26): 긴 설명 대신 그래프(시간 축·도넛) + 한 줄. 시안 https://claude.ai/artifact/Kaktqy6Xv1YVS2MyDzJLuD */}
       <section className="voices" id="voices">
         <div className="wrap">
@@ -189,28 +219,25 @@ export default async function HomePage() {
             <h2>채용팀은 이렇게 활용하고 있습니다</h2>
             <p className="lead">반복 검토는 줄이고, <span className="blue" style={{ fontWeight: 700 }}>핵심 후보 판단</span>에 더 많은 시간을 쓰고 있습니다.</p>
           </div>
-          <div className="v-grid">
-            <div className="vc">
-              <div className="bubble">
-                <div className="qm"><i className="fa-solid fa-quote-left"></i></div>
-                <blockquote>“AI 면접으로 1차 면접을 대체해, 개발자들이 본업에 집중하면서도 좋은 인재를 놓치지 않게 됐어요.”</blockquote>
-              </div>
-              <div className="who"><div className="ava">A</div><div><div className="nm">테크기업 채용 총괄</div><div className="ro">개발 직군 채용 담당</div></div></div>
-            </div>
-            <div className="vc">
-              <div className="bubble">
-                <div className="qm"><i className="fa-solid fa-quote-left"></i></div>
-                <blockquote>“표준화된 질문으로 직무 적합성과 의지를 객관적으로 파악할 수 있었습니다.”</blockquote>
-              </div>
-              <div className="who"><div className="ava">B</div><div><div className="nm">국내 금융 플랫폼 채용담당자</div><div className="ro">대규모 채용 운영 담당</div></div></div>
-            </div>
-            <div className="vc">
-              <div className="bubble">
-                <div className="qm"><i className="fa-solid fa-quote-left"></i></div>
-                <blockquote>“AI 면접 리포트 덕분에 후보자의 강점과 우려점을 빠르게 파악할 수 있었습니다.”</blockquote>
-              </div>
-              <div className="who"><div className="ava">C</div><div><div className="nm">국내 모빌리티 IT 기업 채용담당자</div><div className="ro">기술 직군 채용 담당</div></div></div>
-            </div>
+          <div className="case-grid">
+            {CASES.map((c) => (
+              <article key={c.tag} className="case">
+                <span className="case-tag">{c.tag}</span>
+                <h3>{c.title}</h3>
+                <ul className="case-rows">
+                  {c.rows.map((r) => (
+                    <li key={r.label}>
+                      <span className="cr-label">{r.label}</span>
+                      {"before" in r && <><span className="cr-before">{r.before}</span><i className="fa-solid fa-arrow-right" aria-hidden="true"></i></>}
+                      <b className="cr-after">{r.after}</b>
+                    </li>
+                  ))}
+                </ul>
+                <blockquote>“{c.quote}”</blockquote>
+                <p className="case-who">{c.who}</p>
+                <p className="psrc">출처: {c.src}</p>
+              </article>
+            ))}
           </div>
 
           <div className="proof-row two">
