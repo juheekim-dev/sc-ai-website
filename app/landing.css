@@ -403,14 +403,20 @@
   @media(max-width:680px){.soft-cta{margin-top:44px}.soft-cta-btn{margin-top:22px;width:100%;justify-content:center}}
 
   /* 제품 페이지 끝 '다른 제품 안내' — 함께 쓰는 순서(ProductFlow, 11/26 시안 1안 + 연결 2안). 세 단계 카드(AI 면접 → AI 역량검사 → 대면 면접),
-     세 단계 그림 모두 히어로 화면 구성(.hero-stage) — 1·2단계는 각 제품 히어로(흰 바탕·어두운 화면), 3단계는 반대로 어두운 바탕(.pf-thumb.dark)에 흰 '핵심 후보' 화면. 상대 제품 카드에만 블루 테두리·버튼.
+     세 단계 그림 모두 히어로 화면 구성(.hero-stage) — 1·2단계는 각 제품 히어로(흰 바탕·어두운 화면), 3단계는 반대로 카드 전체가 어둡고(.pf-step.dark) 그림 속 '핵심 후보' 화면은 흰색. 상대 제품 카드에만 블루 테두리·버튼.
      카드 사이는 흰 원 안의 블루 꺾쇠(점선 화살표 대신, 모바일은 아래 방향) */
   .pflow{list-style:none;margin:44px auto 0;padding:0;max-width:1080px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}
   .pf-step{position:relative;display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
   .pf-step.go{border-color:var(--blue);box-shadow:0 18px 40px -20px rgba(51,106,255,.55)}
   .pf-thumb{aspect-ratio:4/3;border-radius:calc(var(--r) - 1px) calc(var(--r) - 1px) 0 0;border-bottom:1px solid var(--line);display:grid;place-items:center;padding:8px 10px;overflow:hidden;background:#fff}
   .pf-thumb .hero-stage{width:90%}
-  .pf-thumb.dark{background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%);border-bottom-color:transparent} /* 3단계 대면 면접(11/26 "배경은 어둡게 화면은 화이트로") — 문제 띠(.band.dark)와 같은 남색→블랙 */
+  /* 3단계 대면 면접 카드(11/26 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로") — 카드 전체를 문제 띠(.band.dark)와 같은 남색→블랙으로.
+     글자색은 어두운 바탕에서 쓰는 값(.role-banner .blue·.final p와 같음) */
+  .pf-step.dark{background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%);border-color:transparent}
+  .pf-step.dark .pf-thumb{background:none;border-bottom-color:rgba(255,255,255,.1)}
+  .pf-step.dark .pf-no{color:#7DA9FF}
+  .pf-step.dark h3{color:#fff}
+  .pf-step.dark .pf-body p{color:#AEB9D4}
   .pf-body{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:16px 18px 20px}
   .pf-no{font-size:13px;font-weight:800;color:var(--blue-d)}
   .pf-body h3{font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}

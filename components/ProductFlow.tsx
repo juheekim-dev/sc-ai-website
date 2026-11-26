@@ -7,7 +7,7 @@ import HeroStage, { type HeroStageData } from "./HeroStage";
 // 1·2단계 그림은 각 제품의 히어로 화면(HeroStage, 움직이는 오브 없이), 3단계도 같은 결의 '핵심 후보' 화면(대면 면접 확인 포인트 — AI 면접 리포트에 있는 항목).
 // 지금 보는 제품에는 '지금 보는 제품' 표시만, 상대 제품 카드에만 블루 테두리와 버튼. 홈(current 없음)은 두 제품 카드 모두 버튼(2026-11-26, 옛 깔때기 자리). 카드 사이는 흰 원 안의 꺾쇠. 스타일은 app/landing.css(.pflow).
 // 3단계 그림(11/26 시안 '나' 디벨롭): 히어로와 같은 구성 — '핵심 후보' 화면 + 흰 카드 2장(대면 면접 확인 포인트·검사 결과) + 칩 + 점선, 레이어마다 모션.
-// 같은 날 "배경은 어둡게 화면은 화이트로": 1·2단계와 반대로 썸네일 칸을 어둡게(.pf-thumb.dark), 화면은 흰색.
+// 같은 날 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로": 1·2단계(흰 카드)와 반대로 3단계 카드 전체를 어둡게(.pf-step.dark), 그림 속 화면은 흰색.
 // 이름은 가상, 첫 후보 사진은 사용자가 준 목업 에셋. 원본은 _docs/홈페이지 개편/도식/캡처가공(f2f-l-*).
 const F2F: { title: string; sub: string; stage: HeroStageData } = {
   title: "대면 면접",
@@ -49,8 +49,8 @@ export default function ProductFlow({ current }: { current?: ProductHref }) {
             </li>
           );
         })}
-        <li className="pf-step">
-          <div className="pf-thumb dark"><HeroStage {...F2F.stage} live={false} /></div>
+        <li className="pf-step dark">
+          <div className="pf-thumb"><HeroStage {...F2F.stage} live={false} /></div>
           <div className="pf-body">
             <span className="pf-no">{PRODUCTS.length + 1}단계</span>
             <h3>{F2F.title}</h3>
