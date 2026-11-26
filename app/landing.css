@@ -862,19 +862,31 @@
   .sec-list h3{margin:0;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
   .sec-list p{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--slate)}
   @media(max-width:880px){.sec-split{grid-template-columns:minmax(0,1fr)}.sec-split .head{text-align:center}.sec-split .sec-marks{justify-content:center}}
-  /* 부정행위 감지(2026-11-25 E안, 홈·AI 면접 공용 IntegritySection): 왼쪽 제목·감지 항목(아이콘·제목·한 줄 설명),
-     오른쪽 HTML '감지 내역' 카드(예시, 연한 블루 판 위). 감지 표시는 블루 */
-  .integ{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,64px);align-items:center}
-  .integ .head{text-align:left;max-width:none;margin:0}
-  .integ-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:16px}
-  .integ-list li{display:flex;gap:14px;align-items:flex-start}
-  .integ-ic{width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--tint);color:var(--blue);display:grid;place-items:center;flex:none}
-  .integ-ic svg{width:21px;height:21px}
-  .integ-list b{display:block;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
-  .integ-list li span:not(.integ-ic){display:block;margin-top:2px;font-size:14.5px;line-height:1.55;color:var(--slate)}
-  .integ-note{margin-top:18px;font-size:14px;color:var(--slate)}
-  .integ .hr-link{margin-top:14px}
-  .integ-frame{min-width:0} /* 바깥 연한 블루 판(이중 박스)은 빼고 카드에 그림자(11/25) */
+  /* 부정행위 감지(2026-11-26, 홈·AI 면접 공용 IntegritySection): 가운데 제목 + 탭 2개(공용 Tabs의 .tt-list·.tt-tab).
+     패널(.ig-panel)은 왼쪽 그림·오른쪽 글. 실시간 감지 = 지원자 화면(.ig-face) + 4묶음(.ig-list) / 감지 리포트 = '감지 내역' 카드(.ir) + 설명. 감지 표시는 블루 */
+  .ig-panel{margin:40px auto 0;max-width:1040px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+  .ig-panel[hidden]{display:none}
+  .ig-face{position:relative;border-radius:18px;overflow:hidden;background:#1E283F;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12)}
+  .ig-face img{display:block;width:100%;height:auto}
+  .ig-box{position:absolute;left:34.5%;top:19%;width:30.5%;height:43%;border:2px solid var(--blue);border-radius:14px;box-shadow:0 0 0 3px rgba(51,106,255,.22)} /* 얼굴 자리 — integrity-face.webp(840×630) 기준 */
+  .ig-tag{position:absolute;left:-2px;bottom:calc(100% + 6px);font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .ig-rec{position:absolute;left:14px;top:14px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;line-height:1;color:#fff;background:rgba(20,28,46,.72);border-radius:999px;padding:6px 10px}
+  .ig-rec i{width:7px;height:7px;border-radius:50%;background:#FF5A5A}
+  .ig-status{position:absolute;left:14px;right:14px;bottom:14px;display:flex;flex-wrap:wrap;gap:6px}
+  .ig-status span{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;line-height:1;color:#fff;background:rgba(20,28,46,.72);border-radius:999px;padding:6px 10px 6px 7px}
+  .ig-status span::before{content:"✓";width:14px;height:14px;border-radius:50%;background:var(--blue);font-size:9px;display:grid;place-items:center}
+  .ig-list{list-style:none;margin:0;padding:0;display:grid;gap:26px}
+  .ig-list li{display:flex;gap:16px;align-items:flex-start}
+  .ig-ic{width:46px;height:46px;border-radius:12px;background:var(--soft-2);color:var(--blue);display:grid;place-items:center;flex:none}
+  .ig-ic svg{width:22px;height:22px}
+  .ig-list b{display:block;font-size:18px;letter-spacing:-.01em;color:var(--ink)}
+  .ig-list li span:not(.ig-ic){display:block;margin-top:4px;font-size:15px;line-height:1.6;color:var(--slate)}
+  .ig-note{margin-top:22px;font-size:14px;color:var(--slate-2)}
+  .ig-lead{font-size:17px;line-height:1.7;color:var(--ink)}
+  .ig-checks{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
+  .ig-checks li{display:flex;gap:10px;align-items:center;font-size:16px;font-weight:600;color:var(--ink)}
+  .ig-checks li::before{content:"✓";width:22px;height:22px;flex:none;border-radius:50%;background:var(--soft-2);color:var(--blue-d);font-size:12px;font-weight:700;display:grid;place-items:center}
+  .integ .ig-link{display:flex;justify-content:center;margin-top:36px}
   .ir{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 22px 18px;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12);display:grid;gap:12px}
   .ir-h{display:flex;align-items:center;gap:10px}
   .ir-h b{font-size:17px;color:var(--ink)}
@@ -883,10 +895,6 @@
   .ir-sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#F6F8FC;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--slate)}
   .ir-sum strong{font-size:14.5px;color:var(--ink)}
   .ir-pill{font-weight:700;font-size:13px;color:var(--blue-d);border:1.5px solid var(--blue);border-radius:999px;padding:3px 12px}
-  .ir-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:14.5px;font-weight:600;color:var(--ink)}
-  .ir-row svg{width:19px;height:19px;color:var(--blue)}
-  .ir-t{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--slate);font-variant-numeric:tabular-nums}
-  .ir-t i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
   .ir-vid{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
   .ir-vh{display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--ink)}
   .ir-vh span{font-weight:500;font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
@@ -909,8 +917,7 @@
   .ir-chips{display:flex;flex-wrap:wrap;gap:8px}
   .ir-chips span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px}
   .ir-chips span::before{content:"✓";width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;display:grid;place-items:center}
-  .ir-foot{margin:0;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--slate)}
-  @media(max-width:880px){.integ{grid-template-columns:minmax(0,1fr)}.integ .head{text-align:center}.integ-note{text-align:center}.integ .hr-link{display:flex;justify-content:center}}
+  @media(max-width:880px){.ig-panel{grid-template-columns:minmax(0,1fr);margin-top:28px}.ig-list{gap:20px}}
 
   @media(max-width:880px){.hr-points.two{grid-template-columns:1fr}}
   @media(max-width:760px){
