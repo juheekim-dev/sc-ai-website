@@ -10,11 +10,6 @@
       linear-gradient(160deg,#070B1A 0%,#0A1330 50%,#04060E 100%)}
   /* GNB 반전(흰 로고·투명 메뉴버튼)은 다크 섹션(data-nav="dark") 위에서만 적용 —
      색 전환 로직은 theme.css의 header.nav-invert(SSOT), 감지는 partials.js. */
-  /* 입자 수렴 모션 — 수많은 점(지원자)이 헤드라인 '진짜'로 좁혀듦(AI가 검증·선별). canvas는 래퍼 첫 자식 */
-  .hero-bg #hero-particles{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;
-    -webkit-mask-image:radial-gradient(ellipse 72% 64% at 50% 44%, #000 26%, transparent 86%);
-            mask-image:radial-gradient(ellipse 72% 64% at 50% 44%, #000 26%, transparent 86%)}
-  @media(prefers-reduced-motion:reduce){.hero-bg #hero-particles{display:none}}
   /* 플루티드 글래스 바탕(FlutedGlassBg, 2026-11-26 시안 A-1안) — 히어로 전체를 덮는 WebGL 캔버스. 위 그라데이션은 WebGL이 없을 때의 대체 바탕 */
   .hero-bg #hero-glass{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;display:block}
   /* 히어로 강조어 그라데이션 모션 — 다크 배경용 밝은 톤(시안빛 블루→바이올렛) 가로 흐름 */
