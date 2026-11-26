@@ -14,6 +14,7 @@ import AskDemo from "@/components/AskDemo";
 import AssistDemo from "@/components/AssistDemo";
 import ProductFlow from "@/components/ProductFlow";
 import PairGrid from "@/components/PairGrid";
+import InView from "@/components/InView";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
 // 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
@@ -114,7 +115,8 @@ export default async function HomePage() {
             <p className="lead">AI가 전체 지원자를 먼저 선별하고, 채용팀은 최종 의사결정에 집중합니다.</p>
           </div>
           <div className="funnel3">
-            <div className="fn-wrap">
+            {/* 화면에 들어오면 위에서부터 한 단씩 내려온다(InView → .inview, 모션은 landing.css .fn-wrap.inview) */}
+            <InView className="fn-wrap">
               <svg className="fn-svg" viewBox="0 48 1140 636" role="img" aria-label="지원자 전체를 AI가 자동 검증·필터링해 핵심 인재 리포트로 좁히고, 최종 판단만 채용팀이 내리는 깔때기">
                 <defs>
                   <linearGradient id="fnGrad" gradientUnits="userSpaceOnUse" x1="540" y1="62" x2="610" y2="496">
@@ -138,7 +140,7 @@ export default async function HomePage() {
               </svg>
               <span className="fn-tag tag-ai"><i className="fa-solid fa-robot"></i> AI</span>
               <span className="fn-tag tag-team"><i className="fa-solid fa-user"></i> 채용팀</span>
-            </div>
+            </InView>
           </div>
         </div>
       </section>

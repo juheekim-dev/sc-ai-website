@@ -684,6 +684,20 @@
   .fn-tag.tag-ai{left:87.7%;top:37.3%;color:var(--blue-d)}
   .fn-tag.tag-team{left:87.7%;top:83.6%;color:#2144a5;border-color:rgba(33,68,165,.5)}
   .fn-tag.tag-team i{color:#2144a5}
+  /* 깔때기 모션(11/26 "위에서부터 내려오게") — 화면에 들어오면(.inview, components/InView) 한 번: 단이 위에서부터 차례로 떨어지듯 내려오고
+     (지원자 전체 → 선별 → 리포트 → 최종 판단), 마지막에 점선 안내선과 AI·채용팀 칩이 나타난다. 글자는 자기 단과 함께 내려온다 */
+  .fn-svg .seg,.fn-svg .tip,.fn-svg .fl{transform-box:fill-box;animation:fnDrop .6s cubic-bezier(.2,.8,.2,1) both}
+  .fn-guides,.fn-tag{animation:fnFade .5s ease-out both}
+  .fn-svg path.seg:nth-of-type(1),.fn-svg text:nth-of-type(1){animation-delay:.1s}
+  .fn-svg path.seg:nth-of-type(2),.fn-svg text:nth-of-type(2){animation-delay:.35s}
+  .fn-svg path.seg:nth-of-type(3),.fn-svg text:nth-of-type(3){animation-delay:.6s}
+  .fn-svg .tip,.fn-svg text:nth-of-type(4),.fn-svg text:nth-of-type(5){animation-delay:.85s}
+  .fn-guides,.fn-tag.tag-ai{animation-delay:1.2s}
+  .fn-tag.tag-team{animation-delay:1.35s}
+  .fn-wrap:not(.inview) .seg,.fn-wrap:not(.inview) .tip,.fn-wrap:not(.inview) .fl,.fn-wrap:not(.inview) .fn-guides,.fn-wrap:not(.inview) .fn-tag{animation-play-state:paused}
+  @keyframes fnDrop{from{opacity:0;transform:translateY(-36px)}to{opacity:1;transform:none}}
+  @keyframes fnFade{from{opacity:0}to{opacity:1}}
+  @media(prefers-reduced-motion:reduce){.fn-svg .seg,.fn-svg .tip,.fn-svg .fl,.fn-guides,.fn-tag{animation:none}}
   @media(max-width:640px){
     /* 좌측 정보(AI 브래킷·채용팀)·10명 모두 모바일에서도 표시 */
     .fn-svg .fl{font-size:30px}.fn-svg .ft{font-size:30px}
