@@ -15,19 +15,27 @@ const ICON = {
   users: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>,
   monitor: <><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></>,
   glasses: <><circle cx="6.5" cy="14" r="3.5" /><circle cx="17.5" cy="14" r="3.5" /><path d="M10 13.5c1.2-.8 2.8-.8 4 0" /><path d="M3 14 5 7h2M21 14l-2-7h-2" /></>,
-  out: <><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></>,
+  keyboard: <><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" /></>,
 };
 const Icon = ({ d }: { d: ReactNode }) => <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">{d}</svg>;
 
-// 탭 1 '실시간 감지' — 감지 항목 7개를 얼굴·시선·스마트 안경·화면·기기 5줄로(11/26 "내용은 많은데 정리되지 않은 느낌" → 참고 화면처럼 탭으로 나눠 하나씩.
-// 같은 날 "스마트 안경도 검사한다는 것도 넣어야지" → 얼굴 줄에 묻혀 있던 AI 안경을 따로 뺌. 소개자료 표기는 'AI 안경 착용 확인').
-// 문장은 예전 항목 7개의 설명을 묶은 것 — 새 기능을 더하지 않는다.
+// 탭 1 '실시간 감지' — 감지 항목 7개를 얼굴·시선·안경 검사·손·키보드·화면·기기 5줄로(11/26 "내용은 많은데 정리되지 않은 느낌" → 참고 화면처럼 탭으로 나눠 하나씩.
+// 같은 날 "안경 검사도 한다고 해야해" → AI 안경을 '안경 검사' 줄로 따로. "키보드와 손도 같이 감시한다는 것도" → 사이드 카메라(휴대폰 QR)가 보는 손·키보드를 따로 한 줄로,
+// 화면 이탈·보조 모니터는 '화면·기기' 한 줄로 묶음. 소개자료 표기는 'AI 안경 착용 확인'·'휴대폰 사이드 카메라(QR 연결)').
+// 문장은 예전 항목 7개의 설명을 묶은 것 — 새 기능을 더하지 않는다(손을 'AI가 감지'한다고 쓰지 않는다 — 사이드 카메라로 함께 '보는' 것).
 const GROUPS = [
   { icon: ICON.users, title: "얼굴", body: "카메라에 다른 사람이 함께 보이면 기록합니다." },
-  { icon: ICON.eye, title: "시선", body: "시선과 머리가 화면을 벗어나는 순간을 기록합니다." },
-  { icon: ICON.glasses, title: "스마트 안경", body: "화면에 답을 띄워 주는 AI 안경을 쓰고 있는지 확인합니다." },
-  { icon: ICON.out, title: "화면", body: "다른 탭이나 창으로 가면 기록하고, 면접 중 지원자 화면을 녹화합니다." },
-  { icon: ICON.monitor, title: "기기", body: "보조 모니터 연결을 기록하고, 휴대폰을 QR로 연결한 사이드 카메라로 모니터와 손을 함께 봅니다." },
+  { icon: ICON.eye, title: "시선", body: "시선과 머리 움직임을 따라가며, 화면을 벗어나는 순간을 기록합니다." },
+  { icon: ICON.glasses, title: "안경 검사", body: "화면에 답을 띄워 주는 AI 안경(스마트 안경)을 쓰고 있는지 확인합니다." },
+  { icon: ICON.keyboard, title: "손·키보드", body: "휴대폰을 QR로 연결한 측면 카메라로 키보드 위 손과 책상 주변을 함께 봅니다." },
+  { icon: ICON.monitor, title: "화면·기기", body: "다른 탭이나 창으로 가거나 보조 모니터를 연결하면 기록하고, 면접 중 지원자 화면을 녹화합니다." },
+];
+
+// 정면 아래 작은 녹화 화면 세 칸(640×480). box: 손 둘레 표시(손·키보드 칸)
+const TILES = [
+  { src: "/integrity-screen.webp", label: "화면 공유" },
+  { src: "/integrity-side.webp", label: "측면" },
+  { src: "/integrity-hands.webp", label: "손·키보드", box: true },
 ];
 
 // 탭 2 '감지 리포트' 오른쪽 설명
@@ -40,23 +48,50 @@ const CLIPS = [
   { label: "여러 얼굴", t: "12:05" },
 ];
 
+// 시선 추적 링(11/26, 사용자가 보낸 참고 이미지 — 눈 둘레 눈금 링 + 시선 선). 좌표는 integrity-face.webp(840×630) 기준, 오른쪽 눈 (465, 213).
+// 눈 자체는 가리지 않는다: 가장 안쪽 링(r 30)이 눈 바깥을 돌고, 시선 선은 링 가장자리에서 시작해 '시선 추적' 태그까지. 링 두 겹은 서로 반대로 천천히 돈다.
+function GazeHud() {
+  return (
+    <svg className="ig-hud" viewBox="0 0 840 630" aria-hidden="true">
+      <g className="ig-hud-ring">
+        <circle cx="465" cy="213" r="62" className="ig-hud-dots" />
+        <circle cx="465" cy="213" r="50" className="ig-hud-ticks" />
+      </g>
+      <circle cx="465" cy="213" r="41" className="ig-hud-thin" />
+      <circle cx="465" cy="213" r="30" className="ig-hud-thin ig-hud-in" />
+      <g className="ig-hud-arc">
+        <circle cx="465" cy="213" r="55" className="ig-hud-blue" />
+      </g>
+      <line x1="495" y1="213" x2="566" y2="213" className="ig-hud-line" />
+      <circle cx="566" cy="213" r="3.5" className="ig-hud-end" />
+    </svg>
+  );
+}
+
 // soft: 연한 블루 바탕(기본). 홈은 앞 섹션과 번갈아 오게 흰 바탕(soft={false}, 2026-11-26).
 export default function IntegritySection({ withLink = false, soft = true }: { withLink?: boolean; soft?: boolean }) {
-  // 탭 1 — 왼쪽 카메라 두 화면(사용자가 준 목업 사진 '실 정면-2'·'실 측면-2'를 4:3으로 자름): 정면 카메라에 얼굴·시선·스마트 안경 표시,
-  // 오른쪽 아래에 겹친 사이드 카메라(휴대폰)는 모니터와 손이 함께 보인다(11/26 "정면 측면 화면도 넣어줘", "얼굴, 시선도 강조"). 오른쪽은 5줄
+  // 탭 1 — 왼쪽은 녹화 화면 네 장(11/26 "여러 이미지가 배치되어야 해", "화면공유 이미지도"): 위에 정면 카메라를 크게, 아래에 작은 세 칸
+  // (화면 공유 = AI 면접 히어로 화면 hero-interview-base의 창 부분, 측면 = 목업 '실 측면-2', 손·키보드 = 목업 '키보드와 손')을 정면 아래쪽에 겹쳐 한 줄로.
+  // 정면 카메라에는 얼굴 박스·시선 추적 링(GazeHud)·안경 검사 표시. 11/26 "눈에 이상한 거 하지 말고 시선을 추적한다는 느낌" → 눈 위 파란 점을 빼고 눈을 가리지 않는 링 + 시선 선으로.
+  // 같은 날 "측면 이미지에서 모니터 화면은 크롭" → 측면·손 사진 모두 모니터가 빠지게 잘랐다(흐림이 아니라 자르기).
   const live = (
     <>
-      <div className="ig-cams" role="img" aria-label="면접 중 카메라 화면 예시: 정면 카메라에서 얼굴 1명, 시선 정면, 스마트 안경 없음을 확인하고, 사이드 카메라로 모니터와 손을 함께 봅니다.">
+      <div className="ig-cams" role="img" aria-label="면접 중 녹화 화면 예시: 정면 카메라로 얼굴 1명과 시선을 따라가고 AI 안경 착용을 검사하며, 지원자 화면 공유와 측면 카메라로 키보드 위 손과 책상 주변을 함께 봅니다.">
         <div className="ig-face">
           <img src="/integrity-face.webp" alt="" width={840} height={630} loading="lazy" />
-          <span className="ig-box"><span className="ig-tag">얼굴 1명</span><span className="ig-tag ig-tag-b">스마트 안경 없음</span></span>
-          <span className="ig-eye" style={{ left: "43.5%" }}></span><span className="ig-eye" style={{ left: "55.4%" }}></span>
-          <span className="ig-gaze">시선 정면</span>
-          <span className="ig-cam"><i></i>정면 카메라 · 녹화 중</span>
+          <GazeHud />
+          <span className="ig-box"><span className="ig-tag">얼굴 1명</span><span className="ig-tag ig-tag-b">안경 검사 · AI 안경 없음</span></span>
+          <span className="ig-gaze">시선 추적 · 정면</span>
+          <span className="ig-cam"><i></i>정면 · 녹화 중</span>
         </div>
-        <div className="ig-side">
-          <img src="/integrity-side.webp" alt="" width={640} height={480} loading="lazy" />
-          <span className="ig-cam">사이드 카메라</span>
+        <div className="ig-tiles">
+          {TILES.map((t) => (
+            <div key={t.label} className="ig-tile">
+              <img src={t.src} alt="" width={640} height={480} loading="lazy" />
+              {t.box && <span className="ig-hbox"></span>}
+              <span className="ig-cam"><i></i>{t.label}</span>
+            </div>
+          ))}
         </div>
       </div>
       <div>
@@ -109,7 +144,7 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
       <div className="wrap integ">
         <div className="head">
           <h2>AI로 대답하는 지원자,<br /><span className="blue">면접 중에</span> 가려냅니다</h2>
-          <p className="lead">얼굴·시선·화면·기기 신호를 면접 내내 함께 기록하고, 감지한 장면은 영상으로 바로 확인합니다.</p>
+          <p className="lead">얼굴·시선부터 안경·손·화면까지 면접 내내 함께 기록하고, 감지한 장면은 영상으로 바로 확인합니다.</p>
         </div>
         <Tabs
           label="부정행위 감지"
