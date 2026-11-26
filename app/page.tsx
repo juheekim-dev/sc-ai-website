@@ -13,6 +13,7 @@ import { PRODUCTS } from "@/lib/products";
 import AskDemo from "@/components/AskDemo";
 import AssistDemo from "@/components/AssistDemo";
 import ProductFlow from "@/components/ProductFlow";
+import PairGrid from "@/components/PairGrid";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
 // 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
@@ -20,6 +21,14 @@ const PRODUCT_POINTS: Record<string, string[]> = {
   "/ai-interview": ["평가 기준·질문 자동 생성", "답에 따라 꼬리질문", "등급·역량·강약점 리포트"],
   "/ai-assessment": ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
 };
+
+// 03 · 문제 — 통계 네 개를 문제 줄로, 두 제품이 하는 일을 해결 줄로(카드 한 장에 한 쌍). 수치·출처는 옛 통계 카드 그대로. 문장은 한 줄에 들어가게 짧게.
+const PAIRS = [
+  { problem: "기업 84%가 지원자의 거짓·과장을 적발한 적이 있습니다", solution: "AI 면접이 꼬리질문으로 적힌 경험을 확인합니다" },
+  { problem: "인사담당자 59%가 기준 미달 지원자를 통과시킨 적이 있습니다", solution: "모든 지원자를 같은 기준으로 먼저 검증합니다" },
+  { problem: "인사담당자 81%가 잘못 뽑아 후회한 적이 있습니다", solution: "AI 역량검사가 실제 과제로 실무 역량을 확인합니다" },
+  { problem: "채용 1명당 평균 비용은 1,272만원입니다", solution: "면접관은 검증된 핵심 후보만 만납니다" },
+];
 
 // 홈 canonical (중복 색인 방지) — 공통 메타는 layout.tsx. 어드민 SEO 초안(적용 시) 덮어씀.
 const FALLBACK_METADATA: Metadata = { alternates: { canonical: "/" } };
@@ -83,31 +92,16 @@ export default async function HomePage() {
       {/* SECTION 02 · CLIENTS (도입사 로고 마퀴) */}
       <ClientLogos />
 
-      {/* SECTION 03 · 문제 (FLOOD) */}
-      <section className="flood" id="flood">
+      {/* SECTION 03 · 문제 — 제품 페이지 문제 띠와 같은 구성(가운데 제목 + 문제(x) → 해결(체크) 카드, PairGrid). 바탕은 그대로 연한 하늘색(11/26).
+          옛 통계 카드(84%·59%·81%·1,272만원)는 문제 줄로 옮기고 출처는 아래 한 줄로 */}
+      <section className="band soft" id="flood">
         <div className="wrap">
           <div className="head">
             <h2>AI로 쓴 이력서는 좋아졌는데,<br />지원자의 <span className="blue">실력</span>도 좋아졌을까요?</h2>
             <p className="lead">진짜를 못 거르는 1차 검토는<br />결국 채용 비용과 미스매치로 이어집니다.</p>
           </div>
-          <ul className="flood-stats">
-            <li>
-              <div className="stat"><span className="lbl">지원자 거짓·과장 적발 경험</span><span className="num">84%</span></div>
-              <p className="src">출처: 사람인, 기업 927개사</p>
-            </li>
-            <li>
-              <div className="stat"><span className="lbl">기준 미달도 통과시킨 경험</span><span className="num">59%</span></div>
-              <p className="src">출처: 잡코리아, 인사담당자 794명</p>
-            </li>
-            <li>
-              <div className="stat"><span className="lbl">잘못 뽑아 후회한 경험</span><span className="num">81%</span></div>
-              <p className="src">출처: 사람인, 인사담당자 377명</p>
-            </li>
-            <li>
-              <div className="stat"><span className="lbl">채용 1명당 평균 비용</span><span className="num">1,272<span>만원</span></span></div>
-              <p className="src">출처: 사람인, 기업 499개사</p>
-            </li>
-          </ul>
+          <PairGrid light pairs={PAIRS} />
+          <p className="pair-src">출처: 사람인(기업 927개사 · 인사담당자 377명 · 기업 499개사), 잡코리아(인사담당자 794명)</p>
         </div>
       </section>
 

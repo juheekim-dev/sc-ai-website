@@ -8,9 +8,10 @@ import { useEffect, useRef } from "react";
 // 11/26 레이아웃 1안: 두 줄을 카드 가운데로. 화면에 들어오면(.inview) 한 번만 움직인다: 카드가 한 장씩 차례로 떠오르며 문제(x)가 먼저,
 // 0.5초 뒤 해결(체크) 줄이 올라오고 체크가 톡 튄다. 그 전에는 첫 장면에서 멈춰 있다.
 // 움직임 줄이기 설정이면 CSS가 모션 없이 다 보여 준다.
+// light: 연한 바탕용(흰 카드·진한 글씨) — 홈 문제 섹션(11/26 "제품 페이지 문제 구성으로, 연한 하늘색 배경은 그대로").
 export type Pair = { problem: string; solution: string };
 
-export default function PairGrid({ pairs }: { pairs: Pair[] }) {
+export default function PairGrid({ pairs, light = false }: { pairs: Pair[]; light?: boolean }) {
   const ref = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function PairGrid({ pairs }: { pairs: Pair[] }) {
   }, []);
 
   return (
-    <ul className="pair-list" ref={ref}>
+    <ul className={light ? "pair-list light" : "pair-list"} ref={ref}>
       {pairs.map((p) => (
         <li key={p.problem}>
           <span className="pl-prob"><i className="pl-x" aria-hidden="true"></i>{p.problem}</span>

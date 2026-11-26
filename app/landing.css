@@ -799,11 +799,21 @@
   .pair-list li:nth-child(3){animation-delay:2.4s}
   .pair-list li:nth-child(3) .pl-sol{animation-delay:2.9s}
   .pair-list li:nth-child(3) .pl-ck{animation-delay:3.2s}
+  .pair-list li:nth-child(4){animation-delay:3.5s} /* 홈 문제 섹션은 네 쌍(통계 4개) */
+  .pair-list li:nth-child(4) .pl-sol{animation-delay:4s}
+  .pair-list li:nth-child(4) .pl-ck{animation-delay:4.3s}
   .pair-list:not(.inview) li,.pair-list:not(.inview) .pl-sol,.pair-list:not(.inview) .pl-ck{animation-play-state:paused}
   @keyframes plIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes plSol{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @keyframes plPop{0%{transform:scale(.4)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
   @media(max-width:760px){.pair-list{margin-top:36px;gap:12px}.pair-list li{padding:16px 18px;gap:8px}.pl-prob{font-size:15px}.pl-sol{font-size:17.5px}}
+  /* 연한 바탕용(.light, 홈 문제 섹션 11/26) — 짜임·모션은 같고 색만: 흰 카드 + 그림자, 문제는 회색 글씨, 해결은 진한 굵은 글씨 */
+  .pair-list.light li{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .pair-list.light .pl-prob{color:var(--slate-2)}
+  .pair-list.light .pl-sol{color:var(--ink)}
+  .pair-list.light .pl-x{border-color:#C5CEDD}
+  .pair-list.light .pl-x::before,.pair-list.light .pl-x::after{background:var(--slate-2)}
+  .pair-src{max-width:760px;margin:18px auto 0;text-align:center;font-size:12.5px;line-height:1.6;color:var(--slate-2)}
   @media(prefers-reduced-motion:reduce){.pair-list li,.pair-list .pl-sol,.pair-list .pl-ck{animation:none}}
   .band .head{text-align:center;max-width:760px;margin:0 auto}
   .band .soft-cta{margin-top:0}
