@@ -950,11 +950,11 @@
   @media (prefers-reduced-motion:reduce){.lv-list li.on{animation:none}}
   @media(max-width:560px){.lv-q{display:none}.lv-body{grid-template-columns:minmax(0,1fr)}.lv-list{border-right:0;border-bottom:1px solid var(--line);grid-template-columns:1fr 1fr}.lv-list li{padding:6px}.lv-st{display:none}}
   /* 감지 리포트 벤토(11/26 R3) — 큰 카드 영상(.rp-vid, .ig-face 틀 재사용) 위 두 눈 측정 박스·시선 방향 화살표·배지, 아래 타임라인(.ir-bar 재사용).
-     배지 좌표는 integrity-away.webp(1120×630) 기준 화살표 끝(260, 248). 박스는 천천히 깜박여 '지금 이 장면'을 짚는다 */
+     배지 좌표는 integrity-away.webp(1120×630) 기준 아래로 꺾인 화살표 끝(760, 320) 바로 밑. 박스는 천천히 깜박여 '지금 이 장면'을 짚는다 */
   .rp-eye{fill:none;stroke:var(--blue);stroke-width:2.5px;vector-effect:non-scaling-stroke;animation:rpBlink 2.4s ease-in-out infinite}
   .rp-arrow{fill:none;stroke:#fff;stroke-width:1.5px;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
   .rp-head{fill:none;stroke:#fff;stroke-width:1.8px;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-  .rp-tag{position:absolute;right:77.5%;top:39.37%;transform:translateY(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .rp-tag{position:absolute;left:67.86%;top:52%;transform:translateX(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
   .rp-bar{padding:14px 28px 18px 32px}
   .rp-t{font-size:12px;color:var(--slate);font-variant-numeric:tabular-nums}
   .rp-list{list-style:none;margin:0;padding:14px 14px 14px 16px;align-self:stretch;background:var(--soft);display:grid;align-content:center;gap:8px}

@@ -37,8 +37,8 @@ const LIVE_POINTS = [
   "감지된 지원자는 맨 앞으로 — 누르면 크게 보고 AI 감독 리포트로",
 ];
 
-// 탭 3 '감지 리포트' = 벤토(11/26 R3 — 감지 항목 탭과 같은 결). 큰 카드 = 면접 영상의 시선 이탈 장면(목업 '실 측면-2'에서 고개 돌린 얼굴 쪽을 16:9로, 모니터는 빠지게)
-// + 두 눈 측정 박스·시선 방향 화살표·'시선 이탈' 배지 + 타임라인. 작은 카드 3장 = 종류·시각 기록 → 그 장면으로 이동 → 판단은 채용팀이.
+// 탭 3 '감지 리포트' = 벤토(11/26 R3 — 감지 항목 탭과 같은 결). 큰 카드 = 면접 영상의 시선 이탈 장면(사용자가 준 목업 '실 정면-시선 아래로' — 같은 인물이 시선만 아래로 내린 사진, 16:9)
+// + 두 눈 측정 박스·아래로 꺾이는 시선 화살표·'시선 이탈' 배지 + 타임라인. 작은 카드 3장 = 종류·시각 기록 → 그 장면으로 이동 → 판단은 채용팀이.
 // 감지 종류·시각·경고/정보는 예시 값(제품 'AI 감독 리포트'의 전체 감지 내역·심각/경고/정보 구분을 따름). 타임라인 표시 위치는 시각에 맞춘다(03:12/15:00 = 21%, 08:40 = 58%, 12:05 = 80%).
 const EVENTS = [
   { sev: "경고", label: "시선 이탈", t: "03:12" },
@@ -145,7 +145,7 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
     </>
   );
 
-  // 탭 3 — 감지 리포트 벤토. 영상 위 표시 좌표는 integrity-away.webp(1120×630) 기준: 두 눈 (438, 250)·(505, 245), 시선은 왼쪽으로
+  // 탭 3 — 감지 리포트 벤토. 영상 위 표시 좌표는 integrity-away.webp(1120×630) 기준: 두 눈 (508, 243)·(610, 243), 시선은 아래로
   const report = (
     <div className="ig-live">
       <div className="env-bento ig-bento">
@@ -154,12 +154,12 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
             <h3>감지 장면을 영상으로</h3>
             <p>감지한 장면은 리포트에 모이고, 채용팀이 면접 영상과 함께 하나씩 확인합니다.</p>
           </div>
-          <div className="ig-face rp-vid" role="img" aria-label="감지 리포트 예시: 면접 영상 3분 12초, 지원자가 고개를 돌려 시선이 화면 밖으로 벗어난 장면에 두 눈 측정 박스와 시선 이탈 표시">
+          <div className="ig-face rp-vid" role="img" aria-label="감지 리포트 예시: 면접 영상 3분 12초, 지원자가 시선을 아래로 내린 장면에 두 눈 측정 박스와 시선 이탈 표시">
             <img src="/integrity-away.webp" alt="" width={1120} height={630} loading="lazy" />
             <svg className="ig-hud rp-hud" viewBox="0 0 1120 630" aria-hidden="true">
-              <rect x="414" y="225" width="120" height="46" rx="8" className="rp-eye" />
-              <path d="M410 248H262" className="rp-arrow" />
-              <path d="M276 238L260 248L276 258" className="rp-head" />
+              <rect x="476" y="221" width="168" height="44" rx="8" className="rp-eye" />
+              <path d="M648 243H760V318" className="rp-arrow" />
+              <path d="M750 304L760 320L770 304" className="rp-head" />
             </svg>
             <span className="rp-tag">시선 이탈 · 03:12</span>
             <span className="ig-cam"><i></i>면접 영상</span>
