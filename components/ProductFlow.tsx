@@ -1,16 +1,26 @@
 import Link from "next/link";
 import { PRODUCTS, HERO, type ProductHref } from "@/lib/products";
-import HeroStage from "./HeroStage";
+import HeroStage, { type HeroStageData } from "./HeroStage";
 
 // 제품 페이지 끝 '다른 제품 안내' — 함께 쓰는 순서(2026-11-26 시안 1안 + 연결 2안, 옛 '두 제품 비교'를 바꿈). /ai-interview·/ai-assessment 공용.
 // 권장 순서 예시(AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 → 핵심 후보만 대면 면접, 차이 소개자료 '함께 쓰면')를 세 단계 카드로.
-// 1·2단계 그림은 각 제품의 히어로 화면(HeroStage, 움직이는 오브 없이), 3단계는 도입 단계 이미지와 같은 결의 그림(대면 면접 확인 포인트 — AI 면접 리포트에 있는 항목).
+// 1·2단계 그림은 각 제품의 히어로 화면(HeroStage, 움직이는 오브 없이), 3단계도 같은 결의 '핵심 후보' 화면(대면 면접 확인 포인트 — AI 면접 리포트에 있는 항목).
 // 지금 보는 제품에는 '지금 보는 제품' 표시만, 상대 제품 카드에만 블루 테두리와 버튼. 카드 사이는 흰 원 안의 꺾쇠. 스타일은 app/landing.css(.pflow).
-const F2F = {
+// 3단계 그림(11/26 시안 '나' 디벨롭): 히어로와 같은 구성 — 어두운 '핵심 후보' 화면 + 흰 카드 2장(대면 면접 확인 포인트·검사 결과) + 칩 + 점선, 레이어마다 모션.
+// 이름은 가상, 첫 후보 사진은 사용자가 준 목업 에셋. 원본은 _docs/홈페이지 개편/도식/캡처가공(f2f-l-*).
+const F2F: { title: string; sub: string; stage: HeroStageData } = {
   title: "대면 면접",
   sub: "핵심 후보만 만납니다",
-  img: "/f2f-check.webp",
-  alt: "대면 면접 확인 포인트 화면: AI 면접 리포트에서 가져온 확인할 점 세 가지",
+  stage: {
+    img: "/f2f-base.webp",
+    alt: "핵심 후보 화면: AI 면접 적합·AI 역량검사 추천을 받은 후보 세 명, 김지원 후보의 대면 면접 확인 포인트와 검사 결과",
+    layers: [
+      { src: "/f2f-points.webp", move: "down" },
+      { src: "/f2f-result.webp", move: "up" },
+      { src: "/f2f-chip.webp", move: "right" },
+    ],
+    lines: [{ d: "M200 258 V178", dot: [200, 176] }],
+  },
 };
 
 export default function ProductFlow({ current }: { current: ProductHref }) {
@@ -39,7 +49,7 @@ export default function ProductFlow({ current }: { current: ProductHref }) {
           );
         })}
         <li className="pf-step">
-          <div className="pf-thumb shot"><img src={F2F.img} alt={F2F.alt} width={720} height={480} loading="lazy" /></div>
+          <div className="pf-thumb"><HeroStage {...F2F.stage} live={false} /></div>
           <div className="pf-body">
             <span className="pf-no">{PRODUCTS.length + 1}단계</span>
             <h3>{F2F.title}</h3>
