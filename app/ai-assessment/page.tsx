@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 카드·단계·CTA를 그대로 쓴다
 import ProductHero from "@/components/ProductHero";
 import ClientLogos from "@/components/ClientLogos";
+import AssistDemo from "@/components/AssistDemo";
 import StepFlow from "@/components/StepFlow";
 import PairGrid from "@/components/PairGrid";
 import SecuritySection from "@/components/SecuritySection";
@@ -158,7 +159,8 @@ export default function AiAssessmentPage() {
                 <p>지원자는 브라우저에서 바로 응시합니다. AI에게 직접 쓴 글로 지시하고, AI가 만든 결과를 확인하며 과제를 완성합니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-task.webp" alt="과제 화면 도식: 개발 화면의 과제 코드와 AI 어시스턴트 대화" width={1080} height={570} loading="lazy" />
+                {/* 11/26 "히어로 이미지로, AI 면접 참고해" — 도식 대신 히어로 AI 어시스턴트 카드(지시 → AI 답 모션) */}
+                <AssistDemo />
               </div>
             </div>
             <div className="how-row">
