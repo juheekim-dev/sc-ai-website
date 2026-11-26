@@ -105,7 +105,45 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 04 · 해결 — 제품 2종. 카드 위 그림은 제품 페이지 '진행 방식'의 움직이는 카드(AskDemo·AssistDemo, 2026-11-26 옛 도식 썸네일에서 바꿈) */}
+      {/* SECTION 04 · 역할(깔때기) — 11/26 "깔때기는 문제 섹션 다음에, 나머지는 살려" — AI가 거르고 사람이 판단한다는 큰 그림을 먼저, 그 뒤 해결(제품 2종)·함께 쓰는 순서.
+          섹션이 하나 늘어 배경 교차가 밀렸다: 깔때기 흰 → 해결 연한 → 함께 쓰는 순서 흰 → 부정행위 연한 → 보안 흰 → 성과·후기 연한 → FAQ 흰 */}
+      <section className="role-funnel" id="role">
+        <div className="wrap">
+          <div className="head">
+            <h2>지원자 선별은 <span className="blue">AI</span>가,<br />최종 판단은 <span className="blue">사람</span>이</h2>
+            <p className="lead">AI가 전체 지원자를 먼저 선별하고, 채용팀은 최종 의사결정에 집중합니다.</p>
+          </div>
+          <div className="funnel3">
+            <div className="fn-wrap">
+              <svg className="fn-svg" viewBox="0 48 1140 636" role="img" aria-label="지원자 전체를 AI가 자동 검증·필터링해 핵심 인재 리포트로 좁히고, 최종 판단만 채용팀이 내리는 깔때기">
+                <defs>
+                  <linearGradient id="fnGrad" gradientUnits="userSpaceOnUse" x1="540" y1="62" x2="610" y2="496">
+                    <stop offset="0" stopColor="#4577FF" stopOpacity="0.9" />
+                    <stop offset="1" stopColor="#3A6FFF" />
+                  </linearGradient>
+                </defs>
+                <g className="fn-guides">
+                  <path d="M925 135 H990 Q1000 135 1000 145 V425 Q1000 435 990 435 H730" fill="none" stroke="#5382FF" strokeWidth="1.5" strokeDasharray="6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M950 580 H650" fill="none" stroke="#2144a5" strokeWidth="1.5" strokeDasharray="6 6" strokeLinecap="round" />
+                </g>
+                <path className="seg" d="M215.2 71.7 Q210 62 221 62 L919 62 Q930 62 924.8 71.7 L857.2 198.3 Q852 208 841 208 L299 208 Q288 208 282.8 198.3 Z" fill="url(#fnGrad)" />
+                <path className="seg" d="M311.3 233.7 Q306 224 317 224 L823 224 Q834 224 828.7 233.7 L767.3 346.3 Q762 356 751 356 L389 356 Q378 356 372.7 346.3 Z" fill="url(#fnGrad)" />
+                <path className="seg" d="M401.2 383.7 Q396 374 407 374 L733 374 Q744 374 738.8 383.7 L683.2 486.3 Q678 496 667 496 L473 496 Q462 496 456.8 486.3 Z" fill="url(#fnGrad)" />
+                <path className="tip" d="M483.6 523.4 Q478 514 489 514 L651 514 Q662 514 656.4 523.4 L575.6 658.6 Q570 668 564.4 658.6 Z" fill="#2144a5" />
+                <text className="fl" x="570" y="135">지원자 전체 - AI 자동 검증</text>
+                <text className="fl" x="570" y="290">핵심 역량 기준으로 지원자 선별</text>
+                <text className="fl" x="570" y="435">핵심 인재 리포트</text>
+                <text className="fl ft" x="570" y="552">최종</text>
+                <text className="fl ft" x="570" y="586">판단</text>
+              </svg>
+              <span className="fn-tag tag-ai"><i className="fa-solid fa-robot"></i> AI</span>
+              <span className="fn-tag tag-team"><i className="fa-solid fa-user"></i> 채용팀</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 05 · 해결 — 제품 2종(연한 블루, 깔때기 뒤). 카드 위 그림은 제품 페이지 '진행 방식'의 움직이는 카드(AskDemo·AssistDemo, 2026-11-26 옛 도식 썸네일에서 바꿈) */}
       <section className="value" id="products">
         <div className="wrap">
           <div className="head">
@@ -128,20 +166,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 05 · 함께 쓰는 순서 — 제품 페이지 끝 안내와 같은 ProductFlow(히어로 화면 썸네일). 옛 깔때기(AI 선별 → 사람 판단)를 같은 뜻의 세 단계로 바꿈(2026-11-26) */}
-      <section className="band soft" id="flow">
+      {/* SECTION 06 · 함께 쓰는 순서 — 제품 페이지 끝 안내와 같은 ProductFlow(히어로 화면 썸네일). 깔때기의 큰 그림을 실제 제품 순서로(흰 바탕) */}
+      <section className="band" id="flow">
         <div className="wrap">
           <ProductFlow />
         </div>
       </section>
 
-      {/* SECTION 06 · 부정행위 감지 (공용, AI 면접 페이지로 연결) — 홈은 앞 '함께 쓰는 순서'(연한 블루)와 번갈아 흰 바탕 */}
-      <IntegritySection withLink soft={false} />
+      {/* SECTION 07 · 부정행위 감지 (공용, AI 면접 페이지로 연결) — 연한 블루(기본값) */}
+      <IntegritySection withLink />
 
-      {/* SECTION 07 · 보안 (공용) — 홈은 연한 블루 바탕 */}
-      <SecuritySection soft />
+      {/* SECTION 08 · 보안 (공용) — 흰 바탕(기본값) */}
+      <SecuritySection />
 
-      {/* SECTION 08 · 성과·후기 — 옛 성과(PROOF) 섹션을 합침(2026-11-26). 후기 말풍선이 위, 성과 카드 두 장(속도·비용)이 아래.
+      {/* SECTION 09 · 성과·후기(연한 블루) — 옛 성과(PROOF) 섹션을 합침(2026-11-26). 후기 말풍선이 위, 성과 카드 두 장(속도·비용)이 아래.
           성과 카드는 시안 C안(11/26): 긴 설명 대신 그래프(시간 축·도넛) + 한 줄. 시안 https://claude.ai/artifact/Kaktqy6Xv1YVS2MyDzJLuD */}
       <section className="voices" id="voices">
         <div className="wrap">
@@ -215,8 +253,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 09 · FAQ (어드민 FAQ, DB) */}
-      <section className="faq" id="faq">
+      {/* SECTION 10 · FAQ (어드민 FAQ, DB) — 홈만 흰 바탕(.faq.white, 제품 페이지 FAQ는 연한 블루 그대로) */}
+      <section className="faq white" id="faq">
         <div className="wrap">
           <div className="head">
             <h2>자주 묻는 질문</h2>
@@ -225,7 +263,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 10 · 마지막 CTA — 두 제품을 함께 말하므로 강조어는 'AI'(11/26, 옛 'AI 면접') */}
+      {/* SECTION 11 · 마지막 CTA — 두 제품을 함께 말하므로 강조어는 'AI'(11/26, 옛 'AI 면접') */}
       <FinalCta before={<>다음 채용은,<br /></>} word="AI" after="로 더 빠르게 시작하세요." />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />

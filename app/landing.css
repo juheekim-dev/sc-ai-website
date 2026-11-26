@@ -439,6 +439,10 @@
   .pf-step.dark .pf-no{color:#7DA9FF}
   .pf-step.dark h3{color:#fff}
   .pf-step.dark .pf-body p{color:#AEB9D4}
+  /* 3단계 검사 결과 뱃지(11/26) — 1·2단계 버튼 자리. 이름 + 블루 등급 알약 */
+  .pf-grades{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:nowrap;gap:6px} /* 11/26 "두 뱃지를 일렬로 나란히" — 줄바꿈 없이, 좁은 데스크톱에선 글자만 조금 줄인다 */
+  .pf-grades li{display:inline-flex;align-items:center;gap:6px;padding:5px 5px 5px 11px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:clamp(11.5px,1.1vw,13px);font-weight:600;color:#DCE4F5;white-space:nowrap}
+  .pf-grades b{padding:3px 9px;border-radius:999px;background:var(--blue);color:#fff;font-size:.92em;font-weight:700;line-height:1.2}
   .pf-body{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:16px 18px 20px}
   .pf-no{font-size:13px;font-weight:800;color:var(--blue-d)}
   .pf-body h3{font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
@@ -559,7 +563,7 @@
   /* 7. VOICES */
   /* 섹션을 조금 위로 — 상단 패딩 축소 */
   /* VOICES는 흰색 — 앞 PROOF(연블루 #F4F8FF)와 배경을 나눠 섹션 경계가 드러나게 */
-  .voices{background:#fff;padding-top:var(--sec-y)}
+  .voices{background:var(--soft);padding-top:var(--sec-y)} /* 홈 전용 — 11/26 깔때기가 다시 들어와 배경 교차가 밀려 연한 블루로 */
   .voices .head{text-align:center;max-width:720px;margin:0 auto}
   .v-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px;align-items:stretch;max-width:1040px;margin-left:auto;margin-right:auto}
   .vc{display:flex;flex-direction:column}
@@ -576,6 +580,7 @@
 
   /* 7.5 FAQ — 네이티브 <details> 아코디언. 검색용 FAQPage(JSON-LD)와 짝. */
   .faq{background:var(--soft);padding-top:var(--sec-y)}
+  .faq.white{background:#fff} /* 홈 FAQ만 흰 바탕(11/26 배경 교차) — 제품 페이지 FAQ는 연한 블루 그대로 */
   .faq .head{text-align:center;max-width:720px;margin:0 auto}
   .faq-list{max-width:780px;margin:44px auto 0;display:grid;gap:14px}
   .faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 22px -16px rgba(20,40,90,.2);overflow:hidden}
@@ -637,7 +642,7 @@
 
 
   /* VALUE — 핵심 가치 3 */
-  .value{background:#fff;position:relative;z-index:1;padding-top:40px}
+  .value{background:var(--soft);position:relative;z-index:1} /* 홈 해결(제품 2종) — 11/26 깔때기 뒤로 가며 연한 블루·기본 위 여백(옛 40px은 문제 섹션 바로 아래에 붙이던 값) */
   .value .head{text-align:center;max-width:760px;margin:0 auto}
   .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
   /* flex column + metric margin-top:auto → 설명 길이와 무관하게 metric 뱃지가 카드 하단에 정렬 */
@@ -656,7 +661,7 @@
   /* ROLE FUNNEL — 깔때기 (트라페조이드 3단 + 다크 tip) */
   /* 섹션을 조금 위로 — 상단 패딩 축소 */
   /* 위아래 여백 확보 — 우측 역삼각형 깔때기가 답답하지 않게 상·하단 패딩 넉넉히 */
-  .role-funnel{background:var(--soft);padding:clamp(88px,10vw,140px) 0}
+  .role-funnel{background:#fff;padding:clamp(88px,10vw,140px) 0} /* 11/26 문제(연한 블루) 바로 뒤로 옮기며 흰 바탕 */
   .role-funnel .head{text-align:center;max-width:760px;margin:0 auto}
   /* 이미 부모 .wrap(패딩24) 안이므로 funnel3는 패딩 0 → 콘텐츠 좌측이 로고 라인과 정확히 일치 */
   .funnel3{max-width:1140px;margin:36px auto 0;padding:0}

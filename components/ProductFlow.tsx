@@ -9,9 +9,11 @@ import HeroStage, { type HeroStageData } from "./HeroStage";
 // 3단계 그림(11/26 시안 '나' 디벨롭): 히어로와 같은 구성 — '핵심 후보' 화면 + 흰 카드 2장(대면 면접 확인 포인트·검사 결과) + 칩 + 점선, 레이어마다 모션.
 // 같은 날 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로": 1·2단계(흰 카드)와 반대로 3단계 카드 전체를 어둡게(.pf-step.dark), 그림 속 화면은 흰색.
 // 이름은 가상, 첫 후보 사진은 사용자가 준 목업 에셋. 원본은 _docs/홈페이지 개편/도식/캡처가공(f2f-l-*).
-const F2F: { title: string; sub: string; stage: HeroStageData } = {
+const F2F: { title: string; sub: string; grades: { name: string; grade: string }[]; stage: HeroStageData } = {
   title: "대면 면접",
   sub: "핵심 후보만 만납니다",
+  // AI 면접 종합 등급 '적합', AI 역량검사 4단계 AI 추천 중 '추천' — 그림 속 검사 결과 카드(f2f-result)와 같은 값
+  grades: [{ name: "AI 면접", grade: "적합" }, { name: "AI 역량검사", grade: "추천" }],
   stage: {
     img: "/f2f-base.webp",
     alt: "핵심 후보 화면: AI 면접 적합·AI 역량검사 추천을 받은 후보 세 명, 김지원 후보의 대면 면접 확인 포인트와 검사 결과",
@@ -55,6 +57,10 @@ export default function ProductFlow({ current }: { current?: ProductHref }) {
             <span className="pf-no">{PRODUCTS.length + 1}단계</span>
             <h3>{F2F.title}</h3>
             <p>{F2F.sub}</p>
+            {/* 11/26 "대면 면접 카드 아래에 AI 면접·AI 역검 뱃지 등급, 아래가 허해" — 1·2단계 버튼 자리에 두 검사 결과 등급(그림 속 검사 결과 카드와 같은 값) */}
+            <ul className="pf-grades" aria-label="두 검사 결과">
+              {F2F.grades.map((g) => <li key={g.name}><span>{g.name}</span><b>{g.grade}</b></li>)}
+            </ul>
           </div>
         </li>
       </ol>
