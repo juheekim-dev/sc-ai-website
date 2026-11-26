@@ -1,7 +1,7 @@
 import { CERT_CODES } from "@/lib/certs";
 
 // 보안 — 홈·/ai-interview·/ai-assessment 공용(SSOT). 스타일은 app/landing.css(.band·.sec-split·.sec-marks·.sec-list).
-// '금융권·대기업 보안감사 통과' 문구는 근거를 확인하기 전에는 쓰지 않는다(2026-11 개편 기획).
+// '금융권·대기업 보안감사 통과'는 11/26 사용자 확인으로 넣었다(고객사 보안감사 통과 — 회사명은 쓰지 않는다).
 // 레이아웃(2026-11-25 B안): 다른 섹션과 같은 '카드 3장 한 줄'이 반복된다는 피드백으로 좌우 분할 —
 // 왼쪽 제목·인증 마크(2×2), 오른쪽 보안 항목 목록(카드 없이 선으로 나눔).
 const ITEMS = [
@@ -19,7 +19,7 @@ export default function SecuritySection({ soft = false }: { soft?: boolean }) {
         <div>
           <div className="head">
             <h2>지원자 영상과 개인정보,<br /><span className="blue">국제 표준</span>으로 관리합니다</h2>
-            <p className="lead">정보보호·개인정보보호·클라우드 보안 국제 표준 인증을 받았습니다.</p>
+            <p className="lead">금융권·대기업 보안감사를 통과했고, 정보보호·개인정보보호·클라우드 보안 국제 표준 인증을 받았습니다.</p>
           </div>
           <ul className="sec-marks" aria-label="보안 인증">
             {CERT_CODES.map((c) => (

@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 // 항목은 SC-Platform에 실제로 있는 것만 쓴다: 휴대폰·이어폰 감지는 없고, 여러 얼굴(두 명 이상) 감지는 있다.
 // 종합 위험도 등급·신분증 확인·유사도 검사처럼 없는 기능은 넣지 않는다. 감지 표시는 빨강 대신 블루.
 // 근거·금지 표현: _docs/홈페이지 개편/AI면접_AI역량검사_차이_소개자료.md 6장.
-// 'AI 안경 착용 확인'은 지원자 화면의 기기 확인 수준이라 이 목록에서는 뺐다(2026-11-24, 7→6개).
+// 'AI 안경 착용 확인'은 11/24에 뺐다가 11/26 '추가 고려할 부분' 메모(눈/머리·사이드 모니터링·AI 안경·확장 모니터·탭 전환)에 맞춰 다시 넣었다(6→7개).
 const stroke = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 const ICON = {
   eye: <><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></>,
@@ -16,6 +16,7 @@ const ICON = {
   monitor: <><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></>,
   out: <><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></>,
   rec: <><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3" fill="currentColor" /></>,
+  glasses: <><circle cx="6.5" cy="14" r="3.5" /><circle cx="17.5" cy="14" r="3.5" /><path d="M10 13.5c1.2-.8 2.8-.8 4 0" /><path d="M3 14 5 7h2M21 14l-2-7h-2" /></>,
 };
 const Icon = ({ d }: { d: ReactNode }) => <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">{d}</svg>;
 
@@ -24,6 +25,7 @@ const ITEMS = [
   { icon: ICON.users, title: "여러 얼굴 감지", body: "카메라에 다른 사람이 함께 보이면 기록합니다." },
   { icon: ICON.phone, title: "사이드 카메라", body: "휴대폰을 QR로 연결해 옆에서 모니터와 손을 함께 봅니다." },
   { icon: ICON.monitor, title: "보조 모니터 연결", body: "다른 모니터가 연결돼 있으면 기록합니다." },
+  { icon: ICON.glasses, title: "AI 안경 착용 확인", body: "화면에 답을 띄워 주는 AI 안경을 쓰고 있는지 확인합니다." },
   { icon: ICON.out, title: "다른 탭·창으로 이동", body: "면접 화면을 벗어나 다른 탭이나 창으로 가면 기록합니다." },
   { icon: ICON.rec, title: "면접 중 화면 녹화", body: "지원자 화면을 녹화해 영상과 함께 확인합니다." },
 ];
