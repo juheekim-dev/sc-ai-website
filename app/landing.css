@@ -434,7 +434,7 @@
   .pf-thumb .hero-stage{width:90%}
   /* 3단계 대면 면접 카드(11/26 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로") — 카드 전체를 문제 띠(.band.dark)와 같은 남색→블랙으로.
      글자색은 어두운 바탕에서 쓰는 값(.role-banner .blue·.final p와 같음) */
-  .pf-step.dark{background:linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%);border-color:transparent}
+  .pf-step.dark{background:radial-gradient(110% 55% at 50% 0%,rgba(51,106,255,.42) 0%,rgba(51,106,255,0) 70%),linear-gradient(180deg,#13214A 0%,#0A1129 45%,#030509 100%);border-color:transparent} /* 11/26 "위쪽에 살짝 브랜드 컬러" — 위 가운데에 --blue(#336AFF) 빛을 은은하게 */
   .pf-step.dark .pf-thumb{background:none;border-bottom-color:rgba(255,255,255,.1)}
   .pf-step.dark .pf-no{color:#7DA9FF}
   .pf-step.dark h3{color:#fff}
