@@ -19,7 +19,7 @@ export default function SecuritySection({ soft = false }: { soft?: boolean }) {
         <div>
           <div className="head">
             <h2>지원자 영상과 개인정보,<br /><span className="blue">국제 표준</span>으로 관리합니다</h2>
-            <p className="lead">금융권·대기업 보안감사를 통과했고, 정보보호·개인정보보호·클라우드 보안 국제 표준 인증을 받았습니다.</p>
+            <p className="lead">금융권·대기업 보안감사를 통과했고,<br />정보보호·개인정보보호·클라우드 보안 국제 표준 인증을 받았습니다.</p>
           </div>
           <ul className="sec-marks" aria-label="보안 인증">
             {CERT_CODES.map((c) => (
