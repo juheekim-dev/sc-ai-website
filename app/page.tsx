@@ -241,42 +241,6 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <div className="proof-row two">
-            {/* 속도 — 0~208일 시간 축 위에 AI(당일) 위치. 눈금은 값에 비례(일 ÷ 208) */}
-            <div className="pc2">
-              <div className="vlabel">속도</div>
-              <div className="big big-phrase">만 명도 즉시 스크리닝</div>
-              <div className="pg-axis" role="img" aria-label="지원자 만 명 1차 검토: 사람이 한 명당 10분씩 보면 약 208일, AI는 동시에 진행해 당일">
-                <div className="pg-flags"><b>AI 당일</b><span>사람 208일</span></div>
-                <div className="pg-track"><i></i></div>
-                <div className="pg-ticks">
-                  {[0, 50, 100, 150, 208].map((d) => <span key={d} style={{ left: `${(d / 208) * 100}%` }}>{d}일</span>)}
-                </div>
-              </div>
-              <p>AI가 동시에 진행해 <strong>당일</strong> 끝납니다.</p>
-              <p className="psrc">출처: 서류 10분 사람인·잡코리아 (208일=추산)</p>
-            </div>
-            {/* 비용 절감 — 면접관 시간 중 줄어든 비율 도넛. 실제 고객 수치가 없어 예시 계산(500시간 → 25시간)이고, 카드에 '예시 계산'을 밝힌다 */}
-            <div className="pc2">
-              <div className="vlabel">비용 절감</div>
-              <div className="big big-phrase">면접관 시간 절약</div>
-              <div className="pg-donut">
-                <svg viewBox="0 0 120 120" role="img" aria-label="예시 계산: 1차 면접에 쓰던 면접관 시간 500시간 중 475시간(95%)을 줄이고 25시간만 사용">
-                  <circle cx="60" cy="60" r="46" className="pg-ring" />
-                  <circle cx="60" cy="60" r="46" className="pg-arc" strokeDasharray="274.6 289.03" transform="rotate(-90 60 60)" />
-                  <text x="60" y="60" className="pg-pct">95%</text>
-                  <text x="60" y="78" className="pg-cap">줄어든 시간</text>
-                </svg>
-                <ul>
-                  <li><i className="on"></i>줄어든 시간 475시간</li>
-                  <li><i></i>면접관 시간 25시간</li>
-                </ul>
-              </div>
-              <p>현업 면접관은 <strong>검증된 소수</strong>만 만납니다.</p>
-              <p className="psrc">예시 계산: 지원자 1,000명 · 1차 면접 30분 · 대면 면접 후보 50명</p>
-            </div>
-          </div>
-
           {/* 저관여 오퍼 — 상담(고관여) 전에 소개서로 먼저 검토할 길을 본문 안에 둔다(옛 성과 섹션에서 옮김).
               /brochure 링크가 GNB·푸터에만 있으면 스크롤 흐름에서 노출되지 않는다. */}
           <SoftCta title="실제 검증 리포트가 어떻게 나오는지 먼저 확인해보세요" href="/brochure" label="서비스소개서 받기" />
