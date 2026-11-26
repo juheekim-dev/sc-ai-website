@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Tabs from "./Tabs";
 
-// 부정행위 감지(AI 면접) — 홈·/ai-interview 공용(SSOT). 스타일은 app/landing.css(.integ·.ig-*·.ir-*), 탭은 공용 Tabs.
+// 부정행위 감지(AI 면접) — 홈·/ai-interview 공용(SSOT). 스타일은 app/landing.css(.integ·.ig-*·.lv-*·.rp-*·.ir-bar), 탭은 공용 Tabs.
 // 레이아웃(2026-11-26 — 사용자가 보낸 참고 화면): 가운데 제목 아래 탭 2개(공용 Tabs)로 하나씩 보여 준다.
 // 실시간 감지(지원자 화면 + 감지 항목 4묶음) / 감지 리포트(HTML로 그린 '감지 내역' 카드 + 설명). 카드는 이미지가 아니라 글자가 선명하다.
 // 항목은 SC-Platform에 실제로 있는 것만 쓴다: 휴대폰·이어폰 감지는 없고, 여러 얼굴(두 명 이상) 감지는 있다.
@@ -39,14 +39,17 @@ const Silhouette = () => (
   <svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="80" cy="40" r="17" /><path d="M42 102v-6a38 38 0 0 1 76 0v6z" /></svg>
 );
 
-// 탭 3 '감지 리포트' 오른쪽 설명
-const REPORT_POINTS = ["감지한 순간을 종류·시각과 함께 기록", "누르면 면접 영상의 그 장면으로 이동", "판단을 돕는 자료 — 최종 판단은 채용팀이"];
-
-// 면접 영상의 감지 장면 3칸 — 위 감지 내역 줄과 같은 종류·시각
-const CLIPS = [
-  { label: "시선 이탈", t: "03:12" },
-  { label: "탭 전환", t: "08:40" },
-  { label: "여러 얼굴", t: "12:05" },
+// 탭 3 '감지 리포트' = 벤토(11/26 R3 — 감지 항목 탭과 같은 결). 큰 카드 = 면접 영상의 시선 이탈 장면(목업 '실 측면-2'에서 고개 돌린 얼굴 쪽을 16:9로, 모니터는 빠지게)
+// + 두 눈 측정 박스·시선 방향 화살표·'시선 이탈' 배지 + 타임라인. 작은 카드 3장 = 종류·시각 기록 → 그 장면으로 이동 → 판단은 채용팀이.
+// 감지 종류·시각·경고/정보는 예시 값(제품 'AI 감독 리포트'의 전체 감지 내역·심각/경고/정보 구분을 따름). 타임라인 표시 위치는 시각에 맞춘다(03:12/15:00 = 21%, 08:40 = 58%, 12:05 = 80%).
+const EVENTS = [
+  { sev: "경고", label: "시선 이탈", t: "03:12" },
+  { sev: "경고", label: "화면 이탈", t: "08:40" },
+  { sev: "정보", label: "보조 모니터", t: "12:05" },
+];
+const REPORT_SHOTS = [
+  { title: "그 장면으로 이동", body: "누르면 면접 영상의 그 장면부터 재생합니다.", img: "/integrity-screen.webp", h: 480, tag: "화면 이탈 · 08:40" },
+  { title: "판단은 채용팀이", body: "리포트는 판단을 돕는 자료이고, 최종 판단은 채용팀이 합니다.", img: "/integrity-side.webp", h: 400, tag: "보조 모니터 · 12:05" },
 ];
 
 // 얼굴·시선 표시(SVG). 좌표는 integrity-face.webp(1120×630, 가로로 긴 화면 비율 — 11/26 "화면 비율로") 기준.
@@ -133,35 +136,57 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
     </>
   );
 
-  // 탭 3 — 왼쪽 감지 내역 카드(예시), 오른쪽 설명. 감지 3건은 영상 칸 3개가 종류·시각을 함께 보여 줘서 위에 따로 줄을 두지 않는다(11/26 중복 제거)
+  // 탭 3 — 감지 리포트 벤토. 영상 위 표시 좌표는 integrity-away.webp(1120×630) 기준: 두 눈 (438, 250)·(505, 245), 시선은 왼쪽으로
   const report = (
-    <>
-      {/* 시각은 예시 값. 타임라인 표시 위치는 시각에 맞춘다(03:12/15:00 = 21%, 08:40/15:00 = 58%, 12:05/15:00 = 80%). 지금 재생 중인 첫 칸은 블루 테두리 */}
-      <div className="ir" role="img" aria-label="부정행위 감지 내역 예시: 시선 이탈 3분 12초, 탭 전환 8분 40초, 여러 얼굴 12분 5초. 누르면 면접 영상의 그 장면으로 이동합니다.">
-        <div className="ir-h">
-          <svg viewBox="0 0 24 24" className="ir-shield" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z" /></svg>
-          <b>부정행위 감지 내역</b><span className="ir-smp">예시</span>
-        </div>
-        <div className="ir-sum"><span>감지</span><span className="ir-pill">3건</span><strong>눌러서 그 장면을 확인하세요</strong></div>
-        <div className="ir-vid">
-          <div className="ir-vh">면접 영상<span>시선 이탈 03:12</span></div>
-          <div className="ir-clips">
-            {CLIPS.map((c, i) => (
-              <div key={c.label} className={i === 0 ? "ir-clip on" : "ir-clip"}><span className="ir-clip-tag">{c.label}</span><span className="ir-clip-play" aria-hidden="true"></span><span className="ir-clip-t">{c.t}</span></div>
-            ))}
+    <div className="ig-live">
+      <div className="env-bento ig-bento">
+        <div className="eb-card big">
+          <div className="eb-txt">
+            <h3>감지 장면을 영상으로</h3>
+            <p>감지한 장면은 리포트에 모이고, 채용팀이 면접 영상과 함께 하나씩 확인합니다.</p>
           </div>
-          <div className="ir-bar"><span className="ir-play"></span><span className="ir-track"><b style={{ width: "21%" }}></b><i style={{ left: "21%" }}></i><i style={{ left: "58%" }}></i><i style={{ left: "80%" }}></i></span></div>
-          <div className="ir-times"><span>0:00</span><span>15:00</span></div>
+          <div className="ig-face rp-vid" role="img" aria-label="감지 리포트 예시: 면접 영상 3분 12초, 지원자가 고개를 돌려 시선이 화면 밖으로 벗어난 장면에 두 눈 측정 박스와 시선 이탈 표시">
+            <img src="/integrity-away.webp" alt="" width={1120} height={630} loading="lazy" />
+            <svg className="ig-hud rp-hud" viewBox="0 0 1120 630" aria-hidden="true">
+              <rect x="414" y="225" width="120" height="46" rx="8" className="rp-eye" />
+              <path d="M410 248H262" className="rp-arrow" />
+              <path d="M276 238L260 248L276 258" className="rp-head" />
+            </svg>
+            <span className="rp-tag">시선 이탈 · 03:12</span>
+            <span className="ig-cam"><i></i>면접 영상</span>
+          </div>
+          <div className="ir-bar rp-bar">
+            <span className="ir-play"></span>
+            <span className="ir-track"><b style={{ width: "21%" }}></b><i style={{ left: "21%" }}></i><i style={{ left: "58%" }}></i><i style={{ left: "80%" }}></i></span>
+            <span className="rp-t">15:00</span>
+          </div>
         </div>
-        <div className="ir-chips"><span>보조 모니터 없음</span></div>
+        <div className="eb-card">
+          <div className="eb-txt">
+            <h3>종류·시각 기록</h3>
+            <p>감지한 순간을 종류와 시각으로 남깁니다.</p>
+          </div>
+          <ul className="rp-list" aria-label="감지 내역 예시">
+            {EVENTS.map((e, i) => (
+              <li key={e.label} className={i === 0 ? "on" : undefined}><span className={e.sev === "경고" ? "rp-sev" : "rp-sev info"}>{e.sev}</span>{e.label}<em>{e.t}</em></li>
+            ))}
+          </ul>
+        </div>
+        {REPORT_SHOTS.map((c) => (
+          <div className="eb-card" key={c.title}>
+            <div className="eb-txt">
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </div>
+            <div className="eb-shot">
+              <img src={c.img} alt="" width={640} height={c.h} loading="lazy" />
+              <span className="rp-chip">{c.tag}</span>
+              <span className="rp-pl" aria-hidden="true"></span>
+            </div>
+          </div>
+        ))}
       </div>
-      <div>
-        <p className="ig-lead">감지한 장면은 리포트에 모이고, 채용팀이 면접 영상과 함께 하나씩 확인합니다.</p>
-        <ul className="ig-checks">
-          {REPORT_POINTS.map((t) => <li key={t}>{t}</li>)}
-        </ul>
-      </div>
-    </>
+    </div>
   );
 
   return (

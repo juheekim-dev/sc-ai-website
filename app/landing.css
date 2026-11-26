@@ -863,7 +863,7 @@
   .sec-list p{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--slate)}
   @media(max-width:880px){.sec-split{grid-template-columns:minmax(0,1fr)}.sec-split .head{text-align:center}.sec-split .sec-marks{justify-content:center}}
   /* 부정행위 감지(2026-11-26, 홈·AI 면접 공용 IntegritySection): 가운데 제목 + 탭 2개(공용 Tabs의 .tt-list·.tt-tab).
-     패널(.ig-panel)은 왼쪽 그림·오른쪽 글. 실시간 감지 = 벤토(.ig-bento — 정면 큰 카드 + 작은 카드 3) / 감지 리포트 = '감지 내역' 카드(.ir) + 설명. 감지 표시는 블루 */
+     패널(.ig-panel)은 왼쪽 그림·오른쪽 글. 감지 항목·감지 리포트 = 벤토(.ig-bento — 큰 카드 + 작은 카드 3, 패널 두 칸을 다 씀), 실시간 모니터링 = 모니터링 화면(.lv) + 설명 / 감지 리포트 = '감지 내역' 카드(.ir) + 설명. 감지 표시는 블루 */
   .ig-panel{margin:40px auto 0;max-width:1040px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
   .ig-panel[hidden]{display:none}
   /* 실시간 감지 벤토(11/26 E안): .env-bento·.eb-card(AI 역량검사 응시 환경, 아래 정의)를 그대로 쓰고 여기선 차이만. 벤토 + 안내 한 줄(.ig-live)이 패널 두 칸을 다 쓴다.
@@ -944,36 +944,33 @@
   @keyframes lvRing{50%{box-shadow:0 0 0 5px rgba(51,106,255,.28)}}
   @media (prefers-reduced-motion:reduce){.lv-cell.flag{animation:none}}
   @media(max-width:560px){.lv{padding:12px}.lv-q{display:none}.lv-grid{gap:8px}.lv-cell{padding:5px}}
-  .ir{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 22px 18px;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12);display:grid;gap:12px}
-  .ir-h{display:flex;align-items:center;gap:10px}
-  .ir-h b{font-size:17px;color:var(--ink)}
-  .ir-shield{width:20px;height:20px;fill:var(--blue)}
-  .ir-smp{margin-left:auto;font-size:12px;font-weight:600;color:var(--slate);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
-  .ir-sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#F6F8FC;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--slate)}
-  .ir-sum strong{font-size:14.5px;color:var(--ink)}
-  .ir-pill{font-weight:700;font-size:13px;color:var(--blue-d);border:1.5px solid var(--blue);border-radius:999px;padding:3px 12px}
-  .ir-vid{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
-  .ir-vh{display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--ink)}
-  .ir-vh span{font-weight:500;font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
-  /* 면접 영상 — 감지 장면 3칸(11/25 "3개로 나누고 영상 박스 안에 텍스트"): 칸마다 감지 종류(위)·재생 버튼(가운데)·시각(아래). 첫 칸이 지금 재생 중(블루 테두리) */
-  .ir-clips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .ir-clip{position:relative;height:84px;border-radius:10px;background:#1E283F;overflow:hidden}
-  .ir-clip.on{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--blue)}
-  .ir-clip-tag{position:absolute;left:8px;top:8px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;line-height:1;color:var(--blue-d);background:#D8E2FF;border-radius:999px;padding:4px 8px;white-space:nowrap}
-  .ir-clip-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue)}
-  .ir-clip-play{position:absolute;left:50%;top:54%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(255,255,255,.18)}
-  .ir-clip-play::after{content:"";position:absolute;left:10px;top:7.5px;border-style:solid;border-width:5.5px 0 5.5px 8.5px;border-color:transparent transparent transparent #fff}
-  .ir-clip-t{position:absolute;right:8px;bottom:6px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);font-variant-numeric:tabular-nums}
+  /* 감지 리포트 벤토(11/26 R3) — 큰 카드 영상(.rp-vid, .ig-face 틀 재사용) 위 두 눈 측정 박스·시선 방향 화살표·배지, 아래 타임라인(.ir-bar 재사용).
+     배지 좌표는 integrity-away.webp(1120×630) 기준 화살표 끝(260, 248). 박스는 천천히 깜박여 '지금 이 장면'을 짚는다 */
+  .rp-eye{fill:none;stroke:var(--blue);stroke-width:2.5px;vector-effect:non-scaling-stroke;animation:rpBlink 2.4s ease-in-out infinite}
+  .rp-arrow{fill:none;stroke:#fff;stroke-width:1.5px;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+  .rp-head{fill:none;stroke:#fff;stroke-width:1.8px;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .rp-tag{position:absolute;right:77.5%;top:39.37%;transform:translateY(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .rp-bar{padding:14px 28px 18px 32px}
+  .rp-t{font-size:12px;color:var(--slate);font-variant-numeric:tabular-nums}
+  .rp-list{list-style:none;margin:0;padding:14px 14px 14px 16px;align-self:stretch;background:var(--soft);display:grid;align-content:center;gap:8px}
+  .rp-list li{display:flex;align-items:center;gap:7px;background:#fff;border-radius:8px;padding:7px 9px;font-size:12.5px;font-weight:600;color:var(--ink)}
+  .rp-list li.on{outline:2px solid var(--blue);outline-offset:-1px}
+  .rp-list em{margin-left:auto;font-style:normal;font-weight:500;color:var(--slate);font-variant-numeric:tabular-nums}
+  .rp-sev{font-size:10.5px;font-weight:700;line-height:1.2;color:#fff;background:var(--blue);border-radius:5px;padding:2px 6px}
+  .rp-sev.info{color:var(--blue-d);background:var(--soft-2)}
+  .rp-chip{position:absolute;left:8px;top:8px;font-size:11px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:4px 8px;white-space:nowrap}
+  .rp-pl{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(20,28,46,.6)}
+  .rp-pl::after{content:"";position:absolute;left:13px;top:10px;border-style:solid;border-width:7px 0 7px 10px;border-color:transparent transparent transparent #fff}
+  @keyframes rpBlink{50%{stroke-opacity:.35}}
+  @media (prefers-reduced-motion:reduce){.rp-eye{animation:none}}
+  @media(max-width:760px){.rp-bar{padding:12px 22px 16px}.rp-list{padding:0 22px 22px;background:none}}
+  @media(max-width:560px){.rp-tag{font-size:10px;padding:4px 7px}}
   .ir-bar{display:flex;align-items:center;gap:10px}
   .ir-play{width:30px;height:30px;border-radius:50%;background:var(--blue);position:relative;flex:none}
   .ir-play::after{content:"";position:absolute;left:12px;top:9px;border-style:solid;border-width:6px 0 6px 9px;border-color:transparent transparent transparent #fff}
   .ir-track{position:relative;flex:1;height:6px;border-radius:3px;background:#E3EAFE}
   .ir-track b{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--blue)}
   .ir-track i{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
-  .ir-times{display:flex;justify-content:space-between;padding-left:40px;font-size:12px;color:var(--slate);font-variant-numeric:tabular-nums}
-  .ir-chips{display:flex;flex-wrap:wrap;gap:8px}
-  .ir-chips span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px}
-  .ir-chips span::before{content:"✓";width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;display:grid;place-items:center}
   @media(max-width:880px){.ig-panel{grid-template-columns:minmax(0,1fr);margin-top:28px}}
   @media(max-width:560px){.ig-tag{font-size:10px;padding:4px 7px}.ig-cam{font-size:10.5px;padding:5px 8px}}
 
