@@ -863,40 +863,41 @@
   .sec-list p{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--slate)}
   @media(max-width:880px){.sec-split{grid-template-columns:minmax(0,1fr)}.sec-split .head{text-align:center}.sec-split .sec-marks{justify-content:center}}
   /* 부정행위 감지(2026-11-26, 홈·AI 면접 공용 IntegritySection): 가운데 제목 + 탭 2개(공용 Tabs의 .tt-list·.tt-tab).
-     패널(.ig-panel)은 왼쪽 그림·오른쪽 글. 실시간 감지 = 지원자 화면(.ig-face) + 4묶음(.ig-list) / 감지 리포트 = '감지 내역' 카드(.ir) + 설명. 감지 표시는 블루 */
+     패널(.ig-panel)은 왼쪽 그림·오른쪽 글. 실시간 감지 = 벤토(.ig-bento — 정면 큰 카드 + 작은 카드 3) / 감지 리포트 = '감지 내역' 카드(.ir) + 설명. 감지 표시는 블루 */
   .ig-panel{margin:40px auto 0;max-width:1040px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
   .ig-panel[hidden]{display:none}
-  /* 녹화 화면 네 장(11/26): 정면(.ig-face, 가로 전체) 아래쪽에 작은 세 칸(.ig-tiles — 화면 공유·측면·손·키보드)을 겹쳐 한 줄로. 겹치는 양은 margin-top 음수 */
-  .ig-cams{position:relative}
-  .ig-face,.ig-tile{position:relative;overflow:hidden;background:#1E283F;box-shadow:0 28px 60px -24px rgba(20,40,90,.32),0 8px 20px -12px rgba(20,40,90,.12)}
-  .ig-face{border-radius:18px}
-  .ig-tiles{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3%;padding:0 4%;margin-top:-9%}
-  .ig-tile{border-radius:12px;outline:3px solid #fff}
-  .ig-face img,.ig-tile img{display:block;width:100%;height:auto}
-  /* 얼굴 강조 — 좌표는 integrity-face.webp(1120×630) 기준. .ig-box는 태그 자리만 잡고(테두리 없음), 모서리 4개는 GazeHud SVG가 그린다(FACE와 같은 범위) */
-  .ig-box{position:absolute;left:38.84%;top:19.05%;width:22.86%;height:43.02%}
-  .ig-tag{position:absolute;left:0;bottom:calc(100% + 6px);font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
-  .ig-box>.ig-tag:first-child{left:auto;right:0} /* 얼굴 1명은 박스 오른쪽 위 — 왼쪽 위 카메라 칩과 모바일에서 겹치지 않게 */
-  .ig-tag-b{bottom:auto;top:calc(100% + 6px)}
-  .ig-gaze{position:absolute;left:63.04%;top:34.13%;transform:translateY(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
-  /* 얼굴 모서리 4개 + 시선(눈 둘레 가는 링 하나와 태그까지 점선). 움직임 없음 */
+  /* 실시간 감지 벤토(11/26 E안): .env-bento·.eb-card(AI 역량검사 응시 환경, 아래 정의)를 그대로 쓰고 여기선 차이만. 벤토 + 안내 한 줄(.ig-live)이 패널 두 칸을 다 쓴다.
+     큰 카드 높이(글 + 16:9 정면)와 작은 카드 3장 높이가 맞도록 1.55:1, 작은 카드 화면은 16:10. 화면은 카드 오른쪽·아래로 흘러 나간다 */
+  .ig-live{grid-column:1/-1;min-width:0}
+  .integ .ig-bento{margin-top:0;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)} /* .integ — 뒤에 정의된 .env-bento보다 우선 */
+  .ig-bento .eb-card.big{grid-row:span 3}
+  .ig-bento .eb-card:not(.big) .eb-txt{padding:22px 8px 22px 24px}
+  .ig-bento .eb-card:not(.big) .eb-txt h3{font-size:18px}
+  .ig-bento .eb-card:not(.big) .eb-txt p{font-size:14px}
+  .ig-face,.eb-shot{position:relative;overflow:hidden;background:#1E283F}
+  .ig-face{border-radius:14px 0 0 0;margin:auto 0 0 32px}
+  .ig-bento .ig-face img{display:block;width:100%;height:auto;margin:0}
+  .eb-shot{border-radius:12px 0 0 0;align-self:end;aspect-ratio:16/10;margin-top:16px}
+  .ig-bento .eb-shot img{height:100%;object-fit:cover;object-position:center}
+  .integ .ig-note{text-align:center;margin-top:18px}
+  @media(max-width:760px){.integ .ig-bento{grid-template-columns:minmax(0,1fr)}.ig-bento .eb-card.big{grid-row:auto}.ig-bento .eb-card:not(.big) .eb-txt{padding:22px 22px 14px}.ig-face{margin-left:22px}.eb-shot{margin:0 0 0 22px;align-self:stretch}}
+  /* 얼굴 배지 3개 — 좌표는 integrity-face.webp(1120×630) 기준, GazeHud 점선 끝과 같은 값. 11/26 "사방으로 넓혀": 왼쪽 위(얼굴 1명, 끝 380·78)·오른쪽(시선, 끝 760·215)·아래(안경 검사, 끝 563·446) */
+  .ig-tag{position:absolute;font-size:12px;font-weight:700;line-height:1;color:#fff;background:var(--blue);border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .ig-tag-face{right:66.07%;top:12.38%;transform:translateY(-50%)}
+  .ig-gaze{left:67.86%;top:34.13%;transform:translateY(-50%)}
+  .ig-tag-glass{left:50.27%;top:70.79%;transform:translateX(-50%)}
+  /* 얼굴 모서리 4개 + 시선(두 눈을 감싸는 가는 직사각형) + 배지까지 점선. 움직임 없음 */
   .ig-hud{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-  .ig-hud path,.ig-hud circle,.ig-hud line{fill:none;vector-effect:non-scaling-stroke}
+  .ig-hud path,.ig-hud rect{fill:none;vector-effect:non-scaling-stroke}
   .ig-hud-corner{stroke:var(--blue);stroke-width:3px;stroke-linecap:round;stroke-linejoin:round}
   .ig-hud-ring{stroke:rgba(255,255,255,.9);stroke-width:1.5px}
   .ig-hud-line{stroke:rgba(255,255,255,.9);stroke-width:1.5px;stroke-dasharray:3 3}
-  /* 손·키보드 칸의 손 둘레 표시 — 좌표는 integrity-hands.webp(640×480) 기준 */
-  .ig-hbox{position:absolute;left:14%;top:40%;width:44%;height:39%;border:2px solid var(--blue);border-radius:10px;box-shadow:0 0 0 3px rgba(51,106,255,.25)}
+  /* 손·키보드 칸의 손 둘레 표시 — 좌표는 integrity-hands.webp(640×480)를 16:10 칸에 가운데 맞춰 자른 기준 */
+  .ig-hbox{position:absolute;left:14%;top:38%;width:44%;height:47%;border:2px solid var(--blue);border-radius:10px;box-shadow:0 0 0 3px rgba(51,106,255,.25)}
   .ig-cam{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;line-height:1;color:#fff;background:rgba(20,28,46,.72);border-radius:999px;padding:6px 10px}
-  .ig-tile .ig-cam{left:6px;top:6px;gap:5px;font-size:11px;padding:4px 8px}
-  .ig-tile .ig-cam i{width:6px;height:6px}
+  .eb-shot .ig-cam{left:8px;top:8px;gap:5px;font-size:11px;padding:4px 8px}
+  .eb-shot .ig-cam i{width:6px;height:6px}
   .ig-cam i{width:7px;height:7px;border-radius:50%;background:#FF5A5A}
-  .ig-list{list-style:none;margin:0;padding:0;display:grid;gap:22px}
-  .ig-list li{display:flex;gap:16px;align-items:flex-start}
-  .ig-ic{width:46px;height:46px;border-radius:12px;background:var(--soft-2);color:var(--blue);display:grid;place-items:center;flex:none}
-  .ig-ic svg{width:22px;height:22px}
-  .ig-list b{display:block;font-size:18px;letter-spacing:-.01em;color:var(--ink)}
-  .ig-list li span:not(.ig-ic){display:block;margin-top:4px;font-size:15px;line-height:1.6;color:var(--slate)}
   .ig-note{margin-top:22px;font-size:14px;color:var(--slate-2)}
   .ig-lead{font-size:17px;line-height:1.7;color:var(--ink)}
   .ig-checks{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
@@ -933,8 +934,8 @@
   .ir-chips{display:flex;flex-wrap:wrap;gap:8px}
   .ir-chips span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px}
   .ir-chips span::before{content:"✓";width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;display:grid;place-items:center}
-  @media(max-width:880px){.ig-panel{grid-template-columns:minmax(0,1fr);margin-top:28px}.ig-list{gap:20px}}
-  @media(max-width:560px){.ig-tag,.ig-gaze{font-size:10.5px;padding:4px 7px}.ig-cam{font-size:10.5px;padding:5px 8px}.ig-tile .ig-cam{font-size:9px;padding:3px 6px;left:4px;top:4px}.ig-tile{border-radius:8px;outline-width:2px}}
+  @media(max-width:880px){.ig-panel{grid-template-columns:minmax(0,1fr);margin-top:28px}}
+  @media(max-width:560px){.ig-tag{font-size:10px;padding:4px 7px}.ig-cam{font-size:10.5px;padding:5px 8px}}
 
   @media(max-width:880px){.hr-points.two{grid-template-columns:1fr}}
   @media(max-width:760px){
