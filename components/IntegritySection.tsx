@@ -106,22 +106,24 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
   );
 
   // 탭 2 — 왼쪽 실시간 모니터링 화면(예시), 오른쪽 설명. 크게 보는 정면 카메라에는 감지 항목 탭과 같은 얼굴 모서리 4개
+  // 모션(11/26 "실시간 모니터링에서도 모션을", CSS만 8초 반복): 김서연이 둘째 줄 '진행 중' → AI 감지가 뜨면 테두리·'AI 감지'로 바뀌며 맨 위로 올라오고(이도윤과 자리 바꿈),
+  // 오른쪽 위 표시가 '진행 중' → 'AI 감지 · 시선 이탈', 정면 카메라에 얼굴 모서리가 좁혀 들어온다. 순서가 바뀌는 동안 어긋나지 않게 목록엔 번호를 붙이지 않는다
   const monitor = (
     <>
       <div className="lv" role="img" aria-label="실시간 모니터링 화면 예시: 진행 중인 지원자 4명 중 AI 감지가 있는 첫 번째 지원자가 목록 맨 위에 있고, 그 지원자의 화면 공유·정면·측면 카메라를 크게 보고 있습니다.">
         <div className="lv-h"><b>실시간 모니터링</b><span className="lv-n">진행 중 {LIVE_CELLS.length}</span><span className="lv-q">지원자 이메일로 검색</span></div>
         <div className="lv-body">
           <ul className="lv-list">
-            {LIVE_CELLS.map((c, i) => (
+            {LIVE_CELLS.map((c) => (
               <li key={c.name} className={c.flag ? "on" : undefined}>
                 <span className="lv-av">{c.flag ? <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" /> : c.name[0]}</span>
-                <span className="lv-who">{i + 1}. {c.name}<small>{c.project}</small></span>
-                <span className="lv-st">{c.flag ? "AI 감지" : "진행 중"}</span>
+                <span className="lv-who">{c.name}<small>{c.project}</small></span>
+                {c.flag ? <span className="lv-st sw"><span className="lv-s1">AI 감지</span><span className="lv-s0">진행 중</span></span> : <span className="lv-st">진행 중</span>}
               </li>
             ))}
           </ul>
           <div className="lv-focus">
-            <div className="lv-top"><i></i>AI 감지 · 시선 이탈</div>
+            <div className="lv-top"><span className="lv-t1"><i></i>AI 감지 · 시선 이탈</span><span className="lv-t0"><i></i>진행 중</span></div>
             <div className="lv-v"><img src="/integrity-screen.webp" alt="" width={640} height={480} loading="lazy" /><span className="lv-chip">화면 공유</span></div>
             <div className="lv-cams">
               <div className="lv-v">
@@ -131,7 +133,7 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
               </div>
               <div className="lv-v"><img src="/integrity-side.webp" alt="" width={640} height={400} loading="lazy" /><span className="lv-chip">측면</span></div>
             </div>
-            <div className="lv-name"><b>1. {LIVE_CELLS[0].name}</b>{LIVE_CELLS[0].project}</div>
+            <div className="lv-name"><b>{LIVE_CELLS[0].name}</b>{LIVE_CELLS[0].project}</div>
           </div>
         </div>
       </div>
