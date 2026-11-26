@@ -3,6 +3,7 @@ import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 카드·단
 import ProductHero from "@/components/ProductHero";
 import ClientLogos from "@/components/ClientLogos";
 import AssistDemo from "@/components/AssistDemo";
+import MotionDiagram from "@/components/MotionDiagram";
 import StepFlow from "@/components/StepFlow";
 import PairGrid from "@/components/PairGrid";
 import SecuritySection from "@/components/SecuritySection";
@@ -41,7 +42,7 @@ export function generateMetadata() {
 const START = [
   { title: "채용공고 입력", body: <>채용공고를 넣거나<br />문제 은행 템플릿을 고릅니다.</>, img: "/assessment-step-jd.webp", alt: "채용공고 입력 화면: 직무 기술서를 붙여 넣는 칸" },
   { title: "AI가 과제 생성", body: <>AI가 과제와 채점 기준을 만들고<br />스스로 검증합니다.</>, img: "/assessment-step-task.webp", alt: "문제 만들기 화면: 개발 과제, 업무 과제, 코딩 테스트 중 과제 유형 선택" },
-  { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, img: "/assessment-step-review.webp", alt: "평가 기준 화면: 역량별 1점부터 단계별 기준 문장" },
+  { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, img: "/assessment-step-publish.webp", alt: "과제 확인 화면: 과제 설명·채점 기준·응시 환경을 확인하고 게시한 뒤, 공개 링크나 메일로 지원자에게 보내는 모습" }, // 11/26 "이미지가 텍스트와 맞지 않아" — 채점 기준 화면에서 바꿈
 ];
 
 // 02 · 문제 — 어두운 띠(카드형, 11/26 "이게 더 잘 읽힌다"): 카드 하나에 문제(x)·해결(체크) 한 줄씩, 카드 세 장(components/PairGrid.tsx).
@@ -164,7 +165,7 @@ export default function AiAssessmentPage() {
                 </ul>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-process.webp" alt="과정 평가 도식: 작업 기록 화면에 AI에게 지시, AI가 코드 변경, 직접 수정, 테스트 실행 네 단계를 원으로 잇고 아래에 작업 리플레이" width={1080} height={570} loading="lazy" />
+                <MotionDiagram name="process" label="과정 평가 도식: 작업 기록 화면에 AI에게 지시, AI가 코드 변경, 직접 수정, 테스트 실행 네 단계를 원으로 잇고 아래에 작업 리플레이" />
               </div>
             </div>
             <div className="how-row">
@@ -174,7 +175,7 @@ export default function AiAssessmentPage() {
                 <p>과제를 제출하면 AI 인터뷰가 이어집니다. AI가 결과에 대해 묻고, 지원자의 답으로 이해도를 평가합니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-debrief.webp" alt="AI 인터뷰 도식: 제출한 코드와, AI 질문과 지원자 답변이 말풍선으로 오가는 대화" width={1080} height={570} loading="lazy" />
+                <MotionDiagram name="debrief" label="AI 인터뷰 도식: 제출한 코드와, AI 질문과 지원자 답변이 말풍선으로 오가는 대화" />
               </div>
             </div>
             <div className="how-row">
@@ -189,7 +190,7 @@ export default function AiAssessmentPage() {
                 <p>채용팀은 항목마다 검토 완료나 이의를 표시하고, 정정한 평가를 공식 결과로 고를 수 있습니다. 원래 평가는 남습니다.</p>
               </div>
               <div className="hr-media">
-                <img className="hr-img" src="/diagram-scorecard.webp" alt="평가와 리포트 도식: AI 역량검사 리포트 화면에 AI 추천 등급과 항목별 점수, 근거" width={1080} height={570} loading="lazy" />
+                <MotionDiagram name="scorecard" label="평가와 리포트 도식: AI 역량검사 리포트 화면에 AI 추천 등급과 항목별 점수, 근거" />
               </div>
             </div>
           </div>

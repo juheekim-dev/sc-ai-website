@@ -308,20 +308,53 @@
   /* 리포트 이미지: 그림자·박스 없이 플랫하게(이미지 그림자 여백은 크롭으로 제거됨) */
   .hr-media{position:relative;width:100%;max-width:700px;margin-inline:auto}
   .hr-img{display:block;width:100%;height:auto}
-  /* 리포트 4종 도식 모션(ReportDiagram, 11/26) — 화면에 들어오면(.play) 6초 주기로 반복, 그 전에는 첫 장면에서 멈춤. 움직임 줄이기(.still)는 완성된 모습.
-     01 회색 줄이 왼쪽부터 차례로 써짐(rd-w) · 02 파란 원 그래프가 그려지고 막대가 차오름(rd-arc·rd-bar) · 03 지원자 육각형은 SVG <animate>(ReportDiagram이 시작)
-     · 04 강점 엄지는 들썩, 약점 X는 좌우로 흔들림(rd-up·rd-no) */
+  /* 모션 도식(MotionDiagram, 11/26) — AI 면접 리포트 4종 + AI 역량검사 진행 방식 3장. 화면에 들어오면(.play) 반복, 그 전에는 첫 장면에서 멈춤.
+     움직임 줄이기(.still)는 완성된 모습(과정 평가는 2단계가 켜진 원래 그림). 요소 표시는 components/motionDiagrams.ts */
   .rd svg{display:block;width:100%;height:auto}
+  .rd.still *{animation:none!important}
+  /* 리포트 01 줄 써짐(rd-w) · 02 원 그래프(rd-arc)·막대(rd-bar) · 04 두 카드 동시 등장(rd-card) 뒤 줄 채움, 엄지 들썩(rd-up)·X 흔들림(rd-no) — 6초 */
   .rd .rd-w,.rd .rd-bar{transform-box:fill-box;transform-origin:left center;animation:rdWrite 6s ease-in-out infinite both}
   .rd .rd-arc{stroke-dasharray:100;animation:rdArc 6s ease-in-out infinite both}
-  .rd .rd-up,.rd .rd-no{transform-box:fill-box;transform-origin:center;animation:rdUp 4s ease-in-out infinite both}
-  .rd .rd-no{animation-name:rdNo;animation-delay:.6s}
-  .rd:not(.play) .rd-w,.rd:not(.play) .rd-bar,.rd:not(.play) .rd-arc,.rd:not(.play) .rd-up,.rd:not(.play) .rd-no{animation-play-state:paused}
-  .rd.still .rd-w,.rd.still .rd-bar,.rd.still .rd-arc,.rd.still .rd-up,.rd.still .rd-no{animation:none}
+  .rd .rd-card{animation:rdCard 6s cubic-bezier(.2,.8,.2,1) infinite both}
+  .rd .rd-up,.rd .rd-no{transform-box:fill-box;transform-origin:center;animation:rdUp 6s ease-in-out 1.2s infinite both}
+  .rd .rd-no{animation-name:rdNo}
   @keyframes rdWrite{0%{transform:scaleX(0)}14%,80%{transform:scaleX(1)}92%,100%{transform:scaleX(0)}}
   @keyframes rdArc{0%{stroke-dashoffset:100}25%,80%{stroke-dashoffset:0}92%,100%{stroke-dashoffset:100}}
-  @keyframes rdUp{0%,60%,100%{transform:none}8%{transform:rotate(-14deg) scale(1.18)}16%{transform:rotate(6deg) scale(1.06)}24%{transform:none}}
-  @keyframes rdNo{0%,60%,100%{transform:none}8%{transform:rotate(-9deg)}14%{transform:rotate(9deg)}20%{transform:rotate(-5deg)}26%{transform:none}}
+  @keyframes rdCard{0%{opacity:0;transform:translateY(22px)}10%,84%{opacity:1;transform:none}94%,100%{opacity:0;transform:translateY(22px)}}
+  @keyframes rdUp{0%,40%,100%{transform:none}6%{transform:rotate(-14deg) scale(1.18)}12%{transform:rotate(6deg) scale(1.06)}18%{transform:none}}
+  @keyframes rdNo{0%,40%,100%{transform:none}6%{transform:rotate(-9deg)}10%{transform:rotate(9deg)}14%{transform:rotate(-5deg)}18%{transform:none}}
+  /* AI 역량검사 과정 평가 — 작업 리플레이: 단계가 2초씩 차례로 켜지고(pa-on), 진행선·재생 막대가 그 단계까지 나아가고, 지나간 점이 켜짐 — 8초 */
+  .rd .pa-on{opacity:0;animation:paOn 8s ease-in-out infinite both}
+  .rd .pa-line{transform-box:fill-box;transform-origin:left center;animation:paLine 8s ease-in-out infinite both}
+  .rd .pa-bar{transform-box:fill-box;transform-origin:left center;animation:paBar 8s ease-in-out infinite both}
+  .rd .pa-d1,.rd .pa-d2,.rd .pa-d3,.rd .pa-d4{opacity:0;animation:8s linear infinite both}
+  .rd .pa-d1{animation-name:paD1}.rd .pa-d2{animation-name:paD2}.rd .pa-d3{animation-name:paD3}.rd .pa-d4{animation-name:paD4}
+  .rd.still .pa-k2,.rd.still .pa-d1,.rd.still .pa-d2{opacity:1}
+  .rd.still .pa-line{transform:scaleX(.3333)}
+  .rd.still .pa-bar{transform:scaleX(.3764)}
+  @keyframes paOn{0%,2%{opacity:0}6%,24%{opacity:1}28%,100%{opacity:0}}
+  @keyframes paLine{0%,6%{transform:scaleX(0)}25%,31%{transform:scaleX(.3333)}50%,56%{transform:scaleX(.6667)}75%,92%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+  @keyframes paBar{0%,6%{transform:scaleX(.0646)}25%,31%{transform:scaleX(.3764)}50%,56%{transform:scaleX(.6882)}75%,92%{transform:scaleX(1)}100%{transform:scaleX(.0646)}}
+  @keyframes paD1{0%,2%{opacity:0}5%,92%{opacity:1}97%,100%{opacity:0}}
+  @keyframes paD2{0%,26%{opacity:0}30%,92%{opacity:1}97%,100%{opacity:0}}
+  @keyframes paD3{0%,51%{opacity:0}55%,92%{opacity:1}97%,100%{opacity:0}}
+  @keyframes paD4{0%,76%{opacity:0}80%,92%{opacity:1}97%,100%{opacity:0}}
+  /* AI 역량검사 AI 인터뷰 — 질문·답 말풍선이 차례로 오가고(db-b1~4), 제출 코드의 해당 줄이 숨 쉬듯 강조(db-hl) — 8초 */
+  .rd .db-b1,.rd .db-b2,.rd .db-b3,.rd .db-b4{animation:8s ease-out infinite both}
+  .rd .db-b1{animation-name:db1}.rd .db-b2{animation-name:db2}.rd .db-b3{animation-name:db3}.rd .db-b4{animation-name:db4}
+  .rd .db-hl{animation:dbHl 2.4s ease-in-out infinite}
+  @keyframes db1{0%{opacity:0;transform:translateY(10px)}6%,88%{opacity:1;transform:none}95%,100%{opacity:0}}
+  @keyframes db2{0%,16%{opacity:0;transform:translateY(10px)}22%,88%{opacity:1;transform:none}95%,100%{opacity:0}}
+  @keyframes db3{0%,32%{opacity:0;transform:translateY(10px)}38%,88%{opacity:1;transform:none}95%,100%{opacity:0}}
+  @keyframes db4{0%,48%{opacity:0;transform:translateY(10px)}54%,88%{opacity:1;transform:none}95%,100%{opacity:0}}
+  @keyframes dbHl{0%,100%{opacity:1}50%{opacity:.45}}
+  /* AI 역량검사 평가와 리포트 — '추천' 원 그래프(sc-arc), 항목별 점수 막대(sc-bar), '근거' 칩(sc-ev), 근거 줄(sc-evl)이 차례로 — 7초 */
+  .rd .sc-arc{stroke-dasharray:100;animation:rdArc 7s ease-in-out infinite both}
+  .rd .sc-bar,.rd .sc-evl{transform-box:fill-box;transform-origin:left center;animation:rdWrite 7s ease-in-out infinite both}
+  .rd .sc-ev{transform-box:fill-box;transform-origin:center;animation:scEv 7s ease-out infinite both}
+  @keyframes scEv{0%{opacity:0;transform:scale(.6)}10%,80%{opacity:1;transform:none}92%,100%{opacity:0}}
+  /* 화면에 들어오기 전 멈춤 — 위 animation 선언이 재생 상태를 덮어쓰지 않게 맨 뒤에 둔다 */
+  .rd:not(.play) *{animation-play-state:paused}
   /* 리포트 도식 카드(샘플: 역량평가 레이더) — 참고 스타일(soft 카드 + 추상 SVG) */
   .sch{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:22px 24px 10px;width:100%;max-width:560px;margin-inline:auto}
   .sch-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}

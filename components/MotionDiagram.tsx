@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { REPORT_SVG, type ReportKey } from "./reportDiagrams";
+import { MOTION_SVG, type MotionKey } from "./motionDiagrams";
 
-// 리포트 4종 도식에 모션 하나씩(2026-11-26) — 01 회색 줄이 차례로 써짐, 02 파란 원 그래프·막대가 차오름, 03 지원자 육각형 모양이 바뀜,
-// 04 강점·약점 아이콘이 움직임. 화면에 들어오면(.play) 6초 주기로 반복하고, 그 전에는 첫 장면에서 멈춘다.
+// 모션 도식(2026-11-26) — AI 면접 리포트 4종(줄 써짐·원 그래프/막대·육각형 모양 변화·강점·약점 카드 동시 등장)과
+// AI 역량검사 진행 방식 3장(과정 평가 리플레이·AI 인터뷰 대화·평가와 근거). 화면에 들어오면(.play) 반복하고, 그 전에는 첫 장면에서 멈춘다.
 // 움직임 줄이기 설정이면(.still) 완성된 모습 그대로. SVG를 페이지에 바로 넣어 글자는 사이트 글꼴(Pretendard)로 그린다. 스타일은 app/landing.css(.rd).
-export default function ReportDiagram({ name, label }: { name: ReportKey; label: string }) {
+export default function MotionDiagram({ name, label }: { name: MotionKey; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,5 +26,5 @@ export default function ReportDiagram({ name, label }: { name: ReportKey; label:
     return () => io.disconnect();
   }, []);
 
-  return <div ref={ref} className="rd" role="img" aria-label={label} dangerouslySetInnerHTML={{ __html: REPORT_SVG[name] }} />;
+  return <div ref={ref} className="rd" role="img" aria-label={label} dangerouslySetInnerHTML={{ __html: MOTION_SVG[name] }} />;
 }
