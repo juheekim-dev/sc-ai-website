@@ -5,8 +5,8 @@
   /* 히어로+VALUE 연속 그라데이션 — 아래로 갈수록 흰색 */
   /* 다크 히어로를 헤더 높이(65px)만큼 위로 끌어올려 화면 최상단(y=0)부터 채운다.
      GNB는 최상단에서 숨김이라 상단 패딩 불필요 → 콘텐츠를 히어로 정중앙에 배치(.decl align-items:center). */
-  /* 11/26 바탕은 브랜드 배경 이미지(왼쪽 밝은 블루·오른쪽 남색)를 그린 FlutedGlassBg 캔버스. 이 그라데이션은 WebGL이 없을 때의 대체 바탕(같은 색) */
-  .hero-bg{position:relative;overflow:hidden;margin-top:-65px;background:linear-gradient(90deg,#4389FE 0%,#3F7BF8 46%,#2849A3 54%,#25469D 100%)}
+  /* 11/26 바탕은 브랜드 배경 이미지 모양을 키컬러(#3A6FFF·#2144A5)로 그린 FlutedGlassBg 캔버스. 이 그라데이션은 WebGL이 없을 때의 대체 바탕(같은 색) */
+  .hero-bg{position:relative;overflow:hidden;margin-top:-65px;background:linear-gradient(90deg,#3A6FFF 0%,#3A6FFF 46%,#2144A5 54%,#2144A5 100%)}
   /* GNB 반전(흰 로고·투명 메뉴버튼)은 다크 섹션(data-nav="dark") 위에서만 적용 —
      색 전환 로직은 theme.css의 header.nav-invert(SSOT), 감지는 partials.js. */
   /* 플루티드 글래스 바탕(FlutedGlassBg) — 히어로 전체를 덮는 WebGL 캔버스 */
