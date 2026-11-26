@@ -23,32 +23,34 @@ const PRODUCT_POINTS: Record<string, string[]> = {
   "/ai-assessment": ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
 };
 
-// 09 · 케이스 스터디(2026-11-26) — 회사명은 쓰지 않고 '기업 규모 · 채용 종류'로만 부른다. 원문 블로그 링크도 걸지 않는다(회사명이 드러남).
-// 사실 근거·내부 매핑: _docs/홈페이지 개편/케이스스터디_정리.md. 중견기업 케이스는 자료가 모이면 추가.
-// 대기업 케이스에서 슈퍼코더가 공급한 건 AI 면접뿐이다 — 그 전형의 'AI 활용 역량평가'를 우리 AI 역량검사로 쓰지 않는다.
-// before가 없는 줄은 바뀐 값만 보여 준다.
+// 09 · 케이스 스터디(2026-11-26) — 블로그에 공개된 도입 사례 두 편. 처음엔 회사명을 빼고 유형으로만 불렀으나,
+// 블로그 썸네일을 넣기로 하면서(사용자 결정) 회사명을 공개하고 카드를 누르면 원문 글로 간다.
+// 썸네일은 블로그 cover를 webp로 줄여 public/cases/에 둔다(next/image 변환 한도를 쓰지 않으려고). 블로그 cover를 바꾸면 여기도 다시 뽑는다.
+// 사실 근거: _docs/홈페이지 개편/케이스스터디_정리.md. 넥슨 케이스에서 슈퍼코더가 공급한 건 AI 면접뿐 — 'AI 활용 역량평가'를 우리 AI 역량검사로 쓰지 않는다.
+// 카드 구성은 라운드HR 고객 사례 카드 참고(11/26 사용자 공유): 썸네일 → 회사명·유형 → 굵은 인용 → 설명 → 해시태그 칩, 두 장 높이를 어긋나게.
 const CASES = [
   {
+    company: "넥슨",
     tag: "대기업 · 대량 채용",
-    title: "코딩테스트 대신, 수천 명이 같은 날 AI 면접을 봤습니다",
-    rows: [
-      { label: "1차 검증", before: "코딩테스트", after: "AI 면접" },
-      { label: "응시", after: "수천 명 · 1:1 원격 약 50분" },
-    ],
-    quote: "AI 기술이 실제 현업에서 빠르게 도입되며 일하는 방식에 많은 변화가 있는 만큼 채용 방식 또한 변화가 필요하다고 판단했습니다.",
-    who: "개발 직군 채용형 인턴십 · 채용팀장",
+    img: "/cases/nexon.webp",
+    alt: "넥토리얼 for game programmer — NEXON × Supercoder",
+    href: "/blog/coding-test-to-ai-interview",
+    quote: "일하는 방식에 많은 변화가 있는 만큼, 채용 방식 또한 변화가 필요하다고 판단했습니다.",
+    body: "게임 프로그래머 채용형 인턴십 '넥토리얼'에서 코딩테스트를 없애고 1차 검증을 AI 면접으로 바꿨습니다. 서류를 통과한 수천 명이 같은 날 1:1 원격으로 약 50분씩 응시했습니다.",
+    chips: ["코딩테스트 대체", "대규모 원격 면접", "AI 면접"],
+    who: "넥슨 채용팀장",
     src: "언론 보도(2026-08), 슈퍼코더 발표(2026-09)",
   },
   {
+    company: "디피니트",
     tag: "스타트업 · 경력직 채용",
-    title: "CTO가 직접 보던 1차 면접을 AI 면접으로 바꿨습니다",
-    rows: [
-      { label: "전형", before: "5단계", after: "2단계" },
-      { label: "채용 기간", before: "2~3주", after: "3일 이내" },
-      { label: "채용에 쓰는 시간", before: "주 20시간", after: "주 2시간" },
-    ],
+    img: "/cases/definite.webp",
+    alt: "디피니트 AI 면접 도입 전후 — 전형 2단계, 채용 기간 3일 이내, 담당자 투입 시간 주 2시간",
+    href: "/blog/ai-interview-case-definite",
     quote: "지금은 AI 면접 보고 나서 바로 채용 보고까지, 3일도 안 걸리죠.",
-    who: "AI 스타트업 · CTO",
+    body: "CTO가 직접 보던 5단계 전형을 AI 면접 → 대면 면접 2단계로 줄여, 2~3주 걸리던 채용이 3일 안에 끝납니다. 채용에 쓰는 시간도 주 20시간에서 2시간이 됐습니다.",
+    chips: ["채용 기간 단축", "면접관 시간 절약", "AI 면접"],
+    who: "디피니트 CTO",
     src: "고객사 CTO 인터뷰(2026-09), 자체 체감 기준",
   },
 ];
@@ -211,7 +213,7 @@ export default async function HomePage() {
       {/* SECTION 08 · 보안 (공용) — 흰 바탕(기본값) */}
       <SecuritySection />
 
-      {/* SECTION 09 · 성과·후기(연한 블루) — 옛 성과(PROOF) 섹션을 합침(2026-11-26). 케이스 카드 두 장(대기업·스타트업, 11/26 후기 말풍선 3개를 대체)이 위, 성과 카드 두 장(속도·비용)이 아래.
+      {/* SECTION 09 · 성과·후기(연한 블루) — 옛 성과(PROOF) 섹션을 합침(2026-11-26). 케이스 카드 두 장(넥슨·디피니트, 블로그 썸네일 + 원문 링크, 11/26 후기 말풍선 3개를 대체)이 위, 성과 카드 두 장(속도·비용)이 아래.
           성과 카드는 시안 C안(11/26): 긴 설명 대신 그래프(시간 축·도넛) + 한 줄. 시안 https://claude.ai/artifact/Kaktqy6Xv1YVS2MyDzJLuD */}
       <section className="voices" id="voices">
         <div className="wrap">
@@ -221,22 +223,21 @@ export default async function HomePage() {
           </div>
           <div className="case-grid">
             {CASES.map((c) => (
-              <article key={c.tag} className="case">
-                <span className="case-tag">{c.tag}</span>
-                <h3>{c.title}</h3>
-                <ul className="case-rows">
-                  {c.rows.map((r) => (
-                    <li key={r.label}>
-                      <span className="cr-label">{r.label}</span>
-                      {"before" in r && <><span className="cr-before">{r.before}</span><i className="fa-solid fa-arrow-right" aria-hidden="true"></i></>}
-                      <b className="cr-after">{r.after}</b>
-                    </li>
-                  ))}
-                </ul>
-                <blockquote>“{c.quote}”</blockquote>
-                <p className="case-who">{c.who}</p>
-                <p className="psrc">출처: {c.src}</p>
-              </article>
+              <Link key={c.company} href={c.href} className="case">
+                <span className="case-thumb"><img src={c.img} alt={c.alt} width={1120} height={630} loading="lazy" /></span>
+                <span className="case-txt">
+                  <span className="case-tag"><b>{c.company}</b>{c.tag}</span>
+                  <h3>“{c.quote}”</h3>
+                  <span className="case-body">{c.body}</span>
+                  <span className="case-chips">
+                    {c.chips.map((t) => <span key={t}>#{t}</span>)}
+                  </span>
+                  <span className="case-foot">
+                    <span className="case-who">{c.who}<small>출처: {c.src}</small></span>
+                    <span className="case-more">사례 자세히 보기 <i className="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                  </span>
+                </span>
+              </Link>
             ))}
           </div>
 

@@ -565,21 +565,27 @@
   /* VOICES는 흰색 — 앞 PROOF(연블루 #F4F8FF)와 배경을 나눠 섹션 경계가 드러나게 */
   .voices{background:var(--soft);padding-top:var(--sec-y)} /* 홈 전용 — 11/26 깔때기가 다시 들어와 배경 교차가 밀려 연한 블루로 */
   .voices .head{text-align:center;max-width:720px;margin:0 auto}
-  /* 09 케이스 카드(2026-11-26, 후기 말풍선 3개를 대체) — 태그·제목·이전→이후 줄·인용·출처. 데이터는 app/page.tsx CASES */
-  .case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:50px auto 0;max-width:1040px;align-items:stretch}
-  .case{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 30px 24px;box-shadow:var(--shadow)}
-  .case-tag{align-self:flex-start;font-size:12.5px;font-weight:600;color:var(--blue-d);background:var(--soft-2);padding:6px 14px;border-radius:999px}
-  .case h3{margin-top:14px;font-size:21px;line-height:1.4;letter-spacing:-.02em;color:var(--ink)}
-  .case-rows{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
-  .case-rows li{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
-  .cr-label{flex:0 0 118px;font-size:13.5px;color:var(--slate-2)}
-  .cr-before{color:var(--slate);text-decoration:line-through;text-decoration-color:var(--slate-2)}
-  .case-rows .fa-arrow-right{font-size:12px;color:var(--blue-2)}
-  .cr-after{font-weight:700;color:var(--blue-d)}
-  .case blockquote{margin-top:auto;padding-top:22px;font-size:15.5px;line-height:1.65;color:var(--ink)}
-  .case-who{margin-top:10px;font-size:13.5px;font-weight:600;color:var(--slate)}
-  .case .psrc{margin-top:4px;font-size:11.5px;color:var(--slate-2)}
-  @media(max-width:860px){.case-grid{grid-template-columns:minmax(0,1fr);max-width:560px}.case{padding:24px 22px 20px}.case h3{font-size:19px}.cr-label{flex-basis:96px}}
+  /* 09 케이스 카드(2026-11-26, 후기 말풍선 3개를 대체) — 라운드HR 고객 사례 카드 참고: 썸네일 → 회사명·유형 → 굵은 인용 → 설명 → 해시태그 칩, 두 번째 카드를 아래로 어긋나게. 카드 전체가 블로그 원문 링크. 데이터는 app/page.tsx CASES */
+  .case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin:50px auto 0;max-width:1040px;align-items:start}
+  .case{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;color:inherit;text-decoration:none;box-shadow:0 12px 30px -20px rgba(20,40,90,.2);transition:transform .25s ease,box-shadow .25s ease}
+  .case:hover{transform:translateY(-4px);box-shadow:0 22px 44px -24px rgba(20,40,90,.32)}
+  .case:nth-child(2){margin-top:56px}
+  .case-thumb{display:block;aspect-ratio:16/9;background:var(--soft);border-bottom:1px solid var(--line)}
+  .case-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+  .case-txt{display:flex;flex-direction:column;padding:30px 36px 28px}
+  .case-tag{font-size:14px;color:var(--slate-2)}
+  .case-tag b{font-size:15px;font-weight:700;color:var(--blue-d);margin-right:8px}
+  .case h3{margin-top:10px;font-size:21px;font-weight:700;line-height:1.5;letter-spacing:-.02em;color:var(--ink);word-break:keep-all}
+  .case-body{display:block;margin-top:14px;font-size:15.5px;line-height:1.7;color:var(--slate);word-break:keep-all}
+  .case-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .case-chips span{font-size:13.5px;font-weight:500;color:var(--blue-d);border:1px solid var(--blue-2);border-radius:4px;padding:3px 9px}
+  .case-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:26px}
+  .case-who{font-size:14px;font-weight:600;color:var(--slate)}
+  .case-who small{display:block;margin-top:3px;font-size:11.5px;font-weight:400;color:var(--slate-2)}
+  .case-more{flex:none;font-size:14px;font-weight:600;color:var(--blue-d);white-space:nowrap}
+  .case-more i{font-size:12px;margin-left:4px;transition:transform .2s}
+  .case:hover .case-more i{transform:translateX(3px)}
+  @media(max-width:860px){.case-grid{grid-template-columns:minmax(0,1fr);gap:16px;max-width:560px}.case:nth-child(2){margin-top:0}.case{border-radius:20px}.case-txt{padding:24px 22px 22px}.case h3{font-size:19px}.case-body{font-size:15px}.case-foot{flex-direction:column;align-items:flex-start}}
 
   /* 7.5 FAQ — 네이티브 <details> 아코디언. 검색용 FAQPage(JSON-LD)와 짝. */
   .faq{background:var(--soft);padding-top:var(--sec-y)}
