@@ -1,4 +1,4 @@
-// 도입사 로고 마퀴 — 홈·AI 면접 페이지 공용(SSOT). 스타일은 app/landing.css(.herostrip·.marquee-track).
+// 도입사 로고 마퀴 — 홈·AI 면접·AI 역량검사 페이지 공용(SSOT, AI 역량검사는 11/26 추가). 문구가 회사 단위라 두 제품 페이지 모두에 맞다. 스타일은 app/landing.css(.herostrip·.marquee-track).
 // 로고별 시각 크기 보정 — 기준은 NEXON. 보정값 산출 근거는 app/globals.css의 --logo-* 주석 참고
 const LOGOS: { src: string; alt: string; className?: string }[] = [
   { src: "/logos/nexon.svg", alt: "NEXON" },

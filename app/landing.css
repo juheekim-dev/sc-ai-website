@@ -59,7 +59,8 @@
 
   /* 제품 상세 페이지 히어로(ProductHero, 2026-11-25) — 홈의 어두운 히어로와 다르게 밝은 바탕 + 오른쪽 제품 이미지.
      헤더(65px) 밑까지 바탕이 이어지도록 끌어올리고 그만큼 위 여백을 더한다. 이미지는 투명 바탕 webp(제품 화면 + 리포트 카드). */
-  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(56px,7.5vw,112px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56. 같은 날 "바로 아래가 어두운 띠라 답답해, 배경을 더": 아래 56→112 */
+  .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(40px,5vw,72px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56. 같은 날 "바로 아래가 어두운 띠라 답답해": 아래 56→112.
+    11/26 두 제품 페이지 모두 히어로 아래에 흰 로고 띠가 생겨(어두운 띠와 떨어짐) 겹친 여백이 넓어 아래 112→72 */
     /* 11/25 "배경 화이트 부분이 더 보이게, 답답해": 오른쪽 블루 빛 .13 → .06·범위 축소, 위 하늘색 #F5F8FF → #FAFBFF이고 중간(55%)에서 이미 흰색 */
     background:radial-gradient(42% 58% at 86% 50%,rgba(58,111,255,.06) 0%,rgba(58,111,255,0) 70%),linear-gradient(180deg,#FAFBFF 0%,#FFFFFF 55%)}
   .phero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(24px,4vw,60px);align-items:center;max-width:1240px}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 카드·단계·CTA를 그대로 쓴다
 import ProductHero from "@/components/ProductHero";
+import ClientLogos from "@/components/ClientLogos";
 import StepFlow from "@/components/StepFlow";
 import PairGrid from "@/components/PairGrid";
 import SecuritySection from "@/components/SecuritySection";
@@ -101,7 +102,7 @@ const JSON_LD = {
 };
 
 // 섹션 흐름(2026-11-25 정리 — "중복되고 길다"는 피드백, 프로그래머스 AI 역량평가 페이지 흐름 참고: 비교 → 진행 방식 → 유형 → 운영 → CTA)
-// 01 히어로(실제 응시 화면) · 02 문제(어두운 띠, 문제→해결 세 쌍) · 03 진행 방식(과제 화면·과정 평가·AI 인터뷰·평가와 리포트)
+// 01 히어로(실제 응시 화면) + 고객사 로고(11/26, AI 면접과 같은 자리) · 02 문제(어두운 띠, 문제→해결 세 쌍) · 03 진행 방식(과제 화면·과정 평가·AI 인터뷰·평가와 리포트)
 // · 04 과제 유형 · 05 과제 만들기 · 06 응시 환경 · 07 보안 · 08 FAQ · 09 AI 면접 안내 · 10 마지막 CTA  (12개 → 10개)
 // 뺀 것: '지원자 응시 과정'(진행 방식·응시 환경과 겹침 → 준비물·가상 체험은 FAQ로), '채용팀 기능'(FAQ로 — AI 면접 페이지에는 그대로),
 // 과정 평가의 붙여넣기 문장(응시 환경 카드와 같은 내용). '왜 과정을 보나' 3카드는 문제→해결 세 쌍(어두운 띠)으로 바꿨다.
@@ -129,6 +130,9 @@ export default function AiAssessmentPage() {
           { d: "M318 232 V200", dot: [318, 198] },
         ]}
       />
+
+      {/* 01-2 · 고객사 로고 — AI 면접과 같은 자리(11/26 "AI역량검사에도 도입사를 넣어줘"). 문구는 회사 단위(500개 이상 기업이 Supercoder와 함께) */}
+      <ClientLogos />
 
       {/* 02 · 문제 — 어두운 띠(남색→블랙). 위를 지날 때 GNB가 흰 로고로 바뀌게 data-nav="dark" */}
       <section className="band dark" id="why" data-nav="dark">
