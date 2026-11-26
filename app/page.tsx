@@ -4,7 +4,6 @@ import "./landing.css";
 import PageHero, { HeroWord } from "@/components/PageHero";
 import ClientLogos from "@/components/ClientLogos";
 import FinalCta from "@/components/FinalCta";
-import ReportRows from "@/components/ReportRows";
 import IntegritySection from "@/components/IntegritySection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
@@ -14,8 +13,6 @@ import { PRODUCTS } from "@/lib/products";
 import AskDemo from "@/components/AskDemo";
 import AssistDemo from "@/components/AssistDemo";
 import ProductFlow from "@/components/ProductFlow";
-import MotionDiagram from "@/components/MotionDiagram";
-import StepFlow from "@/components/StepFlow";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
 // 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
@@ -23,14 +20,6 @@ const PRODUCT_POINTS: Record<string, string[]> = {
   "/ai-interview": ["평가 기준·질문 자동 생성", "답에 따라 꼬리질문", "등급·역량·강약점 리포트"],
   "/ai-assessment": ["AI 개발 과제 · AI 업무 과제 · 코딩 테스트", "AI 활용 과정과 결과 검증까지 채점", "제출 뒤 AI 인터뷰로 이해도 확인"],
 };
-
-// 06 · 도입 3단계 — 제품 페이지와 같은 화면 이미지(StepFlow img, 아이콘 없음). 두 제품을 함께 말하므로 STEP 02는 '질문·과제'.
-// 이미지: 01 채용공고 입력(두 제품 공용) · 02 평가 기준과 질문(AI 면접 STEP 02) · 03 지원자 목록과 리포트(AI 면접 STEP 03)
-const START = [
-  { title: "채용공고 등록", body: <>채용공고를 넣으면<br />AI가 직무와 요구 역량을 읽습니다.</>, img: "/assessment-step-jd.webp", alt: "채용공고 입력 화면: 직무 기술서의 요구사항을 넣는 칸" },
-  { title: "AI가 질문·과제 생성", body: <>AI가 평가 기준과 질문·과제를 만들고<br />채용팀이 확인합니다.</>, img: "/interview-step-criteria.webp", alt: "평가 기준과 질문 화면: 평가 항목 탭과 질문 목록, 승인 버튼" },
-  { title: "링크 보내고 리포트 받기", body: <>지원자에게 링크를 보내면<br />응시가 끝나는 대로 리포트가 옵니다.</>, img: "/interview-step-invite.webp", alt: "지원자 목록 화면: 응시를 마친 지원자의 리포트 보기" },
-];
 
 // 홈 canonical (중복 색인 방지) — 공통 메타는 layout.tsx. 어드민 SEO 초안(적용 시) 덮어씀.
 const FALLBACK_METADATA: Metadata = { alternates: { canonical: "/" } };
@@ -127,7 +116,7 @@ export default async function HomePage() {
         <div className="wrap">
           <div className="head">
             <h2>그래서, 사람을 만나기 전에<br /><span className="blue">AI가 먼저 검증</span>합니다</h2>
-            <p className="lead">AI 면접은 질문으로, AI 역량검사는 실제 과제로 지원자를 확인합니다.</p>
+            <p className="lead">AI 면접은 질문으로, AI 역량검사는 실제 과제로 지원자를 확인합니다.<br />채용공고만 등록하면 리포트까지 AI가 진행합니다.</p>
           </div>
           <div className="value-grid two">
             {PRODUCTS.map((p) => (
@@ -152,69 +141,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 06 · 작동 방식 — 리포트(AI 면접 4종 + AI 역량검사 1, 공용 ReportRows) + 도입 3단계(제품 페이지와 같은 화면 이미지 StepFlow) */}
-      <section className="how" id="how">
-        <div className="wrap">
-          <div className="head">
-            <h2>핵심 후보 판단에 필요한 내용을<br /><span className="blue">리포트 한 장</span>에 담았습니다</h2>
-            <p className="lead">요약, 등급, 역량, 면접 포인트까지 한눈에 확인하세요.</p>
-          </div>
+      {/* SECTION 06 · 부정행위 감지 (공용, AI 면접 페이지로 연결) — 홈은 앞 '함께 쓰는 순서'(연한 블루)와 번갈아 흰 바탕 */}
+      <IntegritySection withLink soft={false} />
 
-          <ReportRows
-            after={
-              <div className="how-row">
-                <div className="hr-info">
-                  <span className="hr-eyebrow">AI 역량검사 리포트</span>
-                  <h3>점수마다 근거가 붙습니다</h3>
-                  <p>AI 추천 등급과 항목별 점수, 근거를 함께 봅니다. AI에 보낸 지시와 작업 리플레이도 리포트에 남습니다.</p>
-                  <Link href="/ai-assessment" className="hr-link">AI 역량검사 자세히 보기 <i className="fa-solid fa-arrow-right"></i></Link>
-                </div>
-                <div className="hr-media">
-                  <MotionDiagram name="scorecard" label="AI 역량검사 리포트 도식: AI 추천 등급과 항목별 점수, 근거" />
-                </div>
-              </div>
-            }
-          />
+      {/* SECTION 07 · 보안 (공용) — 홈은 연한 블루 바탕 */}
+      <SecuritySection soft />
 
-          <div className="head" style={{ paddingTop: "clamp(112px,15vw,190px)" }}>
-            <h2>채용공고만 등록하면, 검증 리포트까지<br /><span className="blue">AI가 진행</span>합니다</h2>
-            <p className="lead">AI가 만든 기준과 질문·과제는 채용팀이 확인해야 반영됩니다.</p>
-          </div>
-          <StepFlow steps={START} />
-        </div>
-      </section>
-
-      {/* SECTION 07 · 부정행위 감지 (공용, AI 면접 페이지로 연결) */}
-      <IntegritySection withLink />
-
-      {/* SECTION 08 · 보안 (공용) */}
-      <SecuritySection />
-
-      {/* SECTION 09 · 성과 (PROOF) */}
-      <section className="proof2" id="proof">
-        <div className="wrap">
-          <div className="head">
-            <h2 className="proof-h2">만 명이 몰려도, 검증된 핵심인재만 <span className="blue">남깁니다</span></h2>
-            <p className="lead">인력은 못 늘리고, 뽑은 사람은 쉽게 나가지 않습니다. 1명을 뽑아도 확실한 핵심인재여야 합니다.</p>
-          </div>
-          <div className="proof-row">
-            <div className="pc2"><div className="vlabel">역량 검증</div><div className="big big-phrase">서류 너머 핵심역량</div><p>지원서 <strong>48.5%</strong>가 AI 작성 의심, 인사담당 <strong>73%</strong>는 진짜를 못 가려냅니다. AI 면접은 핵심역량 기준으로 실제 실력을 검증합니다.</p><p className="psrc">출처: 고용노동부</p></div>
-            <div className="pc2"><div className="vlabel">속도</div><div className="big big-phrase">만 명도 즉시 스크리닝</div><p>사람이 한 명당 10분씩 만 명을 보면 약 <strong>208일</strong>. AI는 동시에 진행해 <strong>당일</strong> 끝나, 검토가 밀려 좋은 후보를 놓치는 일이 없습니다.</p><p className="psrc">출처: 서류 10분 사람인·잡코리아 (208일=추산)</p></div>
-            <div className="pc2"><div className="vlabel">비용 절감</div><div className="big big-phrase">면접관 시간 절약</div><p>핵심역량 미달자를 1차에서 걸러, 현업 면접관은 <strong>검증된 소수</strong>만 만납니다. 가장 비싼 자원인 면접관의 시간을 아낍니다.</p><p className="psrc">현업 면접관 시간 = 가장 비싼 채용 자원</p></div>
-          </div>
-
-          {/* 저관여 오퍼 — 상담(고관여) 전에 소개서로 먼저 검토할 길을 본문 안에 둔다.
-              기존에는 /brochure 링크가 GNB·푸터에만 있어 스크롤 흐름에서 노출되지 않았다. */}
-          <SoftCta title="실제 검증 리포트가 어떻게 나오는지 먼저 확인해보세요" href="/brochure" label="서비스소개서 받기" />
-        </div>
-      </section>
-
-      {/* SECTION 10 · 후기 (VOICES) */}
+      {/* SECTION 08 · 성과·후기 — 옛 성과(PROOF) 섹션을 합침(2026-11-26): '역량 검증' 카드는 문제 섹션 통계와 겹쳐 빼고 속도·비용 두 장만 후기 위에 */}
       <section className="voices" id="voices">
         <div className="wrap">
           <div className="head">
             <h2>채용팀은 이렇게 활용하고 있습니다</h2>
             <p className="lead">반복 검토는 줄이고, <span className="blue" style={{ fontWeight: 700 }}>핵심 후보 판단</span>에 더 많은 시간을 쓰고 있습니다.</p>
+          </div>
+          <div className="proof-row two">
+            <div className="pc2"><div className="vlabel">속도</div><div className="big big-phrase">만 명도 즉시 스크리닝</div><p>사람이 한 명당 10분씩 만 명을 보면 약 <strong>208일</strong>. AI는 동시에 진행해 <strong>당일</strong> 끝나, 검토가 밀려 좋은 후보를 놓치는 일이 없습니다.</p><p className="psrc">출처: 서류 10분 사람인·잡코리아 (208일=추산)</p></div>
+            <div className="pc2"><div className="vlabel">비용 절감</div><div className="big big-phrase">면접관 시간 절약</div><p>핵심역량 미달자를 1차에서 걸러, 현업 면접관은 <strong>검증된 소수</strong>만 만납니다. 가장 비싼 자원인 면접관의 시간을 아낍니다.</p><p className="psrc">현업 면접관 시간 = 가장 비싼 채용 자원</p></div>
           </div>
           <div className="v-grid">
             <div className="vc">
@@ -239,10 +181,14 @@ export default async function HomePage() {
               <div className="who"><div className="ava">C</div><div><div className="nm">국내 모빌리티 IT 기업 채용담당자</div><div className="ro">기술 직군 채용 담당</div></div></div>
             </div>
           </div>
+
+          {/* 저관여 오퍼 — 상담(고관여) 전에 소개서로 먼저 검토할 길을 본문 안에 둔다(옛 성과 섹션에서 옮김).
+              /brochure 링크가 GNB·푸터에만 있으면 스크롤 흐름에서 노출되지 않는다. */}
+          <SoftCta title="실제 검증 리포트가 어떻게 나오는지 먼저 확인해보세요" href="/brochure" label="서비스소개서 받기" />
         </div>
       </section>
 
-      {/* SECTION 11 · FAQ (어드민 FAQ, DB) */}
+      {/* SECTION 09 · FAQ (어드민 FAQ, DB) */}
       <section className="faq" id="faq">
         <div className="wrap">
           <div className="head">
@@ -252,7 +198,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SECTION 12 · 마지막 CTA — 두 제품을 함께 말하므로 강조어는 'AI'(11/26, 옛 'AI 면접') */}
+      {/* SECTION 10 · 마지막 CTA — 두 제품을 함께 말하므로 강조어는 'AI'(11/26, 옛 'AI 면접') */}
       <FinalCta before={<>다음 채용은,<br /></>} word="AI" after="로 더 빠르게 시작하세요." />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />

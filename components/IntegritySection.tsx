@@ -35,9 +35,10 @@ const CLIPS = [
   { label: "여러 얼굴", t: "12:05" },
 ];
 
-export default function IntegritySection({ withLink = false }: { withLink?: boolean }) {
+// soft: 연한 블루 바탕(기본). 홈은 앞 섹션과 번갈아 오게 흰 바탕(soft={false}, 2026-11-26).
+export default function IntegritySection({ withLink = false, soft = true }: { withLink?: boolean; soft?: boolean }) {
   return (
-    <section className="band soft" id="integrity">
+    <section className={soft ? "band soft" : "band"} id="integrity">
       <div className="wrap integ">
         <div>
           <div className="head">

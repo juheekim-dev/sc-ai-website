@@ -11,9 +11,10 @@ const ITEMS = [
   { icon: "fa-clock-rotate-left", title: "활동 기록", body: "누가 언제 어떤 작업을 했는지 기록이 남습니다." },
 ];
 
-export default function SecuritySection() {
+// soft: 연한 블루 바탕. 기본은 흰 바탕, 홈만 앞 섹션과 번갈아 오게 soft(2026-11-26).
+export default function SecuritySection({ soft = false }: { soft?: boolean }) {
   return (
-    <section className="band" id="security">
+    <section className={soft ? "band soft" : "band"} id="security">
       <div className="wrap sec-split">
         <div>
           <div className="head">
