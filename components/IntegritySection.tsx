@@ -14,15 +14,18 @@ const ICON = {
   eye: <><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></>,
   users: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>,
   monitor: <><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></>,
+  glasses: <><circle cx="6.5" cy="14" r="3.5" /><circle cx="17.5" cy="14" r="3.5" /><path d="M10 13.5c1.2-.8 2.8-.8 4 0" /><path d="M3 14 5 7h2M21 14l-2-7h-2" /></>,
   out: <><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></>,
 };
 const Icon = ({ d }: { d: ReactNode }) => <svg viewBox="0 0 24 24" {...stroke} aria-hidden="true">{d}</svg>;
 
-// 탭 1 '실시간 감지' — 감지 항목 7개를 얼굴·시선·화면·기기 4묶음으로(11/26 "내용은 많은데 정리되지 않은 느낌" → 참고 화면처럼 탭으로 나눠 하나씩).
+// 탭 1 '실시간 감지' — 감지 항목 7개를 얼굴·시선·스마트 안경·화면·기기 5줄로(11/26 "내용은 많은데 정리되지 않은 느낌" → 참고 화면처럼 탭으로 나눠 하나씩.
+// 같은 날 "스마트 안경도 검사한다는 것도 넣어야지" → 얼굴 줄에 묻혀 있던 AI 안경을 따로 뺌. 소개자료 표기는 'AI 안경 착용 확인').
 // 문장은 예전 항목 7개의 설명을 묶은 것 — 새 기능을 더하지 않는다.
 const GROUPS = [
-  { icon: ICON.users, title: "얼굴", body: "카메라에 다른 사람이 함께 보이거나, 화면에 답을 띄워 주는 AI 안경을 쓰고 있으면 기록합니다." },
+  { icon: ICON.users, title: "얼굴", body: "카메라에 다른 사람이 함께 보이면 기록합니다." },
   { icon: ICON.eye, title: "시선", body: "시선과 머리가 화면을 벗어나는 순간을 기록합니다." },
+  { icon: ICON.glasses, title: "스마트 안경", body: "화면에 답을 띄워 주는 AI 안경을 쓰고 있는지 확인합니다." },
   { icon: ICON.out, title: "화면", body: "다른 탭이나 창으로 가면 기록하고, 면접 중 지원자 화면을 녹화합니다." },
   { icon: ICON.monitor, title: "기기", body: "보조 모니터 연결을 기록하고, 휴대폰을 QR로 연결한 사이드 카메라로 모니터와 손을 함께 봅니다." },
 ];
@@ -39,14 +42,22 @@ const CLIPS = [
 
 // soft: 연한 블루 바탕(기본). 홈은 앞 섹션과 번갈아 오게 흰 바탕(soft={false}, 2026-11-26).
 export default function IntegritySection({ withLink = false, soft = true }: { withLink?: boolean; soft?: boolean }) {
-  // 탭 1 — 왼쪽 지원자 화면(사용자가 준 목업 사진 '실 정면-2'를 4:3으로 자름) + 감지 표시, 오른쪽 4묶음
+  // 탭 1 — 왼쪽 카메라 두 화면(사용자가 준 목업 사진 '실 정면-2'·'실 측면-2'를 4:3으로 자름): 정면 카메라에 얼굴·시선·스마트 안경 표시,
+  // 오른쪽 아래에 겹친 사이드 카메라(휴대폰)는 모니터와 손이 함께 보인다(11/26 "정면 측면 화면도 넣어줘", "얼굴, 시선도 강조"). 오른쪽은 5줄
   const live = (
     <>
-      <div className="ig-face" role="img" aria-label="면접 중 지원자 화면 예시: 얼굴 1명, 시선 정면, 녹화 중. 다른 탭 이동과 보조 모니터는 없음.">
-        <img src="/integrity-face.webp" alt="" width={840} height={630} loading="lazy" />
-        <span className="ig-box"><span className="ig-tag">얼굴 1명</span></span>
-        <span className="ig-rec"><i></i>녹화 중</span>
-        <div className="ig-status"><span>시선 정면</span><span>다른 탭 이동 없음</span><span>보조 모니터 없음</span></div>
+      <div className="ig-cams" role="img" aria-label="면접 중 카메라 화면 예시: 정면 카메라에서 얼굴 1명, 시선 정면, 스마트 안경 없음을 확인하고, 사이드 카메라로 모니터와 손을 함께 봅니다.">
+        <div className="ig-face">
+          <img src="/integrity-face.webp" alt="" width={840} height={630} loading="lazy" />
+          <span className="ig-box"><span className="ig-tag">얼굴 1명</span><span className="ig-tag ig-tag-b">스마트 안경 없음</span></span>
+          <span className="ig-eye" style={{ left: "43.5%" }}></span><span className="ig-eye" style={{ left: "55.4%" }}></span>
+          <span className="ig-gaze">시선 정면</span>
+          <span className="ig-cam"><i></i>정면 카메라 · 녹화 중</span>
+        </div>
+        <div className="ig-side">
+          <img src="/integrity-side.webp" alt="" width={640} height={480} loading="lazy" />
+          <span className="ig-cam">사이드 카메라</span>
+        </div>
       </div>
       <div>
         <ul className="ig-list">
