@@ -3,11 +3,14 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/track";
+import FlutedGlassBg from "./FlutedGlassBg";
 
 /**
  * AI 역량검사 출시 안내 팝업(2026-11-26) — 홈(app/page.tsx)에만 마운트한다.
  * 목적은 AI 역량검사 페이지 클릭 유도 하나 — "최대한 짧고 간결하게"(같은 날 사용자). 글은 제목·한 줄·버튼만 둔다.
- * 그리팅 팝업 참고(사용자 공유): 왼쪽 남색 판에 제목·한 줄·버튼·'오늘 하루 보지 않기', 오른쪽 빛줄기 위에 작은 흰 리포트 카드(누르면 같은 페이지로).
+ * 그리팅 팝업 참고(사용자 공유): 왼쪽에 제목·한 줄·버튼·'오늘 하루 보지 않기', 오른쪽에 작은 흰 리포트 카드(누르면 같은 페이지로).
+ * 바탕은 AI 역량검사 응시 화면 색(차콜 + 선택 표시 블루)의 유리 물결 — 홈 히어로와 같은 FlutedGlassBg에 palette="assessment"(11/26).
+ * 바탕 시안: _docs/홈페이지 개편/출시팝업_배경_시안.html
  * 카드는 HTML로 그린 예시 — 항목 이름은 실제 리포트와 같다(4단계 AI 추천 중 '추천', 평가 항목 4개). 점수·가중치 숫자는 넣지 않는다
  * (근거·금지 표현: _docs/홈페이지 개편/AI면접_AI역량검사_차이_소개자료.md). 모바일에서는 카드를 빼 글·버튼만 남긴다.
  * 배경 딤은 이벤트 팝업(EventPopup)의 .evp-dim(globals.css)을 그대로 쓰고, 판 스타일은 app/landing.css(.lp-*).
@@ -85,6 +88,7 @@ export default function LaunchPopup() {
   return (
     <div className="evp-dim" role="presentation" onClick={close}>
       <div className="lp" role="dialog" aria-modal="true" aria-labelledby="lp-title" onClick={(e) => e.stopPropagation()}>
+        <FlutedGlassBg canvasId="lp-glass" palette="assessment" rib={36} />
         <div className="lp-text">
           <span className="lp-new">NEW</span>
           <h2 id="lp-title">AI 역량검사<br />출시</h2>

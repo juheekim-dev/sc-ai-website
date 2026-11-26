@@ -15,6 +15,10 @@ import { useEffect, useRef } from "react";
  * - 처음부터 다 그려진 상태로 계속 움직인다(차오르는 등장 모션 없음).
  * 이전 안(블루·보라·남색이 흐르는 아래쪽 빛, 시안 A-1)은 git e64339c·bb9fbfe, 시안은 _docs/홈페이지 개편/홈히어로_플루티드글래스_시안.html.
  *
+ * palette로 색을 바꿔 끼운다 — "brand"(기본, 홈 히어로·마지막 CTA) / "assessment"(AI 역량검사 응시 화면 색 — 출시 팝업 LaunchPopup, 11/26).
+ *   assessment: 차콜 #232323·#1C1C1C(왼쪽) → #141414·#181818(오른쪽), 물결을 따라 화면 속 선택 표시 블루 #00385C 빛이 흐른다.
+ *   색은 public/hero-assessment-base.webp에서 뽑은 값. 물결·골 모양은 두 팔레트가 같다.
+ *
  * WebGL 프래그먼트 셰이더 하나로 그린다. 30fps 제한, 히어로가 화면 밖이거나 탭이 숨겨지면 멈춘다.
  * prefers-reduced-motion이면 정지 화면 한 장. WebGL이 없으면 그리지 않는다(.hero-bg 그라데이션이 대체 바탕).
  * 위치·크기는 app/landing.css(.hero-bg #hero-glass).
@@ -28,14 +32,16 @@ precision highp float;
 precision mediump float;
 #endif
 uniform vec2 r;uniform float t;uniform float rib;
-// 바탕 색 — x·y는 0~1(y는 아래가 0). 왼쪽 밝은 블루, 오른쪽 남색, 경계가 천천히 흔들린다
+// 팔레트 — 왼쪽 아래·위(cL0·cL1), 오른쪽 아래·위(cR0·cR1), 물결 따라 흐르는 빛(cA, 세기 ka)
+uniform vec3 cL0;uniform vec3 cL1;uniform vec3 cR0;uniform vec3 cR1;uniform vec3 cA;uniform float ka;
+// 바탕 색 — x·y는 0~1(y는 아래가 0). 왼쪽·오른쪽 두 면, 경계가 물결친다
 vec3 base(float x,float y){
-  // 브랜드 키컬러(로고) — 왼쪽 #3A6FFF, 오른쪽 #2144A5. 아래로 갈수록 아주 조금 밝게
-  vec3 L=mix(vec3(.290,.502,1.),vec3(.227,.435,1.),y);      // #4A80FF → #3A6FFF
-  vec3 R=mix(vec3(.153,.302,.690),vec3(.129,.267,.647),y);  // #274DB0 → #2144A5
+  vec3 L=mix(cL0,cL1,y), R=mix(cR0,cR1,y);
   // 경계선이 세로로 물결치며 흐른다(두 겹 사인)
   float e=.5+.05*sin(t*.35)+.045*sin(y*4.2+t*.9)+.02*sin(y*9.-t*1.4);
   vec3 c=mix(L,R,smoothstep(e-.04,e+.04,x));
+  // 물결 따라 흐르는 빛(assessment 팔레트) — 경계 근처를 따라 위아래로 일렁인다
+  c+=cA*ka*exp(-pow((x-e+.12)/.22,2.))*(.6+.4*sin(y*5.+t*.8));
   // 밝기 물결이 사선으로 천천히 지나간다
   c*=1.+.07*sin(x*7.-y*2.5-t*1.1)+.04*sin(x*13.+y*4.+t*.7);
   return c;
@@ -55,7 +61,17 @@ void main(){
   gl_FragColor=vec4(c,1.);
 }`;
 
-export default function FlutedGlassBg({ canvasId }: { canvasId: string }) {
+const hex = (h: string): [number, number, number] => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255) as [number, number, number];
+
+// [왼쪽 아래, 왼쪽 위, 오른쪽 아래, 오른쪽 위, 흐르는 빛, 빛 세기]
+const PALETTES = {
+  // 브랜드 키컬러(로고) — 왼쪽 #3A6FFF, 오른쪽 #2144A5. 아래로 갈수록 아주 조금 밝게
+  brand: { c: ["#4A80FF", "#3A6FFF", "#274DB0", "#2144A5", "#000000"], ka: 0 },
+  // AI 역량검사 응시 화면 — 차콜 + 선택 표시 블루
+  assessment: { c: ["#262626", "#1E1E1E", "#161616", "#131313", "#00508A"], ka: 0.55 },
+} as const;
+
+export default function FlutedGlassBg({ canvasId, palette = "brand", rib = 52 }: { canvasId: string; palette?: keyof typeof PALETTES; rib?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -85,6 +101,9 @@ export default function FlutedGlassBg({ canvasId }: { canvasId: string }) {
     const uR = gl.getUniformLocation(prog, "r");
     const uT = gl.getUniformLocation(prog, "t");
     const uRib = gl.getUniformLocation(prog, "rib");
+    const P = PALETTES[palette];
+    (["cL0", "cL1", "cR0", "cR1", "cA"] as const).forEach((n, i) => gl.uniform3f(gl.getUniformLocation(prog, n), ...hex(P.c[i])));
+    gl.uniform1f(gl.getUniformLocation(prog, "ka"), P.ka);
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const size = () => {
@@ -92,7 +111,7 @@ export default function FlutedGlassBg({ canvasId }: { canvasId: string }) {
       c.height = Math.round(c.offsetHeight * dpr);
       gl.viewport(0, 0, c.width, c.height);
       gl.uniform2f(uR, c.width, c.height);
-      gl.uniform1f(uRib, 52 * dpr); // 유리 골 폭 52px
+      gl.uniform1f(uRib, rib * dpr); // 유리 골 폭(기본 52px)
     };
     const reduce = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
     const t0 = performance.now();
@@ -133,7 +152,7 @@ export default function FlutedGlassBg({ canvasId }: { canvasId: string }) {
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [palette, rib]);
 
   return <canvas ref={ref} id={canvasId} aria-hidden="true" />;
 }
