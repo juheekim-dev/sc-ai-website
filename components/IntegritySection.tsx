@@ -18,7 +18,28 @@ const SHOTS = [
   { title: "손·키보드", body: "측면 카메라로 키보드 위 손도 함께 봅니다.", img: "/integrity-hands.webp", h: 480, label: "손·키보드", alt: "측면 카메라 화면: 키보드 위 두 손", box: true },
 ];
 
-// 탭 2 '감지 리포트' 오른쪽 설명
+// 탭 2 '실시간 모니터링'(11/26 "우리도 실시간 감시가 되는데", "실시간 감시 화면도 넣어줘") — SC-Platform 채용팀 메뉴 '실시간 모니터링'(/recruiter/home/live-proctoring)을 HTML로 그린 예시.
+// 제품 화면 그대로: 진행 중인 AI 면접·AI 역량검사 지원자를 칸으로(칸마다 위 화면 공유, 아래 정면·측면 카메라, 맨 아래 '번호. 이름'과 프로젝트),
+// 감지가 있는 칸은 'AI 감지'로 표시하고 맨 앞으로, 누르면 'AI 감독 리포트'. 응시 중 바로 잡히는 건 시선 이탈·여러 얼굴·얼굴 미감지·시험 화면 이탈(약 10초 간격 갱신).
+// 회사별로 켜는 베타 기능이라 그렇게 밝힌다. 휴대폰·이어폰·가상 머신 감지는 제품 목록에만 있고 감지 코드가 없어 쓰지 않는다. 감지 표시는 사이트 규칙대로 블루(제품은 노랑).
+// 이름은 가상. 사진이 있는 건 첫 칸(목업 인물)뿐이고 나머지는 실루엣.
+const LIVE_CELLS = [
+  { name: "김서연", project: "서비스 기획자", flag: true },
+  { name: "이도윤", project: "백엔드 개발자", flag: false },
+  { name: "박지후", project: "마케터", flag: false },
+  { name: "최하린", project: "서비스 기획자", flag: false },
+];
+const LIVE_POINTS = [
+  "진행 중인 AI 면접·AI 역량검사를 한 화면에",
+  "지원자마다 화면 공유·정면·측면 카메라를 실시간으로",
+  "시선 이탈·여러 얼굴·자리 비움·화면 이탈은 응시 중에 바로 표시",
+  "감지된 지원자는 맨 앞으로 — 누르면 AI 감독 리포트",
+];
+const Silhouette = () => (
+  <svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="80" cy="40" r="17" /><path d="M42 102v-6a38 38 0 0 1 76 0v6z" /></svg>
+);
+
+// 탭 3 '감지 리포트' 오른쪽 설명
 const REPORT_POINTS = ["감지한 순간을 종류·시각과 함께 기록", "누르면 면접 영상의 그 장면으로 이동", "판단을 돕는 자료 — 최종 판단은 채용팀이"];
 
 // 면접 영상의 감지 장면 3칸 — 위 감지 내역 줄과 같은 종류·시각
@@ -32,13 +53,14 @@ const CLIPS = [
 // 11/26 "얼굴 감지는 사각형 모서리 4개만", "눈의 시선 감지 그래픽은 과해, 덜어줘" → 얼굴은 모서리 4개. 시선은 "두 눈을 직사각형으로 잡아서" → 두 눈 (510, 215)·(610, 215)을 함께 감싸는 가는 직사각형 하나.
 // 같은 날 "배지 3개가 얼굴에 몰려 있다, 사방으로 넓혀" → 배지를 왼쪽 위(얼굴 1명)·오른쪽(시선)·아래(안경 검사)로 펼치고 점선으로 얼굴과 잇는다.
 // 배지 자리는 app/landing.css .ig-tag-face·.ig-gaze·.ig-tag-glass — 아래 점선 끝 좌표와 같은 값(%). 눈 자체는 가리지 않는다.
+// 모션(11/26 "여기에 모션 넣어줘", CSS만): 모서리가 좁혀 들어와 얼굴을 잡고 → 두 눈 직사각형이 그려지고 → 점선·배지 3개가 차례로 → 잠시 머문 뒤 사라지고 반복(7초).
 const FACE = { x1: 435, y1: 120, x2: 691, y2: 391, len: 30 };
 function GazeHud() {
   const { x1, y1, x2, y2, len: l } = FACE;
   return (
     <svg className="ig-hud" viewBox="0 0 1120 630" aria-hidden="true">
       <path className="ig-hud-corner" d={`M${x1} ${y1 + l}V${y1}H${x1 + l}M${x2 - l} ${y1}H${x2}V${y1 + l}M${x2} ${y2 - l}V${y2}H${x2 - l}M${x1 + l} ${y2}H${x1}V${y2 - l}`} />
-      <rect x="474" y="193" width="172" height="44" rx="8" className="ig-hud-ring" />
+      <rect x="474" y="193" width="172" height="44" rx="8" className="ig-hud-ring" pathLength={1} />
       <path className="ig-hud-line" d="M646 215H760M435 120L380 78M563 391V446" />
     </svg>
   );
@@ -82,7 +104,36 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
     </div>
   );
 
-  // 탭 2 — 왼쪽 감지 내역 카드(예시), 오른쪽 설명. 감지 3건은 영상 칸 3개가 종류·시각을 함께 보여 줘서 위에 따로 줄을 두지 않는다(11/26 중복 제거)
+  // 탭 2 — 왼쪽 실시간 모니터링 화면(예시), 오른쪽 설명
+  const monitor = (
+    <>
+      <div className="lv" role="img" aria-label="실시간 모니터링 화면 예시: 진행 중인 지원자 4명의 화면 공유·정면·측면 카메라가 칸마다 보이고, 감지가 있는 첫 번째 지원자 칸에 AI 감지 표시가 있습니다.">
+        <div className="lv-h"><b>실시간 모니터링</b><span className="lv-n">진행 중 {LIVE_CELLS.length}</span><span className="lv-q">지원자 이메일로 검색</span></div>
+        <div className="lv-grid">
+          {LIVE_CELLS.map((c, i) => (
+            <div key={c.name} className={c.flag ? "lv-cell flag" : "lv-cell"}>
+              <div className="lv-st"><i></i>{c.flag ? "AI 감지" : "진행 중"}</div>
+              <div className="lv-scr">{c.flag ? <img src="/integrity-screen.webp" alt="" width={640} height={480} loading="lazy" /> : <span className="lv-ph"></span>}</div>
+              <div className="lv-cams">
+                <div>{c.flag ? <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" /> : <Silhouette />}</div>
+                <div>{c.flag ? <img src="/integrity-side.webp" alt="" width={640} height={400} loading="lazy" /> : <Silhouette />}</div>
+              </div>
+              <div className="lv-name"><b>{i + 1}. {c.name}</b><span>{c.project}</span></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="ig-lead">지원자가 응시하는 동안, 채용팀은 실시간 모니터링 화면에서 진행 중인 면접을 바로 지켜봅니다.</p>
+        <ul className="ig-checks">
+          {LIVE_POINTS.map((t) => <li key={t}>{t}</li>)}
+        </ul>
+        <p className="ig-note">베타 기능으로, 회사별로 켜서 씁니다.</p>
+      </div>
+    </>
+  );
+
+  // 탭 3 — 왼쪽 감지 내역 카드(예시), 오른쪽 설명. 감지 3건은 영상 칸 3개가 종류·시각을 함께 보여 줘서 위에 따로 줄을 두지 않는다(11/26 중복 제거)
   const report = (
     <>
       {/* 시각은 예시 값. 타임라인 표시 위치는 시각에 맞춘다(03:12/15:00 = 21%, 08:40/15:00 = 58%, 12:05/15:00 = 80%). 지금 재생 중인 첫 칸은 블루 테두리 */}
@@ -124,7 +175,8 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
           label="부정행위 감지"
           panelClass="ig-panel"
           items={[
-            { label: "실시간 감지", panel: live },
+            { label: "감지 항목", panel: live },
+            { label: "실시간 모니터링", panel: monitor },
             { label: "감지 리포트", panel: report },
           ]}
         />
