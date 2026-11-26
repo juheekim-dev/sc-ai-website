@@ -11,7 +11,7 @@ export function HeroWord({ children }: { children: ReactNode }) {
  * 다크 히어로 — 홈 전용(제품 상세 페이지는 밝은 ProductHero, 2026-11-25). 스타일은 app/landing.css(.hero-bg·.decl).
  * 다크 배경 래퍼(.hero-bg: 그라데이션·그레인·입자 캔버스)까지 포함한다.
  * data-nav="dark" → 이 위에서는 GNB가 반전된다(SiteHeader.syncHeader).
- * 바탕은 플루티드 글래스 빛(FlutedGlassBg, 2026-11-26 시안 A-1안). 입자 수렴 모션(HeroParticles)은 11/26 "점들 삭제"로 뺐다(마지막 CTA에는 남아 있다).
+ * 바탕은 플루티드 글래스(FlutedGlassBg) — 11/26 브랜드 배경 이미지(SNS 대문)와 같은 밝은 블루·남색. 바탕이 밝아 버튼은 흰색(btn-white). 입자 수렴 모션(HeroParticles)은 11/26 "점들 삭제"로 뺐다(마지막 CTA에는 남아 있다).
  */
 export default function PageHero({ title, lead }: { title: ReactNode; lead: ReactNode }) {
   return (
@@ -23,7 +23,7 @@ export default function PageHero({ title, lead }: { title: ReactNode; lead: Reac
             <h1>{title}</h1>
             <p>{lead}</p>
             <div className="decl-cta">
-              <Link href="/apply" className="btn btn-blue">무료 상담 신청 <i className="fa-solid fa-arrow-right"></i></Link>
+              <Link href="/apply" className="btn btn-white">무료 상담 신청 <i className="fa-solid fa-arrow-right"></i></Link>
             </div>
           </div>
         </div>

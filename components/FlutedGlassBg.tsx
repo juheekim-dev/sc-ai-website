@@ -3,15 +3,16 @@
 import { useEffect, useRef } from "react";
 
 /**
- * 홈 히어로 바탕 — '플루티드 글래스'(세로 골이 진 유리 너머로 번지는 빛, 2026-11-26 시안 A-1안).
- * 시안: _docs/홈페이지 개편/홈히어로_플루티드글래스_시안.html
+ * 홈 히어로 바탕 — '플루티드 글래스'(세로 골이 진 유리 너머의 빛).
+ * 11/26 마지막 결정: 브랜드 배경 이미지(SNS 대문 — 프리픽 이미지 '배경만_링크드인 대문'·'[최종] 페이스북 대문')와 같은 모양으로.
+ * 이미지를 그대로 깔면 히어로 비율에 맞춰 늘어나고 멈춰 있어서, 같은 색·골을 셰이더로 다시 그렸다(문구·로고는 넣지 않는다).
  *
- * - 빛: 화면 아래에 진하게 깔리고 위쪽까지 옅게 번진다. 높이가 물결처럼 오르내린다.
- * - 색: 브랜드 블루 #2E6CF0 → 보라 → 남색 → 로고 블루 #3A6FFF로 이어지는 띠가 옆으로 흐른다(한 바퀴 약 8초).
- *   11/26 "멈추지 않고 계속 재생되게" — 처음엔 20초 주기라 멈춘 듯 보여서 색 흐름·높이 변화를 빠르고 크게 했다.
- * - 유리 골(34px)마다 빛을 좌우 반전·확대해 샘플 → 세로 줄무늬, 골 경계에 어두운 홈·밝은 테.
- * - 제목 뒤(가운데)와 버튼 뒤는 눌러서 글·버튼이 묻히지 않게.
- * - 빛이 차오르는 등장 모션은 뺐다(11/26 사용자) — 처음부터 다 찬 상태로 계속 움직인다.
+ * - 색(이미지에서 뽑은 값): 왼쪽 밝은 블루 #3E73FC(위) → #4EA2FF(아래), 오른쪽 남색 #2546A0 계열(아래로 조금 밝게).
+ *   가운데쯤에서 넘어가고, 그 경계가 천천히 좌우로 흔들린다. 옅은 빛이 가로로 천천히 지나간다.
+ * - 유리 골(52px — 이미지의 골 폭을 히어로 너비로 환산)마다 바탕을 좌우 반전·확대해 샘플 → 경계에서 골마다 색이 엇갈리는 계단 무늬,
+ *   골 가운데는 살짝 밝고 경계에는 가는 홈.
+ * - 처음부터 다 그려진 상태로 계속 움직인다(차오르는 등장 모션 없음).
+ * 이전 안(블루·보라·남색이 흐르는 아래쪽 빛, 시안 A-1)은 git e64339c·bb9fbfe, 시안은 _docs/홈페이지 개편/홈히어로_플루티드글래스_시안.html.
  *
  * WebGL 프래그먼트 셰이더 하나로 그린다. 30fps 제한, 히어로가 화면 밖이거나 탭이 숨겨지면 멈춘다.
  * prefers-reduced-motion이면 정지 화면 한 장. WebGL이 없으면 그리지 않는다(.hero-bg 그라데이션이 대체 바탕).
@@ -26,40 +27,27 @@ precision highp float;
 precision mediump float;
 #endif
 uniform vec2 r;uniform float t;uniform float rib;
-// 순환 팔레트(0~1): 브랜드 블루 → 보라 → 남색 → 로고 블루 → (다시 브랜드 블루)
-vec3 pal(float h){
-  h=fract(h)*4.;
-  vec3 c0=vec3(.18,.42,.94),c1=vec3(.50,.26,.97),c2=vec3(.14,.16,.62),c3=vec3(.23,.44,1.);
-  float k=smoothstep(0.,1.,fract(h));
-  if(h<1.)return mix(c0,c1,k); if(h<2.)return mix(c1,c2,k); if(h<3.)return mix(c2,c3,k); return mix(c3,c0,k);
-}
-// 빛 세기 — 아래 띠(높이가 물결처럼 오르내린다) + 위쪽까지 이어지는 옅은 꼬리
-float field(vec2 uv){
-  float h=.48+.1*sin(t*.7+uv.x*1.4);
-  float L=exp(-pow(uv.y/h,2.))*(.78+.22*sin(uv.x*1.7+t*.6));
-  return L+.24*exp(-uv.y/1.1)*(.75+.25*sin(uv.x*1.2-t*.45));
+// 바탕 색 — x·y는 0~1(y는 아래가 0). 왼쪽 밝은 블루, 오른쪽 남색, 경계가 천천히 흔들린다
+vec3 base(float x,float y){
+  vec3 L=mix(vec3(.306,.635,1.),vec3(.243,.451,.988),y);   // #4EA2FF → #3E73FC
+  vec3 R=mix(vec3(.176,.318,.682),vec3(.145,.275,.616),y);  // #2D51AE → #25469D
+  float e=.5+.05*sin(t*.35)+.02*sin(t*.9+y*3.);
+  vec3 c=mix(L,R,smoothstep(e-.035,e+.035,x));
+  // 옅은 빛이 가로로 천천히 지나간다
+  float sweep=exp(-pow((x-fract(t*.045)*1.6+.3)/.18,2.));
+  return c+sweep*vec3(.05,.07,.1);
 }
 float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
 void main(){
-  vec2 p=gl_FragCoord.xy; float ax=r.x/r.y;
+  vec2 p=gl_FragCoord.xy;
   float s=floor(p.x/rib), f=fract(p.x/rib);
-  float xs=(s+.5)*rib+(f-.5)*rib*-2.2; // 골 안에서 좌우 반전·확대(굴절)
-  float L=mix(field(vec2(xs,p.y)/r.y),field(p/r.y),.35);
-  float L0=field(p/r.y);
-  L*=.72+.28*sin(f*3.14159);              // 골 가운데 볼록
-  L*=mix(.45,1.,smoothstep(0.,.07,f));     // 골 경계 어두운 홈
-  L+=smoothstep(.9,1.,f)*L0*.35;           // 한쪽 끝 밝은 테
-  vec2 q=p/r.y-vec2(ax*.5,.56); q.x*=.55;  // 제목 뒤 어둡게
-  L*=mix(.25,1.,smoothstep(.12,.5,length(q)));
-  vec2 bq=p/r.y-vec2(ax*.5,.26); bq.x*=.5; // 버튼 뒤 살짝 어둡게
-  L*=mix(.55,1.,smoothstep(.05,.2,length(bq)));
-  L*=.68;                                  // 투명도 — 빛을 덜 채워 유리 너머로 비쳐 보이게(11/26 "투명도를 더 줘")
-  L+=(hash(p)-.5)*.02;                     // 띠 무늬(밴딩) 방지
-  float hc=xs/r.x*.85-t*.12;               // 골 단위로 색 — 가로로 흐른다(한 바퀴 약 8초)
-  vec3 M=pal(hc), T=mix(pal(hc+.08),vec3(.86,.84,1.),.32);
-  vec3 c=mix(vec3(.008,.01,.05),M,smoothstep(0.,.55,L));
-  c=mix(c,T,smoothstep(.45,.95,L));
-  c=mix(c,vec3(1.),smoothstep(.9,1.4,L)*.2);
+  float xs=(s+.5)*rib+(f-.5)*rib*-1.6;     // 골 안에서 좌우 반전·확대(굴절)
+  float y=p.y/r.y;
+  vec3 c=mix(base(xs/r.x,y),base(p.x/r.x,y),.3);
+  c*=.95+.07*sin(f*3.14159);               // 골 가운데 살짝 밝게
+  c*=mix(.9,1.,smoothstep(0.,.05,f));      // 골 경계 가는 홈
+  c+=smoothstep(.93,1.,f)*.025;            // 한쪽 끝 옅은 테
+  c+=(hash(p)-.5)*.012;                    // 띠 무늬(밴딩) 방지
   gl_FragColor=vec4(c,1.);
 }`;
 
@@ -100,7 +88,7 @@ export default function FlutedGlassBg({ canvasId }: { canvasId: string }) {
       c.height = Math.round(c.offsetHeight * dpr);
       gl.viewport(0, 0, c.width, c.height);
       gl.uniform2f(uR, c.width, c.height);
-      gl.uniform1f(uRib, 34 * dpr); // 유리 골 폭 34px
+      gl.uniform1f(uRib, 52 * dpr); // 유리 골 폭 52px
     };
     const reduce = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
     const t0 = performance.now();

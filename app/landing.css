@@ -5,12 +5,11 @@
   /* 히어로+VALUE 연속 그라데이션 — 아래로 갈수록 흰색 */
   /* 다크 히어로를 헤더 높이(65px)만큼 위로 끌어올려 화면 최상단(y=0)부터 채운다.
      GNB는 최상단에서 숨김이라 상단 패딩 불필요 → 콘텐츠를 히어로 정중앙에 배치(.decl align-items:center). */
-  .hero-bg{position:relative;overflow:hidden;margin-top:-65px;background:
-      radial-gradient(62% 52% at 50% 40%, rgba(90,120,255,.20) 0%, rgba(120,80,220,.10) 42%, transparent 72%),
-      linear-gradient(160deg,#070B1A 0%,#0A1330 50%,#04060E 100%)}
+  /* 11/26 바탕은 브랜드 배경 이미지(왼쪽 밝은 블루·오른쪽 남색)를 그린 FlutedGlassBg 캔버스. 이 그라데이션은 WebGL이 없을 때의 대체 바탕(같은 색) */
+  .hero-bg{position:relative;overflow:hidden;margin-top:-65px;background:linear-gradient(90deg,#4389FE 0%,#3F7BF8 46%,#2849A3 54%,#25469D 100%)}
   /* GNB 반전(흰 로고·투명 메뉴버튼)은 다크 섹션(data-nav="dark") 위에서만 적용 —
      색 전환 로직은 theme.css의 header.nav-invert(SSOT), 감지는 partials.js. */
-  /* 플루티드 글래스 바탕(FlutedGlassBg, 2026-11-26 시안 A-1안) — 히어로 전체를 덮는 WebGL 캔버스. 위 그라데이션은 WebGL이 없을 때의 대체 바탕 */
+  /* 플루티드 글래스 바탕(FlutedGlassBg) — 히어로 전체를 덮는 WebGL 캔버스 */
   .hero-bg #hero-glass{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;display:block}
   /* 히어로 강조어 그라데이션 모션 — 다크 배경용 밝은 톤(시안빛 블루→바이올렛) 가로 흐름 */
   /* 헤드라인: 키워드(수천 명·상위 후보)는 화이트, 나머지는 하늘색 그라데이션 */
@@ -771,7 +770,9 @@
 
   /* 가독성 보정(2026-06-07): 본문·리드 글자가 얇아 안 보이는 문제 → 굵기·대비 ↑ (인라인이 theme.css보다 뒤라 오버라이드) */
   .lead{font-weight:400;color:var(--slate)}
-  .decl p{color:#AEB9D4;font-weight:500}  /* 다크 히어로 — 밝은 슬레이트 */
+  .decl p{color:rgba(255,255,255,.92);font-weight:500}  /* 11/26 바탕이 밝은 블루로 바뀌어 회색(#AEB9D4)은 안 읽힌다 — 흰색 */
+  .decl p span{font-weight:700}  /* 강조어는 색 대신 굵기로 구분(전부 흰색이 됐으므로) */
+  .decl h1,.decl p{text-shadow:0 1px 14px rgba(12,32,96,.28)}  /* 밝은 블루 위 흰 글자 또렷하게 */
   .valcard p{color:#46506A;font-weight:500}
   .hs-label{color:#39435B}
 
