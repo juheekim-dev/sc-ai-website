@@ -15,6 +15,7 @@ import AssistDemo from "@/components/AssistDemo";
 import ProductFlow from "@/components/ProductFlow";
 import PairGrid from "@/components/PairGrid";
 import InView from "@/components/InView";
+import LaunchPopup from "@/components/LaunchPopup";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
 // 04 해결 — 제품 카드. 이름·주소·한 줄 설명·도식 썸네일은 lib/products.ts(GNB·푸터·제품 페이지 끝 안내 카드와 공용), 기능 3개만 여기서 정한다.
@@ -106,6 +107,9 @@ export default async function HomePage() {
   };
   return (
     <>
+      {/* AI 역량검사 출시 안내 팝업(2026-11-26) — 홈에서만, 마운트 0.5초 뒤 */}
+      <LaunchPopup />
+
       {/* SECTION 01 · DECLARATION (히어로) — 다크 배경 래퍼(.hero-bg)까지 PageHero가 그린다 */}
       <PageHero
         title={

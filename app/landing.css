@@ -57,6 +57,51 @@
   @media(max-width:560px){.decl h1{font-size:31px;line-height:1.38}}
   @media(max-width:400px){.decl h1{font-size:28px}}
 
+  /* 출시 팝업(.lp) 노이즈 — 노이즈 밝기를 알파로 바꾼 흰 모래알(feColorMatrix: RGB=흰색, A=노이즈). 어두운 남색 위에서도 질감이 보인다(11/26 Inferact 참고) */
+  .lp{--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.6 0 0 0 -0.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* AI 역량검사 출시 팝업(LaunchPopup, 2026-11-26 — 그리팅 팝업 참고). 딤은 이벤트 팝업의 .evp-dim(globals.css).
+     왼쪽 남색 판(홈 히어로와 같은 그라데이션 + 모래알 노이즈) + 오른쪽 가장자리 빛줄기 위에 흰 리포트 카드. */
+  .lp{position:relative;width:min(760px,100%);max-height:calc(100svh - 40px);overflow:auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);border-radius:24px;
+    background:radial-gradient(60% 70% at 20% 100%,rgba(90,120,255,.18),transparent 70%),linear-gradient(160deg,#0A1330 0%,#070B1A 55%,#04060E 100%);
+    border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 100px -24px rgba(0,0,0,.7);animation:evpUp .3s ease}
+  .lp::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;background-image:var(--grain)} /* 모래알 노이즈(Inferact 참고) */
+  /* 오른쪽 가장자리 빛줄기 — 카드 뒤에서 위→아래로 흘러내리는 세로 띠(블루→라벤더) */
+  .lp::after{content:"";position:absolute;top:0;bottom:0;right:0;width:26%;pointer-events:none;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0 5px,rgba(255,255,255,.35) 5px 7px,rgba(255,255,255,0) 7px 13px),
+      linear-gradient(180deg,#6E8BFF 0%,#8FA6FF 35%,#C9B8F5 70%,rgba(201,184,245,0) 100%);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%);
+    opacity:.85;animation:lpFlow 6s ease-in-out infinite alternate}
+  @keyframes lpFlow{to{opacity:.6;transform:translateY(-10px)}}
+  .lp-text{position:relative;z-index:1;padding:44px 16px 36px 44px;display:flex;flex-direction:column;align-items:flex-start;color:#fff}
+  .lp-new{background:var(--blue);color:#fff;font-size:12px;font-weight:800;letter-spacing:.06em;padding:5px 11px;border-radius:999px;margin-bottom:22px}
+  .lp-text h2{font-size:clamp(34px,4.4vw,52px);font-weight:700;line-height:1.15;letter-spacing:-.035em;color:#fff}
+  .lp-text p{margin:16px 0 32px;font-size:16px;line-height:1.6;color:#C7D2E8;font-weight:500}
+  .lp-actions{margin-top:auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .lp-today{border:0;background:none;padding:6px 0;font:inherit;font-size:14px;color:#8390AE;cursor:pointer}
+  .lp-today:hover{color:#DCE4F5;text-decoration:underline;text-underline-offset:3px}
+  .lp-media{position:relative;z-index:1;padding:40px 60px 40px 0;display:flex;align-items:center}
+  .lp-media:hover .lp-card{transform:translateY(-3px)}
+  /* 흰 리포트 카드 */
+  .lp-card{width:100%;background:#fff;border-radius:18px;padding:22px 22px 24px;transition:transform .2s;color:var(--ink);box-shadow:0 24px 60px -20px rgba(0,0,0,.55)}
+  .lp-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .lp-card-head strong{display:inline-flex;align-items:center;gap:7px;font-size:15px;font-weight:700;letter-spacing:-.01em}
+  .lp-spark{color:var(--blue);font-size:15px;line-height:1}
+  .lp-verdict{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--blue-d);border:1px solid var(--line);border-radius:999px;padding:5px 12px;box-shadow:0 4px 12px -6px rgba(20,40,90,.18)}
+  .lp-checks{list-style:none;margin:16px 0 0;padding:16px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:11px}
+  .lp-checks li{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:600;line-height:1.4;color:var(--ink);opacity:0;animation:lpItem .45s ease forwards}
+  .lp-checks li:nth-child(1){animation-delay:.45s}.lp-checks li:nth-child(2){animation-delay:.7s}.lp-checks li:nth-child(3){animation-delay:.95s}.lp-checks li:nth-child(4){animation-delay:1.2s}
+  @keyframes lpItem{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .lp-checks i{flex:none;width:22px;height:22px;border-radius:50%;background:var(--soft-2);color:var(--blue);font-size:11px;display:inline-flex;align-items:center;justify-content:center;}
+  .lp-x{position:absolute;z-index:2;right:18px;top:18px;width:44px;height:44px;border:0;border-radius:12px;background:rgba(255,255,255,.22);color:#fff;font-size:20px;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s}
+  .lp-x:hover{background:rgba(255,255,255,.34)}
+  @media(prefers-reduced-motion:reduce){.lp::after{animation:none}.lp-checks li{animation:none;opacity:1}}
+  @media(max-width:760px){
+    .lp{grid-template-columns:minmax(0,1fr);width:min(400px,100%)}
+    .lp::after{width:22%;height:46%;bottom:auto} /* 글·버튼 위로 넘어오지 않게 오른쪽 위 모서리에만 */
+    .lp-media{display:none} /* 모바일은 글·버튼만 — 짧게 */
+    .lp-text{padding:44px 26px 28px}
+  }
+
   /* 제품 상세 페이지 히어로(ProductHero, 2026-11-25) — 홈의 어두운 히어로와 다르게 밝은 바탕 + 오른쪽 제품 이미지.
      헤더(65px) 밑까지 바탕이 이어지도록 끌어올리고 그만큼 위 여백을 더한다. 이미지는 투명 바탕 webp(제품 화면 + 리포트 카드). */
   .phero{position:relative;overflow:hidden;margin-top:-65px;padding:calc(65px + clamp(24px,4vw,56px)) 0 clamp(40px,5vw,72px); /* 11/25 "히어로 세로 길이 살짝 줄여줘": 위 84→56. 같은 날 "바로 아래가 어두운 띠라 답답해": 아래 56→112.
