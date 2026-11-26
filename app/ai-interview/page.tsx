@@ -8,7 +8,9 @@ import ReportRows from "@/components/ReportRows";
 import IntegritySection from "@/components/IntegritySection";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
-import ProductCompare from "@/components/ProductCompare";
+import ProductFlow from "@/components/ProductFlow";
+import TypeTabs, { type TypeItem } from "@/components/TypeTabs";
+import { HERO } from "@/lib/products";
 import AskDemo from "@/components/AskDemo";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
@@ -42,9 +44,10 @@ const PAIRS = [
   { problem: "면접관마다 기준이 달라 비교가 어렵습니다", solution: "모든 지원자를 같은 기준으로 평가합니다" },
 ];
 
-const TYPES = [
-  { icon: "fa-file-lines", title: "채용공고 기반 면접", body: "직무 기술서에서 평가 항목을 뽑고, 항목마다 단계별 기준과 맞춤 질문을 만듭니다." },
-  { icon: "fa-user-check", title: "이력서 기반 면접", body: "지원자의 이력서와 경력을 분석해, 적힌 경험을 확인하는 질문을 만듭니다." },
+// 11/26 D안(탭으로 고르기): 아이콘 대신 도입 단계 이미지와 같은 결의 화면 — 채용공고는 JD 작성 화면, 이력서는 이력서 화면(원본 _docs/홈페이지 개편/도식/캡처가공 type-iv-*)
+const TYPES: TypeItem[] = [
+  { title: "채용공고 기반 면접", body: "직무 기술서에서 평가 항목을 뽑고, 항목마다 단계별 기준과 맞춤 질문을 만듭니다.", tags: ["채용공고로 만듦", "평가 항목·단계별 기준"], img: "/type-iv-jd.webp", alt: "채용공고 작성 화면: 직무와 주요 업무를 적는 모습" },
+  { title: "이력서 기반 면접", body: "지원자의 이력서와 경력을 분석해, 적힌 경험을 확인하는 질문을 만듭니다.", tags: ["이력서로 만듦", "적힌 경험 확인"], img: "/type-iv-cv.webp", alt: "이력서 화면: 경력 중 확인할 경험이 표시된 모습" },
 ];
 
 // 06 · 도입 3단계 — AI 역량검사 '과제 만들기'처럼 카드 아래 화면 이미지(아이콘 없음, 11/25).
@@ -101,22 +104,7 @@ export default function AiInterviewPage() {
         // 헤드카피 두 줄(11/25) — "1차 면접, 질문부터 리포트까지 / AI가 진행합니다"는 첫 줄이 글 칸(약 520px)보다 길어 세 줄이 되어 문구를 다듬음
         title={<>1차 면접은 <span className="blue">AI</span>에게,<br />질문부터 리포트까지</>}
         lead="채용공고를 넣으면 평가 기준과 질문을 만들고, 지원자 답변에 꼬리질문을 이어 갑니다. 채용팀은 리포트를 보고 만날 사람을 정합니다."
-        img="/hero-interview-base.webp"
-        alt="AI 면접 화면: AI 면접관이 질문과 꼬리질문을 하고, 지원자 답변을 분석해 종합 등급과 역량 막대가 있는 AI 면접 리포트로 정리하는 모습"
-        // 히어로(11/25 B안 3차): 화면 + AI 면접관 오브 카드 + 리포트 카드. 화면은 AI 역량검사와 같은 어두운 색(#181818, 11/25 4차 — 흰 화면에서 바꿈). 모션은 AI 역량검사와 같은 흐름 —
-        // AI 면접관 카드 위→아래, 리포트 카드 아래→위, '답변 분석 중' 칩 왼쪽→오른쪽. 원본은 _docs/홈페이지 개편/도식/캡처가공(iv3-l-*)
-        layers={[
-          // AI 면접관 카드의 오브는 움직이는 오브(LiveOrb)를 겹친다 — 자리는 레이어 캔버스(600×448) 좌표, 이미지와 같은 흐림(투명도 .62)
-          { src: "/hero-interview-ai.webp", move: "down", orb: { x: 325, y: 59, size: 64, w: 600, h: 448, cover: "#FFFFFF", opacity: 0.62 } },
-          { src: "/hero-interview-report.webp", move: "up" },
-          { src: "/hero-interview-chip.webp", move: "right" },
-        ]}
-        lines={[
-          { d: "M315 197 V221", dot: [315, 223] },
-          { d: "M250 292 V234", dot: [250, 232] },
-        ]}
-        // 11/25 "리포트 카드 지금보다 아래로": 카드 top 266 → 294, 캔버스 600×420 → 600×448(레이어 4장 모두)
-        size={[600, 448]}
+        {...HERO["/ai-interview"]} // 화면·레이어·점선은 lib/products.ts(HERO) — 함께 쓰는 순서 썸네일과 같이 쓴다
       />
 
       {/* 02 · 고객사 로고 */}
@@ -163,15 +151,7 @@ export default function AiInterviewPage() {
           <div className="head">
             <h2>확인하고 싶은 것에 맞춰<br /><span className="blue">면접 유형</span>을 고르세요</h2>
           </div>
-          <div className="value-grid two">
-            {TYPES.map((t) => (
-              <div className="valcard" key={t.title}>
-                <div className="ic"><i className={`fa-solid ${t.icon}`}></i></div>
-                <h3>{t.title}</h3>
-                <p>{t.body}</p>
-              </div>
-            ))}
-          </div>
+          <TypeTabs items={TYPES} label="면접 유형" />
         </div>
       </section>
 
@@ -202,10 +182,10 @@ export default function AiInterviewPage() {
         </div>
       </section>
 
-      {/* 10 · 다른 제품 안내 — 두 제품 비교(ProductCompare, 11/25 시안 2안). 지금 보는 제품 표시 + AI 역량검사 카드에 버튼 */}
+      {/* 10 · 다른 제품 안내 — 함께 쓰는 순서(ProductFlow, 11/26 시안 1안 + 연결 2안). 지금 보는 제품 표시 + AI 역량검사 카드에 버튼 */}
       <section className="band" id="next">
         <div className="wrap">
-          <ProductCompare current="/ai-interview" />
+          <ProductFlow current="/ai-interview" />
         </div>
       </section>
 

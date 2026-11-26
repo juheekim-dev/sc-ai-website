@@ -7,7 +7,9 @@ import StepFlow from "@/components/StepFlow";
 import PairGrid from "@/components/PairGrid";
 import SecuritySection from "@/components/SecuritySection";
 import FaqList from "@/components/FaqList";
-import ProductCompare from "@/components/ProductCompare";
+import ProductFlow from "@/components/ProductFlow";
+import TypeTabs, { type TypeItem } from "@/components/TypeTabs";
+import { HERO } from "@/lib/products";
 import FinalCta from "@/components/FinalCta";
 import { buildPageMetadata } from "@/lib/pageSeo";
 
@@ -51,11 +53,11 @@ const PAIRS = [
   { problem: "제출한 내용을 이해하는지 알 수 없습니다", solution: "제출 뒤 AI 인터뷰로 이해도를 확인합니다" },
 ];
 
-// 04 · 과제 유형(아이콘 카드 — 이미지가 없으니 아이콘을 둔다)
-const KINDS = [
-  { icon: "fa-robot", title: "AI 개발 과제", body: "개발 직군용입니다. 기존 코드의 문제를 AI 에이전트와 함께 해결하고, 브라우저에서 코드를 고치고 테스트를 돌립니다." },
-  { icon: "fa-file-lines", title: "AI 업무 과제", body: "비개발 직군용입니다. 자료를 분석해 AI와 함께 문서나 보고서를 쓰고, 궁금한 점은 가상의 이해관계자에게 묻습니다." },
-  { icon: "fa-diagram-project", title: "코딩 테스트", body: "개발 기본기를 AI 없이 봅니다. AI와 검색 없이 함수를 구현하면 숨은 테스트로 자동 채점합니다." },
+// 04 · 과제 유형 — 11/26 D안(탭으로 고르기): 아이콘 대신 도입 단계 이미지와 같은 결의 화면(원본 _docs/홈페이지 개편/도식/캡처가공 type-as-*)
+const KINDS: TypeItem[] = [
+  { title: "AI 개발 과제", body: "개발 직군용입니다. 기존 코드의 문제를 AI 에이전트와 함께 해결하고, 브라우저에서 코드를 고치고 테스트를 돌립니다.", tags: ["개발 직군", "AI 에이전트와 함께"], img: "/type-as-dev.webp", alt: "AI 개발 과제 화면: 코드 편집기와 AI 에이전트 대화, 테스트 실행 버튼" },
+  { title: "AI 업무 과제", body: "비개발 직군용입니다. 자료를 분석해 AI와 함께 문서나 보고서를 쓰고, 궁금한 점은 가상의 이해관계자에게 묻습니다.", tags: ["비개발 직군", "AI와 함께"], img: "/type-as-doc.webp", alt: "AI 업무 과제 화면: 보고서 문서와 이해관계자에게 질문하는 대화" },
+  { title: "코딩 테스트", body: "개발 기본기를 AI 없이 봅니다. AI와 검색 없이 함수를 구현하면 숨은 테스트로 자동 채점합니다.", tags: ["개발 직군", "AI·검색 없이"], img: "/type-as-code.webp", alt: "코딩 테스트 화면: AI·검색 사용 불가 표시와 함수 코드, 숨은 테스트로 자동 채점" },
 ];
 
 // 응시 환경 — B안(11/25): 왼쪽 큰 카드(전체 화면 공유) + 오른쪽 작은 카드 2장, 카드·이미지 바탕 모두 흰색.
@@ -117,19 +119,7 @@ export default function AiAssessmentPage() {
         isNew
         title={<>AI와 함께 일하는 실력을,<br /><span className="blue">실제 과제</span>로 확인합니다</>}
         lead="지원자는 AI 어시스턴트와 함께 업무 과제를 풉니다. 결과물과 함께, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
-        img="/hero-assessment-base.webp"
-        alt="AI 역량검사 응시 화면: 지원자가 AI 어시스턴트에게 파일 비교를 맡기고 보고서를 작성하는 모습"
-        // 히어로 모션(11/25, 시안 M-1 수정): AI 어시스턴트 카드는 위→아래, 보고서 카드는 아래→위, '작업 과정 기록 중' 칩은 왼쪽→오른쪽.
-        // 레이어 원본은 _docs/홈페이지 개편/도식/캡처가공(hero-l-*). 점선 좌표도 같은 파일의 HB.dash와 같다.
-        layers={[
-          { src: "/hero-assessment-ai.webp", move: "down" },
-          { src: "/hero-assessment-doc.webp", move: "up" },
-          { src: "/hero-assessment-chip.webp", move: "right" },
-        ]}
-        lines={[
-          { d: "M512 132 V196", dot: [512, 198] },
-          { d: "M318 232 V200", dot: [318, 198] },
-        ]}
+        {...HERO["/ai-assessment"]} // 화면·레이어·점선은 lib/products.ts(HERO) — 함께 쓰는 순서 썸네일과 같이 쓴다
       />
 
       {/* 01-2 · 고객사 로고 — AI 면접과 같은 자리(11/26 "AI역량검사에도 도입사를 넣어줘"). 문구는 회사 단위(500개 이상 기업이 Supercoder와 함께) */}
@@ -213,15 +203,7 @@ export default function AiAssessmentPage() {
             <h2>직무에 맞는<br /><span className="blue">과제 유형</span>을 고르세요</h2>
             <p className="lead">개발 직군과 기획·운영 같은 비개발 직군 모두 볼 수 있습니다.</p>
           </div>
-          <div className="value-grid">
-            {KINDS.map((k) => (
-              <div className="valcard" key={k.title}>
-                <div className="ic"><i className={`fa-solid ${k.icon}`}></i></div>
-                <h3>{k.title}</h3>
-                <p>{k.body}</p>
-              </div>
-            ))}
-          </div>
+          <TypeTabs items={KINDS} label="과제 유형" />
         </div>
       </section>
 
@@ -270,10 +252,10 @@ export default function AiAssessmentPage() {
         </div>
       </section>
 
-      {/* 09 · 다른 제품 안내 — 두 제품 비교(ProductCompare, 11/25 시안 2안). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 */}
+      {/* 09 · 다른 제품 안내 — 함께 쓰는 순서(ProductFlow, 11/26 시안 1안 + 연결 2안). 권장 순서 예시: AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 → 대면 면접 */}
       <section className="band" id="next">
         <div className="wrap">
-          <ProductCompare current="/ai-assessment" />
+          <ProductFlow current="/ai-assessment" />
         </div>
       </section>
 
