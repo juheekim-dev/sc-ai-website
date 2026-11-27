@@ -255,6 +255,13 @@ footer{background:var(--soft);color:var(--slate);padding:64px 0 40px;font-size:1
 .foot-biz{display:flex;flex-wrap:wrap;gap:4px 14px;margin:24px 0 0;color:var(--slate-2);font-size:12.5px;line-height:1.7}
 .foot-biz span{white-space:nowrap}
 .foot-copy{color:var(--slate-2);font-size:12.5px;margin:10px 0 0}
+/* 저작권 줄 + SNS 아이콘(11/26) — 왼쪽 저작권, 오른쪽 아이콘. 좁으면 아래로 */
+.foot-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin:10px 0 0}
+.foot-bottom .foot-copy{margin:0}
+.foot-sns{display:flex;gap:8px;margin:0;padding:0;list-style:none}
+.foot-sns a{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid #DFE7F5;color:var(--slate);transition:color .2s,border-color .2s,background .2s}
+.foot-sns a:hover{color:#fff;background:var(--blue);border-color:var(--blue)}
+.foot-sns svg{width:16px;height:16px;fill:currentColor}
 
 /* ===== Legal / 문서 페이지 (privacy.html · terms*.html · 404.html 공용) ===== */
 /* 헤더(고정 GNB) 높이만큼 상단 여백 + 가독성 위주의 본문 레이아웃 */

@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/track";
-import FlutedGlassBg from "./FlutedGlassBg";
 
 /**
  * AI 역량검사 출시 안내 팝업(2026-11-26) — 홈(app/page.tsx)에만 마운트한다.
  * 목적은 AI 역량검사 페이지 클릭 유도 하나 — "최대한 짧고 간결하게"(같은 날 사용자). 글은 제목·한 줄·버튼만 둔다.
  * 그리팅 팝업 참고(사용자 공유): 왼쪽에 제목·한 줄·버튼·'오늘 하루 보지 않기', 오른쪽에 작은 흰 리포트 카드(누르면 같은 페이지로).
- * 바탕은 AI 역량검사 응시 화면 색(차콜 + 선택 표시 블루)의 유리 물결 — 홈 히어로와 같은 FlutedGlassBg에 palette="assessment"(11/26).
- * 바탕 시안: _docs/홈페이지 개편/출시팝업_배경_시안.html
+ * 바탕은 AI 역량검사 응시 화면 같은 개발자 화면(11/26 "배너 팝업 배경을 AI 역검 화면같이 개발자 화면으로") — 응시 화면 색(#1E1E1E)의
+ * 코드 편집기(탭·줄 번호·VS Code 색 코드)를 흐리게 깔고 천천히 위로 흐르게, 왼쪽(글 쪽)은 어둡게 눌러 글이 읽히게. 코드는 일반 예시.
+ * 예전 바탕(유리 물결 FlutedGlassBg palette="assessment")은 git 70f9df9.
  * 카드는 HTML로 그린 예시 — 항목 이름은 실제 리포트와 같다(4단계 AI 추천 중 '추천', 평가 항목 4개). 점수·가중치 숫자는 넣지 않는다
  * (근거·금지 표현: _docs/홈페이지 개편/AI면접_AI역량검사_차이_소개자료.md). 모바일에서는 카드를 빼 글·버튼만 남긴다.
  * 배경 딤은 이벤트 팝업(EventPopup)의 .evp-dim(globals.css)을 그대로 쓰고, 판 스타일은 app/landing.css(.lp-*).
@@ -23,6 +23,26 @@ const KEY = "lp-assessment-launch";
 
 // 예시 리포트의 평가 항목 4개 — 실제 리포트의 항목 이름
 const CHECKS = ["AI 활용", "AI 결과 검증", "문제 이해 · 결과 정확성", "이해도 · 직무 역량"];
+
+// 바탕 코드(일반 예시 — 파일 세 개를 읽어 비교표를 만드는 과제, AI 어시스턴트 카드와 같은 장면). 색 class: k 키워드 · f 함수 · v 변수 · s 문자열 · c 주석 · n 숫자
+const CODE = [
+  '<i class="k">import</i> { readFile } <i class="k">from</i> <i class="s">"./data"</i>;',
+  '',
+  '<i class="c">// 파일 1, 2, 3을 읽어 항목별로 비교한다</i>',
+  '<i class="k">export async function</i> <i class="f">compareFiles</i>(<i class="v">paths</i>) {',
+  '  <i class="k">const</i> <i class="v">rows</i> = <i class="k">await</i> <i class="v">Promise</i>.<i class="f">all</i>(<i class="v">paths</i>.<i class="f">map</i>(<i class="f">readFile</i>));',
+  '  <i class="k">const</i> <i class="v">table</i> = <i class="f">toTable</i>(<i class="v">rows</i>);',
+  '  <i class="k">for</i> (<i class="k">const</i> <i class="v">r</i> <i class="k">of</i> <i class="v">table</i>) {',
+  '    <i class="k">if</i> (<i class="v">r</i>.<i class="v">file2</i> !== <i class="v">r</i>.<i class="v">file3</i>) <i class="v">r</i>.<i class="v">flag</i> = <i class="s">"확인 필요"</i>;',
+  '  }',
+  '  <i class="k">return</i> <i class="v">table</i>;',
+  '}',
+  '',
+  '<i class="c">// 보고서.md에 넣을 다음 분기 계획</i>',
+  '<i class="k">export function</i> <i class="f">nextPlan</i>(<i class="v">table</i>) {',
+  '  <i class="k">return</i> <i class="v">table</i>.<i class="f">filter</i>((<i class="v">r</i>) =&gt; <i class="v">r</i>.<i class="v">score</i> &gt; <i class="n">0.8</i>);',
+  '}',
+];
 
 /** 오늘 날짜(KST) "2026-11-26" — '오늘 하루' 판정용 */
 function kstToday(): string {
@@ -88,7 +108,17 @@ export default function LaunchPopup() {
   return (
     <div className="evp-dim" role="presentation" onClick={close}>
       <div className="lp" role="dialog" aria-modal="true" aria-labelledby="lp-title" onClick={(e) => e.stopPropagation()}>
-        <FlutedGlassBg canvasId="lp-glass" palette="assessment" rib={36} />
+        <div className="lp-code" aria-hidden="true">
+          <div className="lp-code-tabs"><span className="on">report.ts</span><span>compare.ts</span><span>보고서.md</span></div>
+          <div className="lp-code-body">
+            {/* 같은 코드를 두 번 이어 붙여 위로 흐르다 끊김 없이 되돌아온다 */}
+            {[0, 1].map((k) => (
+              <div className="lp-code-run" key={k}>
+                {CODE.map((l, i) => <p key={i}><em>{i + 1}</em><span dangerouslySetInnerHTML={{ __html: l }} /></p>)}
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="lp-text">
           <span className="lp-new">NEW</span>
           <h2 id="lp-title">AI 역량검사<br />출시</h2>

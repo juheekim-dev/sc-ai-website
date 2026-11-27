@@ -5,7 +5,8 @@ import HeroStage, { type HeroStageData } from "./HeroStage";
 // 제품 페이지 끝 '다른 제품 안내' — 함께 쓰는 순서(2026-11-26 시안 1안 + 연결 2안, 옛 '두 제품 비교'를 바꿈). /ai-interview·/ai-assessment 공용.
 // 권장 순서 예시(AI 면접으로 1차 검증 → AI 역량검사로 실무 확인 → 핵심 후보만 대면 면접, 차이 소개자료 '함께 쓰면')를 세 단계 카드로.
 // 1·2단계 그림은 각 제품의 히어로 화면(HeroStage, 움직이는 오브 없이), 3단계도 같은 결의 '핵심 후보' 화면(대면 면접 확인 포인트 — AI 면접 리포트에 있는 항목).
-// 지금 보는 제품에는 '지금 보는 제품' 표시만, 상대 제품 카드에만 블루 테두리와 버튼. 홈(current 없음)은 두 제품 카드 모두 버튼(2026-11-26, 옛 깔때기 자리). 카드 사이는 흰 원 안의 꺾쇠. 스타일은 app/landing.css(.pflow).
+// 지금 보는 제품에는 '지금 보는 제품' 표시만, 상대 제품 카드는 카드 전체가 링크(호버하면 떠오르고 화살표). 홈(current 없음)은 두 제품 카드 모두 링크.
+// 세 카드 아래는 같은 모양의 등급 뱃지(1단계 AI 면접 적합 · 2단계 AI 역량검사 추천 · 3단계 둘 다) — 11/26 버튼·회색 칩·뱃지가 섞여 어색하다는 피드백으로 통일. 카드 사이는 흰 원 안의 꺾쇠. 스타일은 app/landing.css(.pflow).
 // 3단계 그림(11/26 시안 '나' 디벨롭): 히어로와 같은 구성 — '핵심 후보' 화면 + 흰 카드 2장(대면 면접 확인 포인트·검사 결과) + 칩 + 점선, 레이어마다 모션.
 // 같은 날 "카드 배경을 어둡게(AI 면접·AI 역검이랑 반대로), 위 화면은 화이트로": 1·2단계(흰 카드)와 반대로 3단계 카드 전체를 어둡게(.pf-step.dark), 그림 속 화면은 흰색.
 // 이름은 가상, 첫 후보 사진은 사용자가 준 목업 에셋. 원본은 _docs/홈페이지 개편/도식/캡처가공(f2f-l-*).
@@ -37,16 +38,19 @@ export default function ProductFlow({ current }: { current?: ProductHref }) {
       <ol className="pflow">
         {PRODUCTS.map((p, i) => {
           const here = p.href === current;
+          const grade = F2F.grades.find((g) => g.name === p.title);
           return (
             <li key={p.href} className={here ? "pf-step" : "pf-step go"}>
+              {/* 11/26 "세 카드 뱃지 통일 + AI 역검 카드는 호버하면 클릭" — 버튼 대신 카드 전체가 링크(겹친 투명 링크), 호버하면 떠오르고 화살표가 나타난다 */}
+              {!here && <Link href={p.href} className="pf-link" aria-label={`${p.title} 보기`}></Link>}
               <div className="pf-thumb"><HeroStage {...HERO[p.href]} live={false} /></div>
               <div className="pf-body">
-                <span className="pf-no">{i + 1}단계</span>
+                <span className="pf-no">{i + 1}단계{here && <em className="pf-here">지금 보는 제품</em>}</span>
                 <h3>{p.title}</h3>
                 <p>{p.when}</p>
-                {here
-                  ? <span className="pf-here">지금 보는 제품</span>
-                  : <Link href={p.href} className="btn btn-blue">{p.title} 보기 <i className="fa-solid fa-arrow-right"></i></Link>}
+                {/* 세 카드 공용 등급 뱃지 — 이 단계가 내는 결과(3단계 카드에 두 결과가 모인다) */}
+                {grade && <ul className="pf-grades" aria-label={`${p.title} 결과 예시`}><li><span>{grade.name}</span><b>{grade.grade}</b></li></ul>}
+                {!here && <span className="pf-go" aria-hidden="true"><i className="fa-solid fa-arrow-right"></i></span>}
               </div>
             </li>
           );

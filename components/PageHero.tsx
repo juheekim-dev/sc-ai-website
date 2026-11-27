@@ -24,6 +24,7 @@ export default function PageHero({ title, lead }: { title: ReactNode; lead: Reac
             <p>{lead}</p>
             <div className="decl-cta">
               <Link href="/apply" className="btn btn-white">무료 상담 신청 <i className="fa-solid fa-arrow-right"></i></Link>
+              <Link href="/brochure" className="btn decl-sub">서비스소개서 받기</Link>
             </div>
           </div>
         </div>

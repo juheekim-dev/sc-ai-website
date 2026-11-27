@@ -36,7 +36,7 @@ export function generateMetadata() {
 
 // 문구의 사실 근거: _docs/홈페이지 개편/AI면접_AI역량검사_차이_소개자료.md (회사별로 켜는 기능·수치는 싣지 않는다)
 
-// 03 · 문제 — 어두운 띠(AI 역량검사와 같은 카드형, 11/26): 카드 하나에 문제(x)·해결(체크) 한 줄씩, 카드 세 장(components/PairGrid.tsx).
+// 03 · 문제 — 밝은 문제 띠(AI 역량검사와 같은 카드형, 11/26 홈과 같은 밝은 배경으로): 카드 하나에 문제(x)·해결(체크) 한 줄씩, 카드 세 장(components/PairGrid.tsx).
 // 예전 '이럴 때 씁니다' 세 장(지원자가 많을 때 · 경험 확인 · 같은 기준)을 문제 → 해결로 짝지었다. 문장은 한 줄에 들어가게 짧게.
 const PAIRS = [
   { problem: "지원자가 많아 1차 면접을 다 못 봅니다", solution: "AI가 1차 면접을 한 번에 진행합니다" },
@@ -103,21 +103,23 @@ export default function AiInterviewPage() {
       <ProductHero
         name="AI 면접"
         // 헤드카피 두 줄(11/25) — "1차 면접, 질문부터 리포트까지 / AI가 진행합니다"는 첫 줄이 글 칸(약 520px)보다 길어 세 줄이 되어 문구를 다듬음
-        title={<>1차 면접은 <span className="blue">AI</span>에게,<br />질문부터 리포트까지</>}
-        lead="채용공고를 넣으면 평가 기준과 질문을 만들고, 지원자 답변에 꼬리질문을 이어 갑니다. 채용팀은 리포트를 보고 만날 사람을 정합니다."
+        // 11/26 "헤드카피 줄여줘" — AI 역량검사('AI를 쓰는 실력, 과제로 봅니다')와 같은 말투로 짧게 + 한 줄 설명
+        // (옛: '1차 면접은 AI에게, 질문부터 리포트까지' + 두 줄 설명 — '리포트까지'가 아래 섹션 제목과 겹쳤다)
+        title={<>1차 면접,<br /><span className="blue">AI</span>가 봅니다</>}
+        lead="답에 따라 꼬리질문을 이어 가고, 채용팀은 리포트를 보고 만날 사람을 정합니다."
         {...HERO["/ai-interview"]} // 화면·레이어·점선은 lib/products.ts(HERO) — 함께 쓰는 순서 썸네일과 같이 쓴다
       />
 
       {/* 02 · 고객사 로고 */}
       <ClientLogos />
 
-      {/* 03 · 문제 — 어두운 띠(남색→블랙). 위를 지날 때 GNB가 흰 로고로 바뀌게 data-nav="dark" */}
-      <section className="band dark" id="why" data-nav="dark">
+      {/* 03 · 문제 — 홈 03과 같은 밝은 문제 띠(.band.glass — 옅은 블루→흰 그라데이션 + 옅은 세로 결, 흰 카드). 11/26 어두운 띠에서 바꿈 */}
+      <section className="band glass" id="why">
         <div className="wrap">
           <div className="head">
             <h2>지원자가 많을수록<br /><span className="blue">1차 검증</span>이 어려워집니다</h2>
           </div>
-          <PairGrid pairs={PAIRS} />
+          <PairGrid light pairs={PAIRS} />
         </div>
       </section>
 
@@ -183,7 +185,7 @@ export default function AiInterviewPage() {
         </div>
       </section>
 
-      {/* 10 · 다른 제품 안내 — 함께 쓰는 순서(ProductFlow, 11/26 시안 1안 + 연결 2안). 지금 보는 제품 표시 + AI 역량검사 카드에 버튼 */}
+      {/* 10 · 다른 제품 안내 — 함께 쓰는 순서(ProductFlow, 11/26 시안 1안 + 연결 2안). 지금 보는 제품 표시 + AI 역량검사 카드는 카드 전체가 링크 */}
       <section className="band" id="next">
         <div className="wrap">
           <ProductFlow current="/ai-interview" />

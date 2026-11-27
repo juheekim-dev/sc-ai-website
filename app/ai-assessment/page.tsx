@@ -3,6 +3,8 @@ import "../landing.css"; // 홈과 같은 섹션 스타일(SSOT) — 카드·단
 import ProductHero from "@/components/ProductHero";
 import ClientLogos from "@/components/ClientLogos";
 import AssistDemo from "@/components/AssistDemo";
+import AskDemo from "@/components/AskDemo";
+import { ScorecardDemo } from "@/components/ReportDemos";
 import MotionDiagram from "@/components/MotionDiagram";
 import StepFlow from "@/components/StepFlow";
 import PairGrid from "@/components/PairGrid";
@@ -45,7 +47,7 @@ const START = [
   { title: "확인 후 게시", body: <>채용팀이 확인하고 게시하면<br />지원자에게 링크를 보냅니다.</>, img: "/assessment-step-publish.webp", alt: "과제 확인 화면: 과제 설명·채점 기준·응시 환경을 확인하고 게시한 뒤, 공개 링크나 메일로 지원자에게 보내는 모습" }, // 11/26 "이미지가 텍스트와 맞지 않아" — 채점 기준 화면에서 바꿈
 ];
 
-// 02 · 문제 — 어두운 띠(카드형, 11/26 "이게 더 잘 읽힌다"): 카드 하나에 문제(x)·해결(체크) 한 줄씩, 카드 세 장(components/PairGrid.tsx).
+// 02 · 문제 — 밝은 문제 띠(카드형, 11/26 "이게 더 잘 읽힌다" → 같은 날 홈과 같은 밝은 배경으로): 카드 하나에 문제(x)·해결(체크) 한 줄씩, 카드 세 장(components/PairGrid.tsx).
 // 이미지 없이 글로만 가는 섹션이라 말을 정확히 — 그대로 냈는지 ↔ 맡긴 내용 기록, 검증했는지 ↔ 검증 평가, 이해하는지 ↔ AI 인터뷰.
 // 아래 '진행 방식'이 자세히 보여 주므로 여기서는 한 줄씩만 쓴다.
 const PAIRS = [
@@ -118,21 +120,22 @@ export default function AiAssessmentPage() {
       <ProductHero
         name="AI 역량검사"
         isNew
-        title={<>AI와 함께 일하는 실력을,<br /><span className="blue">실제 과제</span>로 확인합니다</>}
-        lead="지원자는 AI 어시스턴트와 함께 업무 과제를 풉니다. 결과물과 함께, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
+        // 11/26 "헤드카피가 너무 길다, 오른쪽 이미지도 강력해서 텍스트를 줄여야" — 시안 A안 + 한 줄 설명(옛: 'AI와 함께 일하는 실력을, 실제 과제로 확인합니다' + 두 줄 설명)
+        title={<>AI를 쓰는 실력,<br /><span className="blue">과제</span>로 봅니다</>}
+        lead="결과물은 물론, AI에 무엇을 맡기고 어떻게 검증했는지까지 평가합니다."
         {...HERO["/ai-assessment"]} // 화면·레이어·점선은 lib/products.ts(HERO) — 함께 쓰는 순서 썸네일과 같이 쓴다
       />
 
       {/* 01-2 · 고객사 로고 — AI 면접과 같은 자리(11/26 "AI역량검사에도 도입사를 넣어줘"). 문구는 회사 단위(500개 이상 기업이 Supercoder와 함께) */}
       <ClientLogos />
 
-      {/* 02 · 문제 — 어두운 띠(남색→블랙). 위를 지날 때 GNB가 흰 로고로 바뀌게 data-nav="dark" */}
-      <section className="band dark" id="why" data-nav="dark">
+      {/* 02 · 문제 — 홈 03과 같은 밝은 문제 띠(.band.glass — 옅은 블루→흰 그라데이션 + 옅은 세로 결, 흰 카드). 11/26 어두운 띠에서 바꿈 */}
+      <section className="band glass" id="why">
         <div className="wrap">
           <div className="head">
             <h2>결과물만으로는<br /><span className="blue">AI와 일하는 실력</span>이 보이지 않습니다</h2>
           </div>
-          <PairGrid pairs={PAIRS} />
+          <PairGrid light pairs={PAIRS} />
         </div>
       </section>
 
@@ -175,7 +178,15 @@ export default function AiAssessmentPage() {
                 <p>과제를 제출하면 AI 인터뷰가 이어집니다. AI가 결과에 대해 묻고, 지원자의 답으로 이해도를 평가합니다.</p>
               </div>
               <div className="hr-media">
-                <MotionDiagram name="debrief" label="AI 인터뷰 도식: 제출한 코드와, AI 질문과 지원자 답변이 말풍선으로 오가는 대화" />
+                {/* 11/26 "AI 역검 테스트 후 AI 면접을 보는 게 포인트, AI 면접관 오브 이미지로" — 코드·말풍선 도식 대신 AI 면접 페이지의 AI 면접관 카드(AskDemo).
+                    질문은 앞 '과제 화면'(AssistDemo) 장면과 이어진다: AI가 '파일 2와 3의 수치가 다르다'고 답한 보고서를 제출한 뒤 */}
+                <AskDemo
+                  chip="보고서.md 제출 완료"
+                  ask="파일 2와 3의 수치가 달랐던 부분은 어떻게 확인했나요?"
+                  followLabel="이어서"
+                  follow="AI가 만든 비교표에서 직접 고친 곳이 있다면 설명해 주세요."
+                  label="과제 제출 뒤 AI 인터뷰 예시: 보고서.md 제출 완료 표시 아래 AI 면접관이 '파일 2와 3의 수치가 달랐던 부분은 어떻게 확인했나요?'라고 묻고, 이어서 'AI가 만든 비교표에서 직접 고친 곳이 있다면 설명해 주세요.'라고 묻는 화면"
+                />
               </div>
             </div>
             <div className="how-row">
@@ -190,7 +201,8 @@ export default function AiAssessmentPage() {
                 <p>채용팀은 항목마다 검토 완료나 이의를 표시하고, 정정한 평가를 공식 결과로 고를 수 있습니다. 원래 평가는 남습니다.</p>
               </div>
               <div className="hr-media">
-                <MotionDiagram name="scorecard" label="평가와 리포트 도식: AI 역량검사 리포트 화면에 AI 추천 등급과 항목별 점수, 근거" />
+                {/* 11/27 "가짜 텍스트가 써지는 모션" — SVG 도식 대신 HTML(AI 추천 원 그래프 + 항목별 막대·근거가 써짐) */}
+                <ScorecardDemo />
               </div>
             </div>
           </div>

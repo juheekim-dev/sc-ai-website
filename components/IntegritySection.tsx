@@ -13,9 +13,11 @@ import Tabs from "./Tabs";
 // 문장은 예전 항목 7개의 설명을 나눠 담은 것 — 새 기능을 더하지 않는다(손을 'AI가 감지'한다고 쓰지 않는다 — 사이드 카메라로 함께 '보는' 것).
 // 사진은 사용자가 준 목업('실 정면-2'·'실 측면-2'·'키보드와 손'). 측면은 모니터 끝만 살짝 걸리게(16:10, 11/26 "살짝 모니터도 보이게"), 손은 모니터가 빠지게 잘랐고, 화면 공유는 AI 면접 히어로 화면의 창 부분(AI 면접관 카드는 지움).
 const SHOTS = [
-  { title: "탭 이탈·보조 모니터", body: "다른 탭이나 창으로 가거나 보조 모니터를 연결하면 기록하고, 지원자 화면을 녹화합니다.", img: "/integrity-screen.webp", h: 480, label: "화면 공유", alt: "녹화 중인 지원자 화면: AI 면접 응시 화면", box: false },
-  { title: "측면 카메라", body: "휴대폰을 QR로 연결해 옆에서 책상 주변까지 함께 봅니다.", img: "/integrity-side.webp", h: 400, label: "측면", alt: "측면 카메라 화면: 옆에서 본 지원자와 책상, 모니터 끝", box: false },
-  { title: "손·키보드", body: "측면 카메라로 키보드 위 손도 함께 봅니다.", img: "/integrity-hands.webp", h: 480, label: "손·키보드", alt: "측면 카메라 화면: 키보드 위 두 손", box: true },
+  // 11/27 시안 A안 — 응시 준비 '화면 공유' 단계(실제 제품: 전체 화면만 공유, "보조 모니터는 채용 담당자에게 표시됩니다")를 일반 공유 창 모양으로(share).
+  // '탭'·'창'은 막히고 '전체 화면'만, 화면 1(면접)·화면 2(보조 모니터, 블루 점선). 시안: _docs/홈페이지 개편/감지항목_탭이탈보조모니터_이미지_시안.html
+  { title: "탭 이탈·보조 모니터", body: "다른 탭이나 창으로 가거나 보조 모니터를 연결하면 기록하고, 지원자 화면을 녹화합니다.", img: "/integrity-screen.webp", h: 480, label: "화면 공유", alt: "화면 공유 선택 예시: 탭과 창은 고를 수 없고 전체 화면만 공유하며, 화면 1은 면접 화면, 화면 2는 보조 모니터로 표시", box: false, share: true },
+  { title: "측면 카메라", body: "휴대폰을 QR로 연결해 옆에서 책상 주변까지 함께 봅니다.", img: "/integrity-side.webp", h: 400, label: "측면", alt: "측면 카메라 화면: 옆에서 본 지원자와 책상, 모니터 끝", box: false, share: false },
+  { title: "손·키보드", body: "측면 카메라로 키보드 위 손도 함께 봅니다.", img: "/integrity-hands.webp", h: 480, label: "손·키보드", alt: "측면 카메라 화면: 키보드 위 두 손", box: true, share: false },
 ];
 
 // 탭 2 '실시간 모니터링'(11/26 "우리도 실시간 감시가 되는데", "실시간 감시 화면도 넣어줘") — SC-Platform 채용팀 메뉴 '실시간 모니터링'(/recruiter/home/live-proctoring)을 HTML로 그린 예시.
@@ -30,11 +32,13 @@ const LIVE_CELLS = [
   { name: "박지후", project: "마케터", flag: false },
   { name: "최하린", project: "서비스 기획자", flag: false },
 ];
+// 11/27 "텍스트에서 AI 티 안 나게" — 명사로 끊는 나열·줄표(—)를 빼고 완결된 문장으로(말투는 사이트 다른 섹션과 같은 '~합니다'). 사실 범위는 그대로
+// (응시 중 바로 잡히는 건 시선 이탈·여러 얼굴·얼굴 미감지(자리 비움)·시험 화면 이탈, 감지된 지원자는 목록 맨 위, 누르면 AI 감독 리포트)
 const LIVE_POINTS = [
-  "진행 중인 AI 면접·AI 역량검사를 한 화면에",
-  "지원자마다 화면 공유·정면·측면 카메라를 실시간으로",
-  "시선 이탈·여러 얼굴·자리 비움·화면 이탈은 응시 중에 바로 표시",
-  "감지된 지원자는 맨 앞으로 — 누르면 크게 보고 AI 감독 리포트로",
+  "AI 면접과 AI 역량검사 응시자를 한곳에서 봅니다.",
+  "지원자를 고르면 화면 공유와 정면·측면 카메라가 함께 나옵니다.",
+  "시선이 벗어나거나 얼굴이 둘 이상 보이면 응시 도중에 표시합니다. 자리를 비우거나 시험 화면을 떠나도 마찬가지입니다.",
+  "표시가 뜬 지원자는 목록 맨 위로 올라오고, 누르면 AI 감독 리포트로 넘어갑니다.",
 ];
 
 // 탭 3 '감지 리포트' = 벤토(11/26 R3 — 감지 항목 탭과 같은 결). 큰 카드 = 면접 영상의 시선 이탈 장면(사용자가 준 목업 '실 정면-시선 아래로' — 같은 인물이 시선만 아래로 내린 사진, 16:9)
@@ -46,8 +50,12 @@ const EVENTS = [
   { sev: "정보", label: "보조 모니터", t: "12:05" },
 ];
 const REPORT_SHOTS = [
-  { title: "그 장면으로 이동", body: "누르면 면접 영상의 그 장면부터 재생합니다.", img: "/integrity-screen.webp", h: 480, tag: "화면 이탈 · 08:40" },
-  { title: "판단은 채용팀이", body: "리포트는 판단을 돕는 자료이고, 최종 판단은 채용팀이 합니다.", img: "/integrity-side.webp", h: 400, tag: "보조 모니터 · 12:05" },
+  // 11/27 "화면 이탈하면 어떤 이미지야?" → 시안 D안: 면접 창을 벗어났을 때 실제로 뜨는 경고창(SC-Platform QC 화면)을 핵심만 HTML로 얹는다(leave).
+  // 아이콘·'면접 창을 벗어났어요'·'이탈 1회 기록'·파란 '면접으로 돌아가기'. 크기는 실제 화면 비율(화면 폭의 약 1/3). 시안: _docs/홈페이지 개편/감지리포트_화면이탈_이미지_시안.html
+  { title: "그 장면으로 이동", body: "누르면 면접 영상의 그 장면부터 재생합니다.", img: "/integrity-screen.webp", h: 480, tag: "화면 이탈 · 08:40", leave: true, mon: false },
+  // 11/27 "보조 모니터 감지 이미지" — 사용자 에셋 '보조 모니터 감지_'(주 모니터 옆 노트북)를 16:10으로 잘라(public/integrity-monitor.webp, 800×500)
+  // 노트북 화면에 블루 감지 박스(mon). 박스 좌표는 그 이미지 기준 %(x 7.3~24, y 41.6~77.8). 시안: _docs/홈페이지 개편/감지리포트_보조모니터_이미지_시안.html
+  { title: "판단은 채용팀이", body: "리포트는 판단을 돕는 자료이고, 최종 판단은 채용팀이 합니다.", img: "/integrity-monitor.webp", h: 500, tag: "보조 모니터 · 12:05", leave: false, mon: true },
 ];
 
 // 얼굴·시선 표시(SVG). 좌표는 integrity-face.webp(1120×630, 가로로 긴 화면 비율 — 11/26 "화면 비율로") 기준.
@@ -93,11 +101,24 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
               <h3>{c.title}</h3>
               <p>{c.body}</p>
             </div>
-            <div className="eb-shot">
-              <img src={c.img} alt={c.alt} width={640} height={c.h} loading="lazy" />
-              {c.box && <span className="ig-hbox"></span>}
-              <span className="ig-cam"><i></i>{c.label}</span>
-            </div>
+            {c.share ? (
+              <div className="eb-shot ig-share" role="img" aria-label={c.alt}>
+                <div className="ig-dlg">
+                  <span className="ig-dlg-hd">공유할 화면을 선택하세요</span>
+                  <div className="ig-dlg-tabs"><span className="no">탭</span><span className="no">창</span><span className="on">전체 화면</span></div>
+                  <div className="ig-dlg-scrs">
+                    <div className="ig-dlg-sc"><div className="th"><img src={c.img} alt="" width={640} height={c.h} loading="lazy" /></div><b>화면 1</b></div>
+                    <div className="ig-dlg-sc sub"><div className="th"><i style={{ width: "50%" }}></i><i></i></div><b>보조 모니터</b></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="eb-shot">
+                <img src={c.img} alt={c.alt} width={640} height={c.h} loading="lazy" />
+                {c.box && <span className="ig-hbox"></span>}
+                <span className="ig-cam"><i></i>{c.label}</span>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -127,8 +148,9 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
             <div className="lv-v"><img src="/integrity-screen.webp" alt="" width={640} height={480} loading="lazy" /><span className="lv-chip">화면 공유</span></div>
             <div className="lv-cams">
               <div className="lv-v">
-                <img src="/integrity-face.webp" alt="" width={1120} height={630} loading="lazy" />
-                <svg className="ig-hud" viewBox="0 0 1120 630" aria-hidden="true"><path className="lv-corner" d="M435 150V120H465M661 120H691V150M691 361V391H661M465 391H435V361" /></svg>
+                {/* 11/27 "시선 이탈하는 이미지로" — 위 'AI 감지 · 시선 이탈'과 맞게 시선을 아래로 내린 사진(감지 리포트와 같은 파일). 얼굴 모서리·두 눈 박스는 이 사진 기준 */}
+                <img src="/integrity-report-down.webp" alt="" width={1120} height={630} loading="lazy" />
+                <svg className="ig-hud" viewBox="0 0 1120 630" aria-hidden="true"><path className="lv-corner" d="M435 180V150H465M661 150H691V180M691 391V421H661M465 421H435V391" /><rect className="lv-eye" x="470" y="214" width="180" height="60" rx="10" /></svg>
                 <span className="lv-chip">정면</span>
               </div>
               <div className="lv-v"><img src="/integrity-side.webp" alt="" width={640} height={400} loading="lazy" /><span className="lv-chip">측면</span></div>
@@ -138,16 +160,19 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
         </div>
       </div>
       <div>
-        <p className="ig-lead">지원자가 응시하는 동안, 채용팀은 실시간 모니터링 화면에서 진행 중인 면접을 바로 지켜봅니다.</p>
+        <p className="ig-lead">지원자가 응시하는 동안 채용팀도 같은 화면을 지켜볼 수 있습니다.</p>
         <ul className="ig-checks">
           {LIVE_POINTS.map((t) => <li key={t}>{t}</li>)}
         </ul>
-        <p className="ig-note">베타 기능으로, 회사별로 켜서 씁니다.</p>
+        <p className="ig-note">아직 베타 기능이라 필요한 회사만 켜서 씁니다.</p>
       </div>
     </>
   );
 
-  // 탭 3 — 감지 리포트 벤토. 영상 위 표시 좌표는 integrity-away.webp(1120×630) 기준: 두 눈 (508, 243)·(610, 243), 시선은 아래로
+  // 탭 3 — 감지 리포트 벤토. 영상은 같은 구도의 사진 두 장(11/26 사용자 에셋 '실 정면-2'·'실 정면 아래-2'를 1120×630으로 가운데 자름 —
+  // public/integrity-report-front.webp·integrity-report-down.webp). 표시 좌표는 아래 사진 기준: 두 눈 (509, 244)·(613, 244), 시선은 아래로
+  // 11/26 "정면을 보다가 눈을 아래로 내리는 모습을 모션으로": 정면 사진(integrity-face.webp, 감지 항목 탭과 같은 파일)을 위에 겹쳐
+  // 정면 → 시선 아래로 → 두 눈 박스·화살표·배지가 뜨고 → 다시 정면, 5초 반복("모션을 빠르게"). 두 사진을 그대로 한 번에 바꾼다(.rp-front, app/landing.css)
   const report = (
     <div className="ig-live">
       <div className="env-bento ig-bento">
@@ -156,20 +181,38 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
             <h3>감지 장면을 영상으로</h3>
             <p>감지한 장면은 리포트에 모이고, 채용팀이 면접 영상과 함께 하나씩 확인합니다.</p>
           </div>
-          <div className="ig-face rp-vid" role="img" aria-label="감지 리포트 예시: 면접 영상 3분 12초, 지원자가 시선을 아래로 내린 장면에 두 눈 측정 박스와 시선 이탈 표시">
-            <img src="/integrity-away.webp" alt="" width={1120} height={630} loading="lazy" />
+          <div className="ig-face rp-vid" role="img" aria-label="감지 리포트 예시: 면접 영상 3분 12초에 지원자가 시선을 아래로 내리자 시선 이탈 표시가 뜨고, 8분 40초에는 면접 창을 벗어나 '면접 창을 벗어났어요' 경고창이, 12분 5초에는 주 모니터 옆 노트북(보조 모니터)에 감지 표시가 뜨는 장면">
+            <img src="/integrity-report-down.webp" alt="" width={1120} height={630} loading="lazy" />
+            <img className="rp-front" src="/integrity-report-front.webp" alt="" width={1120} height={630} loading="lazy" />
             <svg className="ig-hud rp-hud" viewBox="0 0 1120 630" aria-hidden="true">
               <rect x="476" y="221" width="168" height="44" rx="8" className="rp-eye" />
               <path d="M648 243H760V318" className="rp-arrow" />
               <path d="M750 304L760 320L770 304" className="rp-head" />
             </svg>
             <span className="rp-tag">시선 이탈 · 03:12</span>
+            {/* 두 번째 지점(08:40 화면 이탈, 11/27) — 실제 제품 경고창(핵심만)을 어둡게 누른 영상 위에. 작은 카드 .rp-modal과 같은 모양 */}
+            <div className="rp-leave2" aria-hidden="true">
+              <div className="rp-modal">
+                <span className="rp-m-ic"><i>!</i></span>
+                <b>면접 창을 벗어났어요</b>
+                <span className="rp-m-cnt">이탈 1회 기록</span>
+                <span className="rp-m-btn">면접으로 돌아가기</span>
+              </div>
+              <span className="rp-tag2">화면 이탈 · 08:40</span>
+            </div>
+            {/* 세 번째 지점(12:05 보조 모니터, 11/27) — 주 모니터 옆 노트북 장면(integrity-monitor-wide.webp, 16:9)에 블루 감지 박스. 좌표는 그 이미지 기준 % */}
+            <div className="rp-mon3" aria-hidden="true">
+              <img src="/integrity-monitor-wide.webp" alt="" width={1120} height={630} loading="lazy" />
+              <svg className="rp-mon" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="6.6" y="41.6" width="15" height="36.2" rx="1" /></svg>
+              <span className="rp-tag3">보조 모니터 · 12:05</span>
+            </div>
             <span className="ig-cam"><i></i>면접 영상</span>
           </div>
           <div className="ir-bar rp-bar">
-            <span className="ir-play"></span>
-            <span className="ir-track"><b style={{ width: "21%" }}></b><i style={{ left: "21%" }}></i><i style={{ left: "58%" }}></i><i style={{ left: "80%" }}></i></span>
-            <span className="rp-t">15:00</span>
+            {/* 11/26 "영상 밑에 플레이가 되는 모션" — 재생 → 03:12 시선 이탈(21%)에서 멈춤 → 재생 → 08:40 화면 이탈(58%, 경고창)에서 멈춤 → 재생 → 12:05 보조 모니터(80%, 노트북 장면)에서 멈춤 → 처음으로, 12초 반복(위 영상·감지 내역과 같은 주기, 11/27) */}
+            <span className="ir-play rp-play"></span>
+            <span className="ir-track"><b className="rp-prog" style={{ width: "21%" }}></b><i className="rp-mark" style={{ left: "21%" }}></i><i className="rp-mark2" style={{ left: "58%" }}></i><i className="rp-mark3" style={{ left: "80%" }}></i></span>
+            <span className="rp-t"><span className="rp-nows"><span className="rp-now">03:12 / </span><span className="rp-now2">08:40 / </span><span className="rp-now3">12:05 / </span></span>15:00</span>
           </div>
         </div>
         <div className="eb-card">
@@ -178,8 +221,9 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
             <p>감지한 순간을 종류와 시각으로 남깁니다.</p>
           </div>
           <ul className="rp-list" aria-label="감지 내역 예시">
-            {EVENTS.map((e, i) => (
-              <li key={e.label} className={i === 0 ? "on" : undefined}><span className={e.sev === "경고" ? "rp-sev" : "rp-sev info"}>{e.sev}</span>{e.label}<em>{e.t}</em></li>
+            {/* 11/27 "면접 영상에 맞춰 모션" — 영상이 03:12·08:40·12:05에서 멈출 때마다 그 줄이 켜진다(.rp-list li 애니메이션, 같은 12초 주기) */}
+            {EVENTS.map((e) => (
+              <li key={e.label}><span className={e.sev === "경고" ? "rp-sev" : "rp-sev info"}>{e.sev}</span>{e.label}<em>{e.t}</em></li>
             ))}
           </ul>
         </div>
@@ -189,10 +233,22 @@ export default function IntegritySection({ withLink = false, soft = true }: { wi
               <h3>{c.title}</h3>
               <p>{c.body}</p>
             </div>
-            <div className="eb-shot">
+            <div className={c.leave ? "eb-shot rp-leave" : "eb-shot"}>
               <img src={c.img} alt="" width={640} height={c.h} loading="lazy" />
+              {c.leave && (
+                <div className="rp-modal" aria-hidden="true">
+                  <span className="rp-m-ic"><i>!</i></span>
+                  <b>면접 창을 벗어났어요</b>
+                  <span className="rp-m-cnt">이탈 1회 기록</span>
+                  <span className="rp-m-btn">면접으로 돌아가기</span>
+                </div>
+              )}
+              {c.mon && (
+                <svg className="rp-mon" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="7.3" y="41.6" width="16.7" height="36.2" rx="1" />
+                </svg>
+              )}
               <span className="rp-chip">{c.tag}</span>
-              <span className="rp-pl" aria-hidden="true"></span>
             </div>
           </div>
         ))}

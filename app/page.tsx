@@ -88,7 +88,7 @@ export default async function HomePage() {
         logo: "https://www.supercoder.co/apple-touch-icon.png",
         description:
           "AI 면접으로 지원자를 자동 검증하고 채용팀에 검증된 핵심 인재 리포트를 전달하는 B2B 채용 SaaS",
-        sameAs: [],
+        sameAs: ["https://www.linkedin.com/company/74284643/", "https://www.instagram.com/supercoder_kr/", "https://www.youtube.com/@supercoder7974", "https://www.facebook.com/supercoder.kr/"], // 푸터 SNS와 같은 주소(components/SiteFooter.tsx SOCIAL)
       },
       { "@type": "WebSite", name: "AI면접", url: "https://www.supercoder.co/", inLanguage: "ko-KR" },
       // SoftwareApplication 스키마 제거(2026-08-07 SEO 진단): Google 리치 결과가
@@ -131,7 +131,7 @@ export default async function HomePage() {
 
       {/* SECTION 03 · 문제 — 제품 페이지 문제 띠와 같은 구성(가운데 제목 + 문제(x) → 해결(체크) 카드, PairGrid). 바탕은 그대로 연한 하늘색(11/26).
           옛 통계 카드(84%·59%·81%·1,272만원)는 문제 줄로 옮기고 출처는 아래 한 줄로 */}
-      <section className="band soft" id="flood">
+      <section className="band glass" id="flood">
         <div className="wrap">
           <div className="head">
             <h2>AI로 쓴 이력서는 좋아졌는데,<br />지원자의 <span className="blue">실력</span>도 좋아졌을까요?</h2>

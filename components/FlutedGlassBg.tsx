@@ -16,8 +16,8 @@ import { useEffect, useRef } from "react";
  * 이전 안(블루·보라·남색이 흐르는 아래쪽 빛, 시안 A-1)은 git e64339c·bb9fbfe, 시안은 _docs/홈페이지 개편/홈히어로_플루티드글래스_시안.html.
  *
  * palette로 색을 바꿔 끼운다 — "brand"(기본, 홈 히어로·마지막 CTA) / "assessment"(AI 역량검사 응시 화면 색 — 출시 팝업 LaunchPopup, 11/26).
- *   assessment: 차콜 #232323·#1C1C1C(왼쪽) → #141414·#181818(오른쪽), 물결을 따라 화면 속 선택 표시 블루 #00385C 빛이 흐른다.
- *   색은 public/hero-assessment-base.webp에서 뽑은 값. 물결·골 모양은 두 팔레트가 같다.
+ *   assessment: 응시 화면(public/hero-assessment-base.webp, 주 배경 #181818)보다 한 단계 어두운 차콜 #1A1A1A(왼쪽) → #0C0C0C(오른쪽).
+ *   처음엔 화면 속 선택 표시 블루 빛을 물결 따라 흘렸으나 11/26 뺐다. 물결·골 모양은 두 팔레트가 같다.
  *
  * WebGL 프래그먼트 셰이더 하나로 그린다. 30fps 제한, 히어로가 화면 밖이거나 탭이 숨겨지면 멈춘다.
  * prefers-reduced-motion이면 정지 화면 한 장. WebGL이 없으면 그리지 않는다(.hero-bg 그라데이션이 대체 바탕).
@@ -67,8 +67,8 @@ const hex = (h: string): [number, number, number] => [1, 3, 5].map((i) => parseI
 const PALETTES = {
   // 브랜드 키컬러(로고) — 왼쪽 #3A6FFF, 오른쪽 #2144A5. 아래로 갈수록 아주 조금 밝게
   brand: { c: ["#4A80FF", "#3A6FFF", "#274DB0", "#2144A5", "#000000"], ka: 0 },
-  // AI 역량검사 응시 화면 — 차콜 + 선택 표시 블루
-  assessment: { c: ["#262626", "#1E1E1E", "#161616", "#131313", "#00508A"], ka: 0.55 },
+  // AI 역량검사 응시 화면 — 차콜. 11/26 "청록색 안 들어가도 되니 좀 더 어둡게" → 흐르는 빛(선택 표시 블루) 끄고 한 단계 어둡게
+  assessment: { c: ["#1A1A1A", "#151515", "#0F0F0F", "#0C0C0C", "#000000"], ka: 0 },
 } as const;
 
 export default function FlutedGlassBg({ canvasId, palette = "brand", rib = 52 }: { canvasId: string; palette?: keyof typeof PALETTES; rib?: number }) {

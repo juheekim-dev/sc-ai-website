@@ -6,7 +6,6 @@ import SiteHeader from "@/components/SiteHeader";
 import EventBanner from "@/components/EventBanner";
 import EventPopup from "@/components/EventPopup";
 import SiteFooter from "@/components/SiteFooter";
-import Chatbot from "@/components/Chatbot";
 import Analytics from "@/components/Analytics";
 import UtmCapture from "@/components/UtmCapture";
 import PageViewCounter from "@/components/PageViewCounter";
@@ -94,7 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SiteFooter />
         {/* 이벤트 센터 팝업 — 홈("/") 첫 진입 시 1회. 모집 마감 시 스스로 사라진다 */}
         <EventPopup />
-        <Chatbot />
+        {/* FAQ 챗봇(오른쪽 아래 말풍선)은 11/26 사이트 전체에서 내렸다 — 다시 켜려면 components/Chatbot.tsx를 여기 마운트 */}
         {/* 어드민이 ID 대신 전체 스니펫을 붙여넣은 경우에만 클라이언트에서 주입한다 */}
         <Analytics gaRaw={tags.gaRaw} gtmRaw={tags.gtmRaw} consentInjected={useGoogleTags} />
         <VercelAnalytics />
